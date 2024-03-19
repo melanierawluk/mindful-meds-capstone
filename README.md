@@ -63,7 +63,7 @@
 ## Data
 
 
-- User table
+- Users table
     - primary key: user id
     - email
     - password
@@ -72,14 +72,19 @@
 - Medication table
     - primary key: med id
     - forgein key: user id
+    - med name
     - boolean: active med
+
+- Medication dose table
     - dose
     - frequency
-    - list of times?
+    - list of times taken?
+    - start date
+    - end date
     - created_at
     - updated_at
 
-- Notes table?
+- Notes table
     - primary key: note id
     - foreign key: user id
     - created_at
@@ -92,13 +97,14 @@
 
 ### POST /auth/login
 
-- Login a user
+- Endpoint to log in a user
 
 Parameters:
-- email: User's email
-- password: User's provided password
+- email: User's email address.
+- password: User's chosen password.
 
 Response:
+
 ```
 {
     "token": "seyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6I..."
@@ -107,13 +113,13 @@ Response:
 
 ### POST /auth/register
 
-- Create new user
+- Endpoint to create a new user
 
 Parameters:
 
-- email: User's email
-- name: User's name
-- password: User's provided password
+- email: User's email address.
+- name: User's name.
+- password: User's chosen password.
 
 Response:
 ```
@@ -124,20 +130,20 @@ Response:
 
 ### POST /med/add
 
-- Create new medication
+- Endpoint to create a new medication
 
 Parameters
 
-- medication_name
-- strength
-- frequency
-- times
+- medication_name: The name of the medication.
+- strength: The strength or dosage of the medication.
+- frequency: The frequency at which the medication is taken (e.g., "Once daily").
+- times: An array of times at which the medication is taken.
 
 ```
     {
         "id": 1,
         "medication_name": "Abilify",
-        "strength": 15mg",
+        "strength": "15mg",
         "frequency": "Once daily",
         "times": [
             "9:00 AM",
@@ -146,151 +152,193 @@ Parameters
     }
 ```
 
-### PUT /med/:id/edit
+### PUT /med/:id/update
 
-- Updates/edits to existing med (note or info)
+- Endpoint to update/edit to existing med (notes or info)
 
 Parameters:
-- id: medication id
-- medication_name
-- strength
-- frequency
-- times
+- id: The ID of the medication to be updated.
+- medication_name: The updated name of the medication.
+- strength: The updated strength of the medication.
+- frequency: The updated frequency when medication is taken.
+- times: Array of updated times at which the medication is taken.
 
 Response:
 
 ```
-    {
-        "id": 1,
-        "medication_name": "Abilify",
-        "strength": 15mg",
-        "frequency": "Once daily",
-        "times": [
-            "9:00 AM",
-            "6:00 PM"
-            ],
-        "notes": [
-            {
-            id: 1,
-            "created_at": timestamp,
-            "updated_at": timestamp,
+{
+    "id": 1,
+    "medication_name": "Abilify",
+    "strength": "15mg",
+    "frequency": "Once daily",
+    "times": [
+        "9:00 AM",
+        "6:00 PM"
+    ],
+    "notes": [
+        {
+            "id": 1,
+            "created_at": "timestamp",
+            "updated_at": "timestamp",
             "note_content": "Lorem ipsum"
-            }
-        ]
-    }
+        }
+    ]
+}
 ```
 
 ### GET /user/:id
-- User profile
+- Endpoint to get a user profile
 
 Parameters:
-- id: user id
+- id: The ID of the user that we want to retrieve
 
 Response: 
 ```
 {
     "id": 123,
     "email": "leeland@goldendoodle.com",
-    "name": "Leeland Eyelet,
-    "password": ***
+    "name": "Leeland Eyelet"
 }
 ```
 
 ### GET /user/:id/meds/active
-- List of all current meds for user (active:true)
+- Endpoint to retrieve a list of all current meds for user (active:true)
 
 Parameters:
-- id: user id
+- id: The ID of the user that we want retrieved
+- active: Include only the medications that are set to `active: true`
 
 Response:
 
 ```
+[
     {
         "id": 1,
-        "user_id": 123
-        "active": true
+        "user_id": 123,
         "medication_name": "Abilify",
-        "strength": 15mg",
+        "strength": "15mg",
         "frequency": "Once daily",
         "times": [
             "9:00 AM",
             "6:00 PM"
-            ],
+        ],
         "notes": [
             {
-            id: 1,
-            "created_at": timestamp,
-            "updated_at": timestamp,
-            "note_content": "Lorem ipsum"
+                "id": 1,
+                "created_at": "timestamp",
+                "updated_at": "timestamp",
+                "note_content": "Lorem ipsum"
             }
         ]
+    },
+    {
+        // Details of any another active medications
     }
+]
 ```
 
 ### GET /user/:id/meds/inactive
 - List of all past meds for user (active:false)
 
 Parameters:
-- id: user id
+- id: The ID of the user that we want retrieved
+- inactive: Include only the medications that are set to `active: false`
 
 Response:
 
 ```
-    {
-        "id": 1,
-        "user_id": 123
-        "active": false,
-        "medication_name": "Abilify",
-        "strength": 15mg",
-        "frequency": "Once daily",
-        "times": [
-            "9:00 AM",
-            "6:00 PM"
-            ],
-        "notes": [
-            {
-            id: 1,
-            "created_at": timestamp,
-            "updated_at": timestamp,
-            "note_content": "Lorem ipsum"
-            }
-        ]
-    }
-```
-
-### GET /user/:id/meds/:id
-- Medication details for specific medication
-
-Parameters:
-- id: user id
-- id: medication id
-
-
-Reponse:
-```
+[
     {
         "id": 1,
         "user_id": 123,
         "medication_name": "Abilify",
-        "strength": 15mg",
+        "strength": "15mg",
         "frequency": "Once daily",
         "times": [
             "9:00 AM",
             "6:00 PM"
-            ],
+        ],
         "notes": [
             {
-            id: 1,
-            "created_at": timestamp,
-            "updated_at": timestamp,
-            "note_content": "Lorem ipsum"
+                "id": 1,
+                "created_at": "timestamp",
+                "updated_at": "timestamp",
+                "note_content": "Lorem ipsum"
             }
         ]
+    },
+    {
+        // Details of any other inactive medications
     }
+]
+```
+
+### GET /user/:id/meds/:id
+- Endpoint to retrieve medication details for specific medication
+
+Parameters:
+- id: The ID of the user that we want retrieved
+- id: The ID of the medication that we want retrieved
+
+
+Reponse:
+```
+{
+    "id": 1,
+    "user_id": 123,
+    "medication_name": "Abilify",
+    "strength": 15mg",
+    "frequency": "Once daily",
+    "times": [
+        "9:00 AM",
+        "6:00 PM"
+        ],
+    "notes": [
+        {
+        id: 1,
+        "created_at": timestamp,
+        "updated_at": timestamp,
+        "note_content": "Lorem ipsum"
+        }
+    ]
+}
+```
+
+### GET /user/:id/notes/:date
+
+- Retrieve notes for a specified date. Includes information about medication that were active on the specified date
+
+Parameters:
+- id: The ID of the user.
+- date: The specific date for which notes and active medications are being requested.
+
+Response:
+
+```
+
+[
+    {
+        "id": 1,
+        "created_at": "2024-03-19T12:00:00Z",
+        "note_content": "Lorem ipsum",
+        "medications": [
+            {
+                "id": 1,
+                "medication_name": "Abilify",
+                "strength": "15mg",
+                "frequency": "Once daily",
+                    times": [
+                        "9:00 AM",
+                        "6:00 PM"
+                        ]
+            },
+            // Additional active medication objects at specified date
+        ]
+    }
+]
 ```
 
 ## Auth
-
 
 - There will be log in, log out, and sign up functionality
 - This will be implemented with JWT
@@ -329,13 +377,16 @@ BACK END
 - Initial folder structure and git repo
 - Database connection with knex
 - Knex migrations and seeds
-- API to GET list of all current medications (display on dashboard with name, time & dose)
-- API to GET details of a single medication (medication detail page)
-- API to POST new medication
-- API to PUT updates to existing medication (edits and/or skipped/taken data)
-- API to POST new user
-- API to POST login
-- API to GET profile information
+
+- POST /auth/login - Endpoint to log in a user
+- POST /auth/register - Endpoint to create a new user
+- POST /med/add - Endpoint to create a new medication
+- PUT /med/:id/update - Endpoint to update/edit to existing med (notes or info)
+- GET /user/:id - Endpoint to get a user profile: 
+- GET /user/:id/meds/active - Endpoint to retrieve a list of all current meds for user (active:true)
+- GET /user/:id/meds/inactive - List of all past meds for user (active:false)
+- GET /user/:id/meds/:id - Endpoint to retireve medication details for specific medication
+- GET /user/:id/notes/:date - Retrieve notes for a specified date. Includes information about medication that were active on the specified date
 
 
 ## Nice-to-haves
