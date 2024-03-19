@@ -58,7 +58,7 @@
 
 ## Mockups
 
-![](../mindful-meds-capstone/public/capstone_proposal_mockup.png)
+![](./public/capstone_proposal_mockup.png)
 
 ## Data
 
