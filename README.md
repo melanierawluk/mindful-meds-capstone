@@ -340,11 +340,10 @@ Response:
 ## Auth
 
 - There will be log in, log out, and sign up functionality
-- This will be implemented with JWT
+- Method of authentication has not been finalized.
 
 ## Roadmap
 
-Scope your project as a sprint. Break down the tasks that will need to be completed and map out timeframes for implementation. Think about what you can reasonably complete before the due date. The more detail you provide, the easier it will be to build.
 
 FRONT END
 - Initial folder structure and git repo
