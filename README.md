@@ -101,7 +101,7 @@
 
 Parameters:
 - email: User's email address.
-- password: User's chosen password.
+- password: User's password.
 
 Response:
 
@@ -119,7 +119,7 @@ Parameters:
 
 - email: User's email address.
 - name: User's name.
-- password: User's chosen password.
+- password: User's password.
 
 Response:
 ```
@@ -135,9 +135,9 @@ Response:
 Parameters
 
 - medication_name: The name of the medication.
-- strength: The strength or dosage of the medication.
-- frequency: The frequency at which the medication is taken (e.g., "Once daily").
-- times: An array of times at which the medication is taken.
+- strength: The strength/dose of the medication.
+- frequency: The frequency that the medication is taken.
+- times: An array of times when the medication is taken.
 
 ```
     {
@@ -154,14 +154,14 @@ Parameters
 
 ### PUT /med/:id/update
 
-- Endpoint to update/edit to existing med (notes or info)
+- Endpoint to update/edit existing medication (notes or info)
 
 Parameters:
 - id: The ID of the medication to be updated.
 - medication_name: The updated name of the medication.
 - strength: The updated strength of the medication.
-- frequency: The updated frequency when medication is taken.
-- times: Array of updated times at which the medication is taken.
+- frequency: The updated frequency when the medication is taken.
+- times: Array of updated times when the medication is taken.
 
 Response:
 
@@ -202,7 +202,7 @@ Response:
 ```
 
 ### GET /user/:id/meds/active
-- Endpoint to retrieve a list of all current meds for user (active:true)
+- Endpoint to retrieve a list of all current meds for specified user
 
 Parameters:
 - id: The ID of the user that we want retrieved
@@ -238,7 +238,7 @@ Response:
 ```
 
 ### GET /user/:id/meds/inactive
-- List of all past meds for user (active:false)
+- Endpoint to retrieve a list of all past meds for specified user
 
 Parameters:
 - id: The ID of the user that we want retrieved
@@ -310,16 +310,15 @@ Reponse:
 
 Parameters:
 - id: The ID of the user.
-- date: The specific date for which notes and active medications are being requested.
+- date: The specific date for the notes and active medications being requested.
 
 Response:
 
 ```
-
 [
     {
         "id": 1,
-        "created_at": "2024-03-19T12:00:00Z",
+        "created_at": timestamp,
         "note_content": "Lorem ipsum",
         "medications": [
             {
