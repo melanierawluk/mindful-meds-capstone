@@ -1,70 +1,346 @@
-# Getting Started with Create React App
+# Mindful Meds
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Overview
 
-## Available Scripts
 
-In the project directory, you can run:
+- Medication tracking app, focusing on people who take medication for treating mental illnesses.
 
-### `npm start`
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## Problem
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
 
-### `npm test`
+- Mental illnesses often require a cocktail of medications to treat, and multiple attempts at finding the right combination. This app will help people track the different medications (current and past) and their corresponding doses. This may be especially helpful for times when transitioning meds - either tapering off or adding new medications. Notes for any negative or positive affects can be added in the app and either brought to the attention of the doctor, or used as a reference in the future.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## User Profile
 
-### `npm run build`
+- People who take medication for mental illness.
+- Looking for a way to keep track of medications
+- Mobile app experience
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Features
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+- Unique user profiles with log in, log out, and sign up functionality
+- Add current medications and corresponding medication schedule. Include the name of the medication, the dose, frequency, and times when medication is to be taken
+- Add notes on any symptoms/ side effects. Will either be in calendar or list format. Should show a list of medications that were currently being taken at that time.
+- Show a history of past medications with the date, and dosage
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+# Implementation
 
-### `npm run eject`
+## Tech Stack
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+- React.js
+- SASS
+- Material UI
+- Node
+- Express
+- Axios
+- Knex
+- MySQL
+- JWT
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+## APIs
 
-## Learn More
+- No external API's
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+## Sitemap
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+  - Register
+  - Log in 
+  - Dashboard
+      - Popup/modal to log or skip dose. User can also navigate to the medication details page by clicking on the card
+  - Medications
+  - Add new med
+  - Notes
+  - Profile
+  
 
-### Code Splitting
+## Mockups
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+![](../mindful-meds-capstone/public/capstone_proposal_mockup.png)
 
-### Analyzing the Bundle Size
+## Data
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
 
-### Making a Progressive Web App
+- User table
+    - primary key: user id
+    - email
+    - password
+    - name
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+- Medication table
+    - primary key: med id
+    - forgein key: user id
+    - boolean: active med
+    - dose
+    - frequency
+    - list of times?
+    - created_at
+    - updated_at
 
-### Advanced Configuration
+- Notes table?
+    - primary key: note id
+    - foreign key: user id
+    - created_at
+    - updated_at
+    - note content
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
 
-### Deployment
+## Endpoints
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
 
-### `npm run build` fails to minify
+### POST /auth/login
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+- Login a user
+
+Parameters:
+- email: User's email
+- password: User's provided password
+
+Response:
+```
+{
+    "token": "seyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6I..."
+}
+```
+
+### POST /auth/register
+
+- Create new user
+
+Parameters:
+
+- email: User's email
+- name: User's name
+- password: User's provided password
+
+Response:
+```
+{
+    "token": "seyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6I..."
+}
+```
+
+### POST /med/add
+
+- Create new medication
+
+Parameters
+
+- medication_name
+- strength
+- frequency
+- times
+
+```
+    {
+        "id": 1,
+        "medication_name": "Abilify",
+        "strength": 15mg",
+        "frequency": "Once daily",
+        "times": [
+            "9:00 AM",
+            "6:00 PM"
+            ]
+    }
+```
+
+### PUT /med/:id/edit
+
+- Updates/edits to existing med (note or info)
+
+Parameters:
+- id: medication id
+- medication_name
+- strength
+- frequency
+- times
+
+Response:
+
+```
+    {
+        "id": 1,
+        "medication_name": "Abilify",
+        "strength": 15mg",
+        "frequency": "Once daily",
+        "times": [
+            "9:00 AM",
+            "6:00 PM"
+            ],
+        "notes": [
+            {
+            id: 1,
+            "created_at": timestamp,
+            "updated_at": timestamp,
+            "note_content": "Lorem ipsum"
+            }
+        ]
+    }
+```
+
+### GET /user/:id
+- User profile
+
+Parameters:
+- id: user id
+
+Response: 
+```
+{
+    "id": 123,
+    "email": "leeland@goldendoodle.com",
+    "name": "Leeland Eyelet,
+    "password": ***
+}
+```
+
+### GET /user/:id/meds/active
+- List of all current meds for user (active:true)
+
+Parameters:
+- id: user id
+
+Response:
+
+```
+    {
+        "id": 1,
+        "user_id": 123
+        "active": true
+        "medication_name": "Abilify",
+        "strength": 15mg",
+        "frequency": "Once daily",
+        "times": [
+            "9:00 AM",
+            "6:00 PM"
+            ],
+        "notes": [
+            {
+            id: 1,
+            "created_at": timestamp,
+            "updated_at": timestamp,
+            "note_content": "Lorem ipsum"
+            }
+        ]
+    }
+```
+
+### GET /user/:id/meds/inactive
+- List of all past meds for user (active:false)
+
+Parameters:
+- id: user id
+
+Response:
+
+```
+    {
+        "id": 1,
+        "user_id": 123
+        "active": false,
+        "medication_name": "Abilify",
+        "strength": 15mg",
+        "frequency": "Once daily",
+        "times": [
+            "9:00 AM",
+            "6:00 PM"
+            ],
+        "notes": [
+            {
+            id: 1,
+            "created_at": timestamp,
+            "updated_at": timestamp,
+            "note_content": "Lorem ipsum"
+            }
+        ]
+    }
+```
+
+### GET /user/:id/meds/:id
+- Medication details for specific medication
+
+Parameters:
+- id: user id
+- id: medication id
+
+
+Reponse:
+```
+    {
+        "id": 1,
+        "user_id": 123,
+        "medication_name": "Abilify",
+        "strength": 15mg",
+        "frequency": "Once daily",
+        "times": [
+            "9:00 AM",
+            "6:00 PM"
+            ],
+        "notes": [
+            {
+            id: 1,
+            "created_at": timestamp,
+            "updated_at": timestamp,
+            "note_content": "Lorem ipsum"
+            }
+        ]
+    }
+```
+
+## Auth
+
+
+- There will be log in, log out, and sign up functionality
+- This will be implemented with JWT
+
+## Roadmap
+
+Scope your project as a sprint. Break down the tasks that will need to be completed and map out timeframes for implementation. Think about what you can reasonably complete before the due date. The more detail you provide, the easier it will be to build.
+
+FRONT END
+- Initial folder structure and git repo
+- Setup SASS variables, mixins, colors, fonts
+- Assets: icons for menu, icons for tablet/capsule
+- Setup react router
+- Header component (pastel gradient)
+- Menu/footer component (5 icons: home, pills, plus, notes, avatar)
+- Log in page
+- Sign up page
+- Dashboard page (current date, "calendar" swipe of previous/future dates)
+- Medication List page
+- Add new med page
+- Notes page
+- Profile page
+- Medication detail modal (from medicaiton list page)
+- Schedule detail modal (from dashboard page)
+- Components:
+    - Header
+    - Footer/Menu
+    - Cards
+    - Popup/modal
+    - Calendar
+    - Buttons
+    - Inputs
+
+
+BACK END
+- Initial folder structure and git repo
+- Database connection with knex
+- Knex migrations and seeds
+- API to GET list of all current medications (display on dashboard with name, time & dose)
+- API to GET details of a single medication (medication detail page)
+- API to POST new medication
+- API to PUT updates to existing medication (edits and/or skipped/taken data)
+- API to POST new user
+- API to POST login
+- API to GET profile information
+
+
+## Nice-to-haves
+
+
+- Connect API with list of common meds. When adding a new med, could suggest meds while user is typing
+- Keep track of current medication inventory. Enter the amount of pills you have and how many you need to take each day and the app will calculate the date at which you need a refill.
+- Text/email/push reminders for when to take medications based on the schedule added, and also for refilling meds. Send a reminder to the user to take notes when starting a new medication or tapering off one.
