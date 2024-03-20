@@ -19,7 +19,6 @@
 
 ## Features
 
-- Unique user profiles with log in, log out, and sign up functionality
 - Add current medications and corresponding medication schedule. Include the name of the medication, the dose, frequency, and times when medication is to be taken
 - Add notes on any symptoms/ side effects. Will either be in calendar or list format. Should show a list of medications that were currently being taken at that time.
 - Show a history of past medications with the date, and dosage
@@ -37,7 +36,6 @@
 - Axios
 - Knex
 - MySQL
-- JWT
 
 
 ## APIs
@@ -49,8 +47,8 @@
   - Register
   - Log in 
   - Dashboard
-      - Popup/modal to log or skip dose. User can also navigate to the medication details page by clicking on the card
-  - Medications
+  - Medications List
+    - Medication detail modal
   - Add new med
   - Notes
   - Profile
@@ -62,129 +60,10 @@
 
 ## Data
 
-
-- Users table
-    - primary key: user id
-    - email
-    - password
-    - name
-
-- Medication table
-    - primary key: med id
-    - forgein key: user id
-    - med name
-    - boolean: active med
-
-- Medication dose table
-    - dose
-    - frequency
-    - list of times taken?
-    - start date
-    - end date
-    - created_at
-    - updated_at
-
-- Notes table
-    - primary key: note id
-    - foreign key: user id
-    - created_at
-    - updated_at
-    - note content
+![](./public/capstone_database.png)
 
 
 ## Endpoints
-
-
-### POST /auth/login
-
-- Endpoint to log in a user
-
-Parameters:
-- email: User's email address.
-- password: User's password.
-
-Response:
-
-```
-{
-    "token": "seyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6I..."
-}
-```
-
-### POST /auth/register
-
-- Endpoint to create a new user
-
-Parameters:
-
-- email: User's email address.
-- name: User's name.
-- password: User's password.
-
-Response:
-```
-{
-    "token": "seyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6I..."
-}
-```
-
-### POST /med/add
-
-- Endpoint to create a new medication
-
-Parameters
-
-- medication_name: The name of the medication.
-- strength: The strength/dose of the medication.
-- frequency: The frequency that the medication is taken.
-- times: An array of times when the medication is taken.
-
-```
-    {
-        "id": 1,
-        "medication_name": "Abilify",
-        "strength": "15mg",
-        "frequency": "Once daily",
-        "times": [
-            "9:00 AM",
-            "6:00 PM"
-            ]
-    }
-```
-
-### PUT /med/:id/update
-
-- Endpoint to update/edit existing medication (notes or info)
-
-Parameters:
-- id: The ID of the medication to be updated.
-- medication_name: The updated name of the medication.
-- strength: The updated strength of the medication.
-- frequency: The updated frequency when the medication is taken.
-- times: Array of updated times when the medication is taken.
-
-Response:
-
-```
-{
-    "id": 1,
-    "medication_name": "Abilify",
-    "strength": "15mg",
-    "frequency": "Once daily",
-    "times": [
-        "9:00 AM",
-        "6:00 PM"
-    ],
-    "notes": [
-        {
-            "id": 1,
-            "created_at": "timestamp",
-            "updated_at": "timestamp",
-            "note_content": "Lorem ipsum"
-        }
-    ]
-}
-```
 
 ### GET /user/:id
 - Endpoint to get a user profile
@@ -201,12 +80,11 @@ Response:
 }
 ```
 
-### GET /user/:id/meds/active
-- Endpoint to retrieve a list of all current meds for specified user
+### GET /user/:id/meds
+- Endpoint to retrieve a list of all meds for specified user. To get current meds, filter response for `active: true`
 
 Parameters:
 - id: The ID of the user that we want retrieved
-- active: Include only the medications that are set to `active: true`
 
 Response:
 
@@ -215,60 +93,19 @@ Response:
     {
         "id": 1,
         "user_id": 123,
+        "active": true || false,
         "medication_name": "Abilify",
-        "strength": "15mg",
+        "dose": "15mg",
         "frequency": "Once daily",
         "times": [
             "9:00 AM",
             "6:00 PM"
         ],
-        "notes": [
-            {
-                "id": 1,
-                "created_at": "timestamp",
-                "updated_at": "timestamp",
-                "note_content": "Lorem ipsum"
-            }
-        ]
+        "start_date": "timestamp",
+        "end_date": "timestamp" || NULL
     },
     {
-        // Details of any another active medications
-    }
-]
-```
-
-### GET /user/:id/meds/inactive
-- Endpoint to retrieve a list of all past meds for specified user
-
-Parameters:
-- id: The ID of the user that we want retrieved
-- inactive: Include only the medications that are set to `active: false`
-
-Response:
-
-```
-[
-    {
-        "id": 1,
-        "user_id": 123,
-        "medication_name": "Abilify",
-        "strength": "15mg",
-        "frequency": "Once daily",
-        "times": [
-            "9:00 AM",
-            "6:00 PM"
-        ],
-        "notes": [
-            {
-                "id": 1,
-                "created_at": "timestamp",
-                "updated_at": "timestamp",
-                "note_content": "Lorem ipsum"
-            }
-        ]
-    },
-    {
-        // Details of any other inactive medications
+        // Objects of other medications
     }
 ]
 ```
@@ -287,20 +124,14 @@ Reponse:
     "id": 1,
     "user_id": 123,
     "medication_name": "Abilify",
-    "strength": 15mg",
+    "dose": 15mg",
     "frequency": "Once daily",
     "times": [
         "9:00 AM",
         "6:00 PM"
         ],
-    "notes": [
-        {
-        id: 1,
-        "created_at": timestamp,
-        "updated_at": timestamp,
-        "note_content": "Lorem ipsum"
-        }
-    ]
+    "start_date": "timestamp",
+    "end_date": "timestamp" || NULL
 }
 ```
 
@@ -318,13 +149,13 @@ Response:
 [
     {
         "id": 1,
-        "created_at": timestamp,
+        "user_id": 123,
         "note_content": "Lorem ipsum",
         "medications": [
             {
                 "id": 1,
                 "medication_name": "Abilify",
-                "strength": "15mg",
+                "dose": "15mg",
                 "frequency": "Once daily",
                     times": [
                         "9:00 AM",
@@ -336,11 +167,62 @@ Response:
     }
 ]
 ```
+### POST /meds/add
+
+- Endpoint to create a new medication
+
+Parameters
+
+- name: The name of the medication.
+- dose: The strength/dose of the medication.
+- frequency: The frequency that the medication is taken.
+- times: An array of times when the medication is taken.
+
+```
+    {
+        "id": 1,
+        "name": "Abilify",
+        "active": true,
+        "dose": "15mg",
+        "frequency": "Once daily",
+        "times": [
+            "9:00 AM",
+            "6:00 PM"
+            ],
+        "start_date": current date
+    }
+```
+
+### POST /meds/:id/update
+
+- Endpoint to create a new entry in the database for a changed dose
+
+Parameters:
+- id: The ID of the medication to be updated.
+- dose: The updated dose of the medication.
+- frequency: The updated frequency when the medication is taken.
+- times: Array of updated times when the medication is taken.
+
+Response:
+
+```
+{
+    "id": 1,
+    "name": "Abilify",
+    "active": true,
+    "dose": "15mg",
+    "frequency": "Once daily",
+    "times": [
+        "9:00 AM",
+        "6:00 PM"
+    ],
+    "start_date": current date
+}
+```
 
 ## Auth
 
-- There will be log in, log out, and sign up functionality
-- Method of authentication has not been finalized.
+- Method of authentication has not been finalized (*"Nice to have"*)
 
 ## Roadmap
 
@@ -354,13 +236,12 @@ FRONT END
 - Menu/footer component (5 icons: home, pills, plus, notes, avatar)
 - Log in page
 - Sign up page
-- Dashboard page (current date, "calendar" swipe of previous/future dates)
+- Dashboard page
 - Medication List page
+    - Medication detail modal 
 - Add new med page
 - Notes page
 - Profile page
-- Medication detail modal (from medicaiton list page)
-- Schedule detail modal (from dashboard page)
 - Components:
     - Header
     - Footer/Menu
@@ -375,14 +256,10 @@ BACK END
 - Initial folder structure and git repo
 - Database connection with knex
 - Knex migrations and seeds
-
-- POST /auth/login - Endpoint to log in a user
-- POST /auth/register - Endpoint to create a new user
-- POST /med/add - Endpoint to create a new medication
-- PUT /med/:id/update - Endpoint to update/edit to existing med (notes or info)
-- GET /user/:id - Endpoint to get a user profile: 
-- GET /user/:id/meds/active - Endpoint to retrieve a list of all current meds for user (active:true)
-- GET /user/:id/meds/inactive - List of all past meds for user (active:false)
+- POST /meds/add - Endpoint to create a new medication
+- POST /meds/:id/update - Endpoint to update/edit med dose, frequency, or times taken
+- GET /user/:id - Endpoint to get a user profile
+- GET /user/:id/meds - Endpoint to retrieve a list of all meds for user
 - GET /user/:id/meds/:id - Endpoint to retireve medication details for specific medication
 - GET /user/:id/notes/:date - Retrieve notes for a specified date. Includes information about medication that were active on the specified date
 
@@ -393,3 +270,7 @@ BACK END
 - Connect API with list of common meds. When adding a new med, could suggest meds while user is typing
 - Keep track of current medication inventory. Enter the amount of pills you have and how many you need to take each day and the app will calculate the date at which you need a refill.
 - Text/email/push reminders for when to take medications based on the schedule added, and also for refilling meds. Send a reminder to the user to take notes when starting a new medication or tapering off one.
+- Tracking for when the user logs or skips a certain medication for the day. Along with this, the swipe date functionality for the dashboard would be added. Selecting a certain date would tell the user whether or not they logged the medication. There would likely be a limitation for how far back th user could swipe, and likely no forward swiping into the future dates.
+- User authentication
+    - POST /auth/login - Endpoint to log in a user
+    - POST /auth/register - Endpoint to create a new user
