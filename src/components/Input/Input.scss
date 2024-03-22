@@ -1,0 +1,22 @@
+@use '../../assets/styles/typography' as *;
+
+.field {
+    display: flex;
+    flex-direction: column;
+
+    &__label {
+        margin-bottom: 5px;
+        @include roboto-light;
+        font-size: 0.8rem;
+    }
+
+    &__input {
+        margin-bottom: 1rem;
+        border: none;
+        border-radius: 10px;
+        height: 3rem;
+        background-color: #F1F1F1;
+        padding: 0.5rem;
+        font-size: inherit;
+    }
+}

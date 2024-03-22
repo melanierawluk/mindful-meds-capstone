@@ -1,14 +1,41 @@
 @use '../../assets/styles/typography' as *;
+@use '../../assets/styles/variables' as *;
+@use '../../assets/styles/global' as *;
 
 
 .login {
+    @include roboto-regular;
 
     &__gradient {
         width: 100%;
         height: 19rem;
-        z-index: 1;
-        margin-top: -150px
     }
 
-    &__form {}
+    &__title {
+        @extend .global__title;
+    }
+
+    &__form {
+
+        &-button {
+            @extend .global__button;
+        }
+
+        &-container {
+            margin: 0 auto;
+            width: 70%;
+        }
+    }
+
+    &__text {
+        margin: 10px 0;
+        text-align: center;
+        @include roboto-light;
+        font-size: 0.8rem;
+
+        &-container {
+            margin-top: 30px;
+        }
+    }
+
 }
