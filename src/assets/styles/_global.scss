@@ -17,11 +17,23 @@
         height: 3rem;
     }
 
-    &__title {
+    &__heading {
         text-align: center;
         @include roboto-bold;
         color: $primary-color;
         font-size: 2.5rem;
+    }
+
+    &__title {
+        text-align: center;
+        @include roboto-bold;
+        color: $primary-color;
+        font-size: 1.8rem;
+    }
+
+    &__card {
+        background-color: $accent-color;
+        border-radius: 10px;
     }
 
 }
