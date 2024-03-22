@@ -19,11 +19,11 @@ function App() {
       <Routes>
         <Route path='/login' element={<Login />} />
         <Route path='/register' element={<Register />} />
-        <Route path='/dashboard' element={<Dashboard />} />
+        <Route path='/dashboard/:userId' element={<Dashboard />} />
         <Route path='/medications' element={<MedList />} />
         <Route path='/add' element={<AddNewMed />} />
         <Route path='/notes' element={<Notes />} />
-        <Route path='/profile' element={<Profile />} />
+        <Route path='/profile/:userId' element={<Profile />} />
       </Routes>
     </BrowserRouter>
 
