@@ -1,0 +1,58 @@
+@use '../../assets/styles/typography' as *;
+@use '../../assets/styles/variables' as *;
+@use '../../assets/styles/global' as *;
+
+.notes {
+
+    &__container {
+        width: 70%;
+        margin: 0 auto;
+    }
+
+    &__title {
+        @extend .global__title;
+        background-color: white;
+        padding: 10px 0;
+        margin-bottom: 10px;
+    }
+
+    &__calendar {
+        margin-bottom: 0.4rem;
+    }
+
+    &__meds-list {
+        margin-bottom: 1rem;
+        border: none;
+        border-radius: 10px;
+        height: 3rem;
+        background-color: #F1F1F1;
+        padding: 0.5rem;
+        font-size: inherit;
+    }
+
+    &__input {
+        // margin-bottom: 1rem;
+        border: none;
+        border-radius: 10px;
+        height: 5rem;
+        width: 100%;
+        background-color: #F1F1F1;
+        padding: 0.5rem;
+        font-size: inherit;
+        resize: none;
+
+        &:focus {
+            outline: 2px solid $primary-color;
+        }
+    }
+
+    &__label {
+        margin-bottom: 5px;
+        @include roboto-light;
+        font-size: 0.8rem;
+    }
+
+    &__button {
+        @extend .global__button;
+    }
+}

@@ -1,4 +1,6 @@
 @use '../../assets/styles/typography' as *;
+@use '../../assets/styles/variables' as *;
+@use '../../assets/styles/global' as *;
 
 .field {
     display: flex;
@@ -18,5 +20,9 @@
         background-color: #F1F1F1;
         padding: 0.5rem;
         font-size: inherit;
+
+        &:focus {
+            outline: 0.1rem solid $primary-color;
+        }
     }
 }
