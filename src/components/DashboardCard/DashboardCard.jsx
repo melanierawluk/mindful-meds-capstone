@@ -1,10 +1,7 @@
 import './DashboardCard.scss';
 import { Link } from 'react-router-dom';
 
-export default function DashboardCard({ medicationSchedule, med }) {
-
-    console.log(medicationSchedule)
-
+export default function DashboardCard({ med }) {
 
     if (med.active === 1) {
         return (
@@ -15,7 +12,7 @@ export default function DashboardCard({ medicationSchedule, med }) {
                     <p>{med.times}</p>
                 </div>
             </Link>
-
         )
+
     }
 }

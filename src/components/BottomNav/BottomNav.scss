@@ -1,3 +1,7 @@
+@use '../../assets/styles/typography' as *;
+@use '../../assets/styles/variables' as *;
+@use '../../assets/styles/global' as *;
+
 .bottom-nav {
     position: fixed;
     left: 0;
@@ -8,6 +12,7 @@
     display: flex;
     justify-content: space-evenly;
     align-items: center;
+    background-color: $background-color;
 }
 
 .icon {

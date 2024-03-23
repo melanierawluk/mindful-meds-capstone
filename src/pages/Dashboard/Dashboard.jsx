@@ -26,7 +26,19 @@ export default function Dashboard() {
         getMedicationSchedule();
     }, [])
 
+    const activeMedArr = [];
+    const inactiveMedArr = [];
 
+    // Function to sort inactive/active medications
+    const isActiveMed = () => {
+        // Check if medicationSchedule is not empty
+        if (medicationSchedule.length > 0) {
+            medicationSchedule.forEach(element => {
+                element.active === 1 ? activeMedArr.push(element) : inactiveMedArr.push(element)
+            });
+        }
+    }
+    isActiveMed();
 
     return (
         <>
