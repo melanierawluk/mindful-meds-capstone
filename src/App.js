@@ -21,8 +21,8 @@ function App() {
         <Route path='/register' element={<Register />} />
         <Route path='/dashboard/:userId' element={<Dashboard />} />
         <Route path='/medications/:userId' element={<MedList />} />
-        <Route path='/add' element={<AddNewMed />} />
-        <Route path='/notes' element={<Notes />} />
+        <Route path='/add/:userId' element={<AddNewMed />} />
+        <Route path='/notes/:userId' element={<Notes />} />
         <Route path='/profile/:userId' element={<Profile />} />
       </Routes>
     </BrowserRouter>

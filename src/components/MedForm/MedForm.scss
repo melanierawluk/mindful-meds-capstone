@@ -1,0 +1,21 @@
+@use '../../assets/styles/typography' as *;
+@use '../../assets/styles/variables' as *;
+@use '../../assets/styles/global' as *;
+
+
+.med-form {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    &__button {
+        @extend .global__button;
+    }
+
+    &__container {
+        margin: 0 auto;
+        width: 70%;
+        height: 100%;
+    }
+
+}

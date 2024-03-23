@@ -1,0 +1,15 @@
+@use '../../assets/styles/typography' as *;
+@use '../../assets/styles/variables' as *;
+@use '../../assets/styles/global' as *;
+
+.new-med {
+    // @include roboto-light;
+
+    &__title {
+        @extend .global__title;
+        background-color: white;
+        padding: 10px 0;
+        margin-bottom: 30px;
+    }
+
+}

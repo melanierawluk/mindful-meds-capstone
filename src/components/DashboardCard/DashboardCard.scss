@@ -6,7 +6,7 @@
 
     &__card {
         margin-bottom: 30px;
-        width: 90%;
+        width: 85%;
         background-color: $accent-color;
         border-radius: 10px;
         padding: 15px 0 15px 40px;
@@ -15,6 +15,8 @@
         background-position: 90%;
         text-decoration: none;
         color: black;
+        box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
+
     }
 
     &__link {}

@@ -18,7 +18,6 @@ export default function Dashboard() {
             try {
                 const response = await axios.get(`${base_url}/user/${userId}/meds`)
                 setMedicationSchedule(response.data)
-                console.log(response.data)
             } catch (error) {
                 console.log(error)
             }
