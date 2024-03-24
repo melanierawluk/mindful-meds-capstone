@@ -9,10 +9,24 @@ import Notes from './pages/Notes/Notes';
 import Profile from './pages/Profile/Profile';
 // import Header from './components/Header/Header';
 // import BottomNav from './components/BottomNav/BottomNav';
+import { createTheme } from '@mui/material/styles';
+
+
 
 // Med detail and Med history modals?
 
 function App() {
+
+  const customTheme = createTheme({
+    palette: {
+      primary: {
+        main: '#FFB0AF',
+      },
+      secondary: {
+        main: '#FFB0AF',
+      },
+    },
+  });
   return (
 
     <BrowserRouter>
@@ -22,7 +36,7 @@ function App() {
         <Route path='/dashboard/:userId' element={<Dashboard />} />
         <Route path='/medications/:userId' element={<MedList />} />
         <Route path='/add/:userId' element={<AddNewMed />} />
-        <Route path='/notes/:userId' element={<Notes />} />
+        <Route path='/notes/:userId' element={<Notes customTheme={customTheme} />} />
         <Route path='/profile/:userId' element={<Profile />} />
       </Routes>
     </BrowserRouter>
