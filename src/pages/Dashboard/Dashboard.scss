@@ -6,6 +6,7 @@
 .dashboard {
     background-color: $background-color;
 
+
     &__title {
         @extend .global__title;
         background-color: white;
@@ -18,7 +19,6 @@
         flex-direction: column;
         justify-content: space-evenly;
         align-items: center;
-
     }
 
     &__card {
