@@ -1,6 +1,6 @@
 import "./Input.scss";
 
-export default function Input({ label, name, type, value, onChange }) {
+export default function Input({ label, name, type, value, onChange, placeholder }) {
     return (
         <div className="field">
             <label htmlFor={name} className="field__label">
@@ -9,6 +9,7 @@ export default function Input({ label, name, type, value, onChange }) {
             <input
                 type={type}
                 id={name}
+                placeholder={placeholder}
                 name={name}
                 value={value}
                 onChange={onChange}

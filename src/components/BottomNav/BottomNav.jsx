@@ -11,19 +11,19 @@ export default function BottomNav() {
 
     return (
         <nav className='bottom-nav'>
-            <Link to='/dashboard/1'>
+            <Link to='/1/dashboard'>
                 <HomeIcon style={{ color: location.pathname === '/dashboard/1' ? '#7ECED8' : '#4D4C4C', fontSize: '2.5rem' }} />
             </Link>
-            <Link to='/medications/1'>
+            <Link to='/1/medications'>
                 <MedicationIcon style={{ color: location.pathname === '/medications/1' ? '#7ECED8' : '#4D4C4C', fontSize: '2.5rem' }} />
             </Link>
-            <Link to='/add/1'>
+            <Link to='/1/add'>
                 <AddCircleIcon style={{ color: location.pathname === '/add/1' ? '#7ECED8' : '#4D4C4C', fontSize: '2.5rem' }} />
             </Link>
-            <Link to='/notes/1'>
+            <Link to='/1/notes'>
                 <NotesIcon style={{ color: location.pathname === '/notes/1' ? '#7ECED8' : '#4D4C4C', fontSize: '2.5rem' }} />
             </Link>
-            <Link to='/profile/1'>
+            <Link to='/1/profile'>
                 <AccountCircleIcon style={{ color: location.pathname === '/profile/1' ? '#7ECED8' : '#4D4C4C', fontSize: '2.5rem' }} />
             </Link>
         </nav>
