@@ -13,3 +13,20 @@
     }
 
 }
+
+.med-form {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    &__button {
+        @extend .global__button;
+    }
+
+    &__container {
+        margin: 0 auto;
+        width: 70%;
+        height: 100%;
+    }
+
+}
