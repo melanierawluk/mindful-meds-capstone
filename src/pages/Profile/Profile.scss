@@ -3,22 +3,29 @@
 @use '../../assets/styles/global' as *;
 
 .profile {
-    padding-top: 30px;
+    // padding-top: 30px;
 
-    &__title {
-        @extend .global__title;
-        background-color: white;
-        padding: 10px 0;
-        margin-bottom: 30px;
+    &__gradient {
+        width: 100%;
+        height: 9rem;
+        z-index: -1;
+        position: relative;
     }
 
     &__container {
+        padding-top: 30px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
 
-        width: 75%;
+    &__inputs {
+        width: 85%;
         margin: 0 auto;
     }
 
     &__button {
         @extend .global__button;
+        // width: 85%;
     }
 }

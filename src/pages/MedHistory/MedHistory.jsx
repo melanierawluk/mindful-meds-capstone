@@ -37,10 +37,6 @@ export default function MedHistory() {
         med.name === medName ? matchedMeds.push(med) : unMatchedMeds.push(med);
     })
 
-    console.log('matchedMeds:', matchedMeds)
-
-
-
     if (!medArr) {
         return <div>loading...</div>
     }
@@ -52,7 +48,8 @@ export default function MedHistory() {
                 {matchedMeds.map((med) => {
                     return (
                         <HistoryCard
-                            med={med} />
+                            med={med}
+                            key={med.id} />
                     )
                 })}
 

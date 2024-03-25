@@ -12,18 +12,18 @@ export default function MedList() {
     const base_url = process.env.REACT_APP_BASE_URL;
     const { userId } = useParams();
 
-    const [medicationSchedule, setMedicationSchedule] = useState([]);
+    const [medicationList, setMedicationList] = useState([]);
 
     useEffect(() => {
-        const getMedicationSchedule = async () => {
+        const getMedicationList = async () => {
             try {
                 const response = await axios.get(`${base_url}/meds/${userId}`)
-                setMedicationSchedule(response.data)
+                setMedicationList(response.data)
             } catch (error) {
                 console.log(error)
             }
         }
-        getMedicationSchedule();
+        getMedicationList();
     }, [])
 
     const activeMedArr = [];
@@ -31,13 +31,23 @@ export default function MedList() {
 
     // Function to sort inactive/active medications
     const isActiveMed = () => {
-        if (medicationSchedule.length > 0) {
-            medicationSchedule.forEach(element => {
+        if (medicationList.length > 0) {
+            medicationList.forEach(element => {
                 element.active === 1 ? activeMedArr.push(element) : inactiveMedArr.push(element)
             });
         }
     }
     isActiveMed();
+
+    // Remove duplicate meds in inactive med array, if they are already in the active med array
+    function removeDuplicateInactiveMeds(firstArr, secondArr) {
+        const checkNameArr = firstArr.map(med => med.name);
+        const filteredArr = secondArr.filter(med => !checkNameArr.includes(med.name));
+
+        return filteredArr;
+    }
+
+    const filteredInactiveMedArr = removeDuplicateInactiveMeds(activeMedArr, inactiveMedArr)
 
     return (
         <>
@@ -46,16 +56,13 @@ export default function MedList() {
                 <div className='med-list__block'>
                     <h2 className='med-list__heading'>Current</h2>
 
-                    {activeMedArr.map((med, index) => {
+                    {activeMedArr.map((med) => {
                         return (
-                            <Link className='med-list__link' to={`/${userId}/medications/${med.id}`}>
+                            <Link className='med-list__link' to={`/${userId}/medications/${med.id}`} key={med.id}>
                                 <ActiveMedCard
-                                    medicationSchedule={medicationSchedule}
-                                    setMedicationSchedule={setMedicationSchedule}
-                                    key={med.id}
+                                    medicationList={medicationList}
+                                    setMedicationList={setMedicationList}
                                     med={med}
-                                    index={index}
-                                    userId={userId}
                                 />
                             </Link>
                         )
@@ -63,15 +70,13 @@ export default function MedList() {
                 </div>
                 <div className='med-list__block'>
                     <h2 className='med-list__heading'>Past</h2>
-                    {inactiveMedArr.map((med, index) => {
+                    {filteredInactiveMedArr.map((med) => {
                         return (
-                            <Link className='med-list__link' to={`/${userId}/medications/${med.id}`}>
+                            <Link className='med-list__link' to={`/${userId}/medications/${med.id}`} key={med.id}>
                                 <InactiveMedCard
-                                    medicationSchedule={medicationSchedule}
-                                    setMedicationSchedule={setMedicationSchedule}
-                                    key={med.id}
+                                    medicationList={medicationList}
+                                    setMedicationList={setMedicationList}
                                     med={med}
-                                    index={index}
                                 />
                             </Link>
                         )

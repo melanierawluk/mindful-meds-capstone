@@ -11,6 +11,7 @@ import { useParams } from 'react-router-dom';
 import axios from 'axios';
 
 export default function Notes({ customTheme }) {
+
     const base_url = process.env.REACT_APP_BASE_URL;
     const { userId } = useParams();
 
@@ -19,49 +20,44 @@ export default function Notes({ customTheme }) {
     const formattedDate = selectedDate.format('YYYY-MM-DD');
 
     // Hold the notes and meds data returned from database
-    const [content, setContent] = useState({ note_content: '' });
-    const [medContent, setMedContent] = useState();
+    const [medContent, setMedContent] = useState([]);
     const [noteContent, setNoteContent] = useState();
 
-    // Need to fix: date needs to be selected twice before data 
 
     useEffect(() => {
-        const getNotes = async () => {
+        const getNotesAndMedsByDate = async () => {
             try {
-                const response = await axios.get(`${base_url}/notes/${userId}/${formattedDate}`);
-                // setContent(response.data[0])
-                console.log('Response:', response.data); // Log the response data
-                setContent(response.data[0]); // Assuming there's only one note per date
-                console.log('Content:', content); // Log the content state
-            } catch (error) {
-                console.log(error)
-            }
-        }
-        getNotes();
+                // GET notes on selected date
+                const notesResponse = await axios.get(`${base_url}/notes/${userId}/${formattedDate}`);
+                setNoteContent(notesResponse.data);
 
-        // Need to fix: first render after selecting date has returnedArr empty
-    }, [selectedDate])
+                // GET active meds on selected date
+                const medsResponse = await axios.get(`${base_url}/meds/${userId}/date/${formattedDate}`);
+                setMedContent(medsResponse.data);
+            } catch (error) {
+                console.log(error);
+                // Check if the error is 404 (not found), if so, set noteContent to an empty string
+                if (error.response && error.response.status === 404) {
+                    setNoteContent("");
+                    setMedContent([]);
+                }
+            }
+        };
+
+        getNotesAndMedsByDate();
+    }, [selectedDate]);
+
 
     // Handle the changed date
     const handleDateChange = (date) => {
         setSelectedDate(date);
+        setNoteContent("")
     };
 
     const handleNoteChange = (event) => {
         setNoteContent(event.target.value)
         console.log(event.target.value)
     }
-
-    const filteredNoteArr = [];
-    if (content && content.length > 0) {
-        content.map((obj) => {
-            filteredNoteArr.push(obj.note_content)
-        })
-    }
-
-    const noteArr = [...new Set(filteredNoteArr)]
-
-    console.log(`filteredArr: ${noteArr}`)
 
     function submitNoteEdit(event) {
         event.preventDefault();
@@ -98,12 +94,23 @@ export default function Notes({ customTheme }) {
                 </div>
 
                 <div className='notes__container'>
-                    <h4 className='notes__label'>MEDICATIONS</h4>
+                    <div className='notes__medications'>
+                        <h4 className='notes__label'>MEDICATIONS</h4>
+                        {medContent.map((med) => {
+                            return (
+                                <div>
+                                    <p>{medContent && med.name}</p>
+                                    <p>{medContent && (`${med.dose} - ${med.frequency}`)}</p>
+                                </div>
+                            )
+                        })
+                        }
+                    </div>
                     <form action="submit">
                         <label className='notes__label'>NOTES</label>
                         <textarea
                             className='notes__input'
-                            // value={content.note_content}
+                            value={noteContent && noteContent.note_content}
                             onChange={handleNoteChange}
                         />
                         {/* <button type='submit' className='notes__button' onClick={handleNoteEdit}>Save</button> */}

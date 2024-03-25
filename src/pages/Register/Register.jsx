@@ -16,10 +16,10 @@ export default function Register() {
                         <h1 className='register__title'><Link to='../login'><ArrowBackIcon style={{ color: '#7ECED8', fontSize: "2.1rem" }} /></Link> Create New <br /> Account</h1>
                     </div>
                     <form className='register__form' action="">
-                        <Input type="text" name="name" label="NAME" />
-                        <Input type="email" name="email" label="EMAIL" />
-                        <Input type="password" name="password" label="PASSWORD" />
-                        <Input type="password" name="password" label="CONFIRM PASSWORD" />
+                        <Input type="text" name="name" id="name" label="NAME" />
+                        <Input type="email" name="email" id="email" label="EMAIL" />
+                        <Input type="password" name="password" id="password" label="PASSWORD" />
+                        <Input type="password" name="confirm_password" id="confirm_password" label="CONFIRM PASSWORD" />
                         <button className='register__button'>Sign up</button>
                     </form>
                 </div>
