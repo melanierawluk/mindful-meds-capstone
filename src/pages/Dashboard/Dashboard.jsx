@@ -4,7 +4,7 @@ import Header from '../../components/Header/Header';
 import DashboardCard from '../../components/DashboardCard/DashboardCard';
 import currentDate from '../../utils/currentDate';
 import { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import axios from 'axios';
 
 export default function Dashboard() {
@@ -36,13 +36,14 @@ export default function Dashboard() {
 
     return (
         <>
-            <Header />
+            <Header title={`Today, ${currentDate}`} />
             <section className='dashboard'>
-                <h1 className='dashboard__title'>{`Today, ${currentDate}`}</h1>
                 <div className='dashboard__content'>
+                    {/* <Link to={`/${userId}/medications`}> */}
                     <DashboardCard
                         activeMedArr={activeMedArr}
                     />
+                    {/* </Link> */}
                     <p className='dashboard__card'>Add Note</p>
                 </div>
             </section>

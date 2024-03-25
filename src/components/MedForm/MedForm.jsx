@@ -27,7 +27,7 @@ export default function MedForm({ handleSubmit, medData, setMedData }) {
                     <Input
                         type="text"
                         id="name"
-                        placeholder="Medication name"
+                        placeholder="'Wellbutrin'"
                         htmlFor="medication_name"
                         name="name"
                         label="MEDICATION NAME"
@@ -37,7 +37,7 @@ export default function MedForm({ handleSubmit, medData, setMedData }) {
                     <Input
                         type="text"
                         id="dose"
-                        placeholder="Medication dose"
+                        placeholder="'100 mg'"
                         htmlFor="dose"
                         name="dose"
                         label="STRENGTH"
@@ -47,7 +47,7 @@ export default function MedForm({ handleSubmit, medData, setMedData }) {
                     <Input
                         type="text"
                         id="frequency"
-                        placeholder="Medication frequency"
+                        placeholder="'Once daily'"
                         htmlFor="frequency"
                         name="frequency"
                         label="FREQUENCY"
@@ -57,7 +57,7 @@ export default function MedForm({ handleSubmit, medData, setMedData }) {
                     <Input
                         type="text"
                         id="times"
-                        placeholder="Medication times"
+                        placeholder="'9:00 AM'"
                         htmlFor="times"
                         name="times"
                         label="SCHEDULE"

@@ -25,9 +25,8 @@ export default function Profile() {
 
     return (
         <>
-            <Header />
+            <Header title='Profile' />
             <section className='profile'>
-                <h1 className='profile__title'>Profile</h1>
 
                 <div className='profile__container'>
                     <Input type="text" name="name" label="NAME" value={userProfile.name} />

@@ -1,4 +1,11 @@
+@use '../../assets/styles/typography' as *;
+@use '../../assets/styles/variables' as *;
+@use '../../assets/styles/global' as *;
+
+
 .header {
+    position: sticky;
+    top: 0;
 
     &__gradient {
         width: 100%;
@@ -9,6 +16,8 @@
         margin-top: -4px;
         height: 3.3rem;
         background-color: #FFF;
-
+        @extend .global__title;
+        background-color: white;
+        padding: 10px 0;
     }
 }

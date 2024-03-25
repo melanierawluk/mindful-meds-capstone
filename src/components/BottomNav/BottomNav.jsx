@@ -12,19 +12,19 @@ export default function BottomNav() {
     return (
         <nav className='bottom-nav'>
             <Link to='/1/dashboard'>
-                <HomeIcon style={{ color: location.pathname === '/dashboard/1' ? '#7ECED8' : '#4D4C4C', fontSize: '2.5rem' }} />
+                <HomeIcon style={{ color: location.pathname === '/1/dashboard' ? '#7ECED8' : '#4D4C4C', fontSize: '2.5rem' }} />
             </Link>
             <Link to='/1/medications'>
-                <MedicationIcon style={{ color: location.pathname === '/medications/1' ? '#7ECED8' : '#4D4C4C', fontSize: '2.5rem' }} />
+                <MedicationIcon style={{ color: location.pathname === '/1/medications' ? '#7ECED8' : '#4D4C4C', fontSize: '2.5rem' }} />
             </Link>
             <Link to='/1/add'>
-                <AddCircleIcon style={{ color: location.pathname === '/add/1' ? '#7ECED8' : '#4D4C4C', fontSize: '2.5rem' }} />
+                <AddCircleIcon style={{ color: location.pathname === '/1/add' ? '#7ECED8' : '#4D4C4C', fontSize: '2.5rem' }} />
             </Link>
             <Link to='/1/notes'>
-                <NotesIcon style={{ color: location.pathname === '/notes/1' ? '#7ECED8' : '#4D4C4C', fontSize: '2.5rem' }} />
+                <NotesIcon style={{ color: location.pathname === '/1/notes' ? '#7ECED8' : '#4D4C4C', fontSize: '2.5rem' }} />
             </Link>
             <Link to='/1/profile'>
-                <AccountCircleIcon style={{ color: location.pathname === '/profile/1' ? '#7ECED8' : '#4D4C4C', fontSize: '2.5rem' }} />
+                <AccountCircleIcon style={{ color: location.pathname === '/1/profile' ? '#7ECED8' : '#4D4C4C', fontSize: '2.5rem' }} />
             </Link>
         </nav>
     )

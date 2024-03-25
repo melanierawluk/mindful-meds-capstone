@@ -84,9 +84,8 @@ export default function Notes({ customTheme }) {
 
     return (
         <>
-            <Header />
+            <Header title='Notes' />
             <section className='notes'>
-                <h1 className='notes__title'>Notes</h1>
                 <div className='notes__calendar'>
                     <ThemeProvider theme={customTheme}>
                         <LocalizationProvider dateAdapter={AdapterDayjs}>

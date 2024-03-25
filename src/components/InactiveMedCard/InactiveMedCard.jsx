@@ -1,8 +1,7 @@
 import './InactiveMedCard.scss';
-import { Link } from 'react-router-dom';
 
 
-export default function MedCard({ medicationSchedule, med }) {
+export default function MedCard({ med }) {
 
 
     return (

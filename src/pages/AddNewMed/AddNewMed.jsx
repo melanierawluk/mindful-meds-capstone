@@ -50,12 +50,12 @@ export default function AddNewMed() {
     }
     return (
         <>
-            <Header />
-            <h1 className='new-med__title'>Add New Med</h1>
+            <Header title="Add New Med" />
             <MedForm
                 handleSubmit={handleSubmit}
                 medData={medData}
-                setMedData={setMedData} />
+                setMedData={setMedData}
+                showPlaceHolder={true} />
             <BottomNav />
         </>
     )

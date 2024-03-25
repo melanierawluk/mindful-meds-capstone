@@ -6,6 +6,7 @@ import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import ActiveMedCard from '../../components/ActiveMedCard/ActiveMedCard';
 import InactiveMedCard from '../../components/InactiveMedCard/InactiveMedCard';
+import { Link } from 'react-router-dom';
 
 export default function MedList() {
     const base_url = process.env.REACT_APP_BASE_URL;
@@ -40,36 +41,39 @@ export default function MedList() {
 
     return (
         <>
-            <Header />
+            <Header title='Medications' />
             <section className='med-list'>
-                <h1 className='med-list__title'>Medications</h1>
                 <div className='med-list__block'>
                     <h2 className='med-list__heading'>Current</h2>
 
                     {activeMedArr.map((med, index) => {
                         return (
-                            <ActiveMedCard
-                                medicationSchedule={medicationSchedule}
-                                setMedicationSchedule={setMedicationSchedule}
-                                key={med.id}
-                                med={med}
-                                index={index}
-                            />
+                            <Link className='med-list__link' to={`/${userId}/medications/${med.id}`}>
+                                <ActiveMedCard
+                                    medicationSchedule={medicationSchedule}
+                                    setMedicationSchedule={setMedicationSchedule}
+                                    key={med.id}
+                                    med={med}
+                                    index={index}
+                                    userId={userId}
+                                />
+                            </Link>
                         )
                     })}
                 </div>
                 <div className='med-list__block'>
-
                     <h2 className='med-list__heading'>Past</h2>
                     {inactiveMedArr.map((med, index) => {
                         return (
-                            <InactiveMedCard
-                                medicationSchedule={medicationSchedule}
-                                setMedicationSchedule={setMedicationSchedule}
-                                key={med.id}
-                                med={med}
-                                index={index}
-                            />
+                            <Link className='med-list__link' to={`/${userId}/medications/${med.id}`}>
+                                <InactiveMedCard
+                                    medicationSchedule={medicationSchedule}
+                                    setMedicationSchedule={setMedicationSchedule}
+                                    key={med.id}
+                                    med={med}
+                                    index={index}
+                                />
+                            </Link>
                         )
                     })}
                 </div>

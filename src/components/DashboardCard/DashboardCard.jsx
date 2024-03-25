@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import './DashboardCard.scss';
 
 export default function DashboardCard({ activeMedArr }) {
