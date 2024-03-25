@@ -28,7 +28,7 @@ export default function Notes({ customTheme }) {
     useEffect(() => {
         const getNotes = async () => {
             try {
-                const response = await axios.get(`${base_url}/user/${userId}/notes/${formattedDate}`);
+                const response = await axios.get(`${base_url}/notes/${userId}/${formattedDate}`);
                 // setContent(response.data[0])
                 console.log('Response:', response.data); // Log the response data
                 setContent(response.data[0]); // Assuming there's only one note per date

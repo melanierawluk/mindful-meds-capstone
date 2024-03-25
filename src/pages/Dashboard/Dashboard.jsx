@@ -18,7 +18,7 @@ export default function Dashboard() {
         const getMedicationSchedule = async () => {
             try {
                 // GET the medications
-                const response = await axios.get(`${base_url}/user/${userId}/meds`)
+                const response = await axios.get(`${base_url}/meds/${userId}`)
                 const meds = response.data;
 
                 // Filter active and inactive medications

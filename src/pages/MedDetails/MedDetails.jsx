@@ -24,7 +24,7 @@ export default function MedDetails() {
     useEffect(() => {
         const getMedDetails = async () => {
             try {
-                const response = await axios.get(`${base_url}/user/${userId}/meds/${medId}`)
+                const response = await axios.get(`${base_url}/meds/${userId}/${medId}`)
                 setMedData(response.data)
                 console.log(response.data)
             } catch (error) {

@@ -7,6 +7,7 @@ import Header from '../../components/Header/Header';
 import Input from '../../components/Input/Input';
 
 export default function Profile() {
+    const base_url = process.env.REACT_APP_BASE_URL;
 
     const { userId } = useParams();
     const [userProfile, setUserProfile] = useState({});
@@ -14,7 +15,7 @@ export default function Profile() {
     useEffect(() => {
         const getUserProfile = async () => {
             try {
-                const response = await axios.get(`http://localhost:8080/user/${userId}`)
+                const response = await axios.get(`${base_url}/user/${userId}`)
                 setUserProfile(response.data)
             } catch (error) {
                 console.log(error)

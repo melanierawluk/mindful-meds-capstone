@@ -17,7 +17,7 @@ export default function MedList() {
     useEffect(() => {
         const getMedicationSchedule = async () => {
             try {
-                const response = await axios.get(`${base_url}/user/${userId}/meds`)
+                const response = await axios.get(`${base_url}/meds/${userId}`)
                 setMedicationSchedule(response.data)
             } catch (error) {
                 console.log(error)

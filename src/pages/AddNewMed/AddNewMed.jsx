@@ -42,7 +42,7 @@ export default function AddNewMed() {
         };
 
         try {
-            await axios.post(`${base_url}/meds/add/${userId}`, newMedObj);
+            await axios.post(`${base_url}/${userId}/add`, newMedObj);
             navigate(`/${userId}/medications`)
         } catch (error) {
             console.error("Error adding medication:", error);
