@@ -55,26 +55,36 @@ export default function Notes({ customTheme }) {
     };
 
     const handleNoteChange = (event) => {
-        setNoteContent(event.target.value)
-        console.log(event.target.value)
+        setNoteContent({
+            ...noteContent,
+            note_content: event.target.value
+        })
     }
 
-    function submitNoteEdit(event) {
+    const submitNoteEdit = async (event) => {
         event.preventDefault();
 
         const updatedNote = {
-            note_content: noteContent
+            note_content: noteContent.note_content,
+            date: formattedDate,
+            id: noteContent.id
         }
 
-        const updateNote = async () => {
-            try {
-                await axios.patch(`${base_url}/${userId}/notes/`, updatedNote);
+        const newNote = {
+            note_content: noteContent.note_content,
+            date: formattedDate
+        }
 
-            } catch (error) {
-                console.log(error)
+        try {
+            if (noteContent.id) {
+                await axios.patch(`${base_url}/notes/${userId}`, updatedNote);
+            } else {
+                await axios.post(`${base_url}/notes/${userId}`, newNote);
+
             }
+        } catch (error) {
+            console.log(error)
         }
-        updateNote();
     }
 
 
@@ -88,7 +98,8 @@ export default function Notes({ customTheme }) {
                             <DateCalendar
                                 views={['day']}
                                 onChange={handleDateChange}
-                                value={selectedDate} />
+                                value={selectedDate}
+                                autoFocus={false} />
                         </LocalizationProvider>
                     </ThemeProvider>
                 </div>
@@ -96,15 +107,16 @@ export default function Notes({ customTheme }) {
                 <div className='notes__container'>
                     <div className='notes__medications'>
                         <h4 className='notes__label'>MEDICATIONS</h4>
-                        {medContent.map((med) => {
-                            return (
-                                <div>
-                                    <p>{medContent && med.name}</p>
-                                    <p>{medContent && (`${med.dose} - ${med.frequency}`)}</p>
-                                </div>
-                            )
-                        })
-                        }
+                        {medContent.length === 0 ? (<p className='notes__meds-list--none'>No meds logged</p>) :
+                            (medContent.map((med) => {
+                                return (
+                                    <div className='notes__meds-list'>
+                                        <p className='notes__meds-list-item'>{medContent && med.name}</p>
+                                        <p className='notes__meds-list-item'>{medContent && (`${med.dose} - ${med.frequency}`)}</p>
+                                    </div>
+                                )
+                            })
+                            )}
                     </div>
                     <form action="submit">
                         <label className='notes__label'>NOTES</label>

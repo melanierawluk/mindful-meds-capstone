@@ -21,25 +21,38 @@
     }
 
     &__meds-list {
-        margin-bottom: 1rem;
+        margin-bottom: 0.5rem;
         border: none;
         border-radius: 10px;
         height: 3rem;
-        background-color: #F1F1F1;
+        background-color: $accent-color;
         padding: 0.5rem;
-        font-size: inherit;
+
+        &-item {
+            @include roboto-light;
+            font-size: 0.9rem;
+        }
+
+        &--none {
+            @extend .notes__meds-list;
+            @extend .notes__meds-list-item;
+            height: fit-content;
+            padding: 10px;
+        }
     }
 
     &__input {
-        // margin-bottom: 1rem;
         border: none;
         border-radius: 10px;
         height: 5rem;
         width: 100%;
+        margin-top: 5px;
         background-color: #F1F1F1;
         padding: 0.5rem;
-        font-size: inherit;
+        font-size: 0.9rem;
         resize: none;
+        color: $text-color;
+        @include roboto-light;
 
         &:focus {
             outline: 2px solid $primary-color;
@@ -49,7 +62,7 @@
     &__label {
         margin-bottom: 5px;
         @include roboto-light;
-        font-size: 0.8rem;
+        font-size: 0.9rem;
     }
 
     &__button {
