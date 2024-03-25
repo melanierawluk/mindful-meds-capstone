@@ -42,6 +42,9 @@
         text-align: center;
         @include roboto-light;
         font-size: 0.8rem;
+        color: $text-color;
+        text-decoration: underline;
+        font-weight: 400;
 
         &-container {
             margin-top: 30px;

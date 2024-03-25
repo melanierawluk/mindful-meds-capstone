@@ -3,6 +3,7 @@ import Header from '../../components/Header/Header';
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import HistoryCard from '../../components/HistoryCard/HistoryCard';
 
 
 export default function MedHistory() {
@@ -14,21 +15,14 @@ export default function MedHistory() {
     const base_url = process.env.REACT_APP_BASE_URL;
     const navigate = useNavigate();
 
-    const [medData, setMedData] = useState({
-        active: 1,
-        name: '',
-        dose: '',
-        frequency: '',
-        times: '',
-        user_id: ''
-    });
-
+    const [medArr, setMedArr] = useState([])
 
 
     useEffect(() => {
         const getMedDetails = async () => {
             try {
-
+                const response = await axios.get(`${base_url}/meds/${userId}`)
+                setMedArr(response.data)
             } catch (error) {
                 console.log(error)
             }
@@ -36,15 +30,31 @@ export default function MedHistory() {
         getMedDetails();
     }, [])
 
-    if (!medData) {
+    const matchedMeds = [];
+    const unMatchedMeds = []
+
+    medArr.map((med) => {
+        med.name === medName ? matchedMeds.push(med) : unMatchedMeds.push(med);
+    })
+
+    console.log('matchedMeds:', matchedMeds)
+
+
+
+    if (!medArr) {
         return <div>loading...</div>
     }
 
     return (
         <>
-            <Header />
+            <Header title={`${medName} History`} />
             <section className='med-history'>
-
+                {matchedMeds.map((med) => {
+                    return (
+                        <HistoryCard
+                            med={med} />
+                    )
+                })}
 
             </section>
 

@@ -26,7 +26,6 @@ export default function MedDetails() {
             try {
                 const response = await axios.get(`${base_url}/meds/${userId}/${medId}`)
                 setMedData(response.data)
-                console.log(response.data)
             } catch (error) {
                 console.log(error)
             }

@@ -18,7 +18,7 @@ export default function Login() {
                     </form>
                     <div className='login__text-container'>
                         <p className='login__text'>Forgot Password?</p>
-                        <Link to='../register'><p className='login__text'>Sign up</p></Link>
+                        <Link className='login__text' to='../register'><p >Sign up</p></Link>
                     </div>
                 </div>
             </div>

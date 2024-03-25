@@ -3,4 +3,9 @@
 @use '../../assets/styles/global' as *;
 
 
-.med-history {}
+.med-history {
+
+    background-color: $background-color;
+    height: 100vh;
+
+}
