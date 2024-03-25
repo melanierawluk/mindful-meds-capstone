@@ -8,6 +8,7 @@ import AddNewMed from './pages/AddNewMed/AddNewMed';
 import Notes from './pages/Notes/Notes';
 import Profile from './pages/Profile/Profile';
 import MedDetails from './pages/MedDetails/MedDetails';
+import MedHistory from './pages/MedHistory/MedHistory';
 // import Header from './components/Header/Header';
 // import BottomNav from './components/BottomNav/BottomNav';
 import { createTheme } from '@mui/material/styles';
@@ -37,6 +38,7 @@ function App() {
         <Route path='/:userId/dashboard' element={<Dashboard />} />
         <Route path='/:userId/medications' element={<MedList />} />
         <Route path='/:userId/medications/:medId' element={<MedDetails />} />
+        <Route path='/:userId/medications/:medName/history' element={<MedHistory />} />
         <Route path='/:userId/add' element={<AddNewMed />} />
         <Route path='/:userId/notes' element={<Notes customTheme={customTheme} />} />
         <Route path='/:userId/profile' element={<Profile />} />

@@ -1,10 +1,16 @@
 import './MedForm.scss';
 import Input from '../Input/Input';
-import { useState } from 'react'
-import axios from 'axios'
-import { useNavigate, useParams } from 'react-router-dom'
+import { Link } from 'react-router-dom';
 
-export default function MedForm({ handleSubmit, medData, setMedData }) {
+export default function MedForm({
+    handleSubmit,
+    medData,
+    setMedData,
+    showDeleteButton,
+    handleDeleteMed,
+    showHistory,
+    userId, medId
+}) {
 
 
     // if statement for frequency > adds more inputs for schedule
@@ -44,6 +50,13 @@ export default function MedForm({ handleSubmit, medData, setMedData }) {
                         value={medData.dose}
                         onChange={handleInputChange}
                     />
+                    {/* 
+                    <select name="frequency" id="frequency">
+                        <option value="">Frequency</option>
+                        <option value="dog">Once Daily</option>
+                        <option value="cat">Twice Daily</option>
+                    </select> */}
+
                     <Input
                         type="text"
                         id="frequency"
@@ -65,7 +78,9 @@ export default function MedForm({ handleSubmit, medData, setMedData }) {
                         onChange={handleInputChange}
                     />
                 </div>
-                <button type="submit" className="med-form__button" >Done</button>
+                {showHistory && (<Link className='med-form__card' to={`/${userId}/medications/${medData.name}/history`}><p>View History</p></Link>)}
+                <button type="submit" className="med-form__button" >Save</button>
+                {showDeleteButton && (<button onClick={handleDeleteMed} className='med-form__button--delete'>Stop Medication</button>)}
             </form>
         </div>
     )

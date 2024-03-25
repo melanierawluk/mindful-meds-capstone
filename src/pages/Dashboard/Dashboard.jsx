@@ -44,7 +44,7 @@ export default function Dashboard() {
                         activeMedArr={activeMedArr}
                     />
                     {/* </Link> */}
-                    <p className='dashboard__card'>Add Note</p>
+                    <Link className='dashboard__card' to={`../${userId}/notes`}><p>Add Note</p></Link>
                 </div>
             </section>
             <BottomNav />

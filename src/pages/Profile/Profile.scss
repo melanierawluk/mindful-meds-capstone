@@ -3,6 +3,7 @@
 @use '../../assets/styles/global' as *;
 
 .profile {
+    padding-top: 30px;
 
     &__title {
         @extend .global__title;

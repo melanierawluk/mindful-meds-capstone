@@ -7,7 +7,6 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 
-
 export default function MedDetails() {
     const { userId, medId } = useParams();
     const base_url = process.env.REACT_APP_BASE_URL;
@@ -60,13 +59,21 @@ export default function MedDetails() {
         }
     }
 
+
     return (
         <>
             <Header title={medData.name} />
-            <MedForm
-                handleSubmit={handleSubmit}
-                medData={medData}
-                setMedData={setMedData} />
+            <section className='med-details'>
+                <MedForm
+                    handleSubmit={handleSubmit}
+                    medData={medData}
+                    setMedData={setMedData}
+                    // handleDeleteMed={handleDeleteMed}
+                    showDeleteButton={true}
+                    showHistory={true}
+                    userId={userId}
+                    medId={medId} />
+            </section>
             <BottomNav />
         </>
     )
