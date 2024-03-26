@@ -50,9 +50,11 @@ export default function MedDetails() {
         };
 
         try {
-            const response = await axios.post(`${base_url}/user/${userId}/update`, updatedMedObj)
-            const newMedResponse = await axios.get(`${base_url}/user/${userId}/meds/${response.data.id}`);
-            navigate(`/user/${userId}/meds/${newMedResponse.data.id}`);
+            const response = await axios.post(`${base_url}/meds/${medId}/update`, updatedMedObj)
+            const newMedResponse = await axios.get(`${base_url}/meds/${userId}/${response.data.id}`);
+            console.log("reponse", response)
+            console.log("newMedResponse", newMedResponse)
+            // navigate(`/${userId}/meds/${response.data.id}`);
         } catch (error) {
             console.log(error)
         }
@@ -71,7 +73,9 @@ export default function MedDetails() {
                     showDeleteButton={true}
                     showHistory={true}
                     userId={userId}
-                    medId={medId} />
+                    medId={medId}
+                // disableNameInput={true} 
+                />
             </section>
             <BottomNav />
         </>

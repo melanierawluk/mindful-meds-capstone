@@ -55,7 +55,9 @@ export default function AddNewMed() {
                 handleSubmit={handleSubmit}
                 medData={medData}
                 setMedData={setMedData}
-                showPlaceHolder={true} />
+                showPlaceHolder={true}
+            // disableNameInput={false}
+            />
             <BottomNav />
         </>
     )

@@ -9,7 +9,8 @@ export default function MedForm({
     showDeleteButton,
     handleDeleteMed,
     showHistory,
-    userId, medId
+    userId,
+    disableNameInput
 }) {
 
 
@@ -30,6 +31,8 @@ export default function MedForm({
         <div className='med-form__container'>
             <form className='med-form' onSubmit={handleSubmit}>
                 <div className='med-form__inputs'>
+                    {/* {showName} */}
+                    {/* {disableNameInput && ( */}
                     <Input
                         type="text"
                         id="name"
@@ -40,6 +43,7 @@ export default function MedForm({
                         value={medData.name}
                         onChange={handleInputChange}
                     />
+                    {/* )} */}
                     <Input
                         type="text"
                         id="dose"
