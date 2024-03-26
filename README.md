@@ -67,11 +67,11 @@
 
 ## Endpoints
 
-### GET /user/:id
-- Endpoint to get a user profile
+### GET /user/:userId
+- Retrieves user profile information.
 
 Parameters:
-- id: The ID of the user that we want to retrieve
+- userId: The unique identifier of the user to retrieve.
 
 Response: 
 ```
@@ -82,11 +82,11 @@ Response:
 }
 ```
 
-### GET /user/:id/meds
-- Endpoint to retrieve a list of all meds for specified user. To get current meds, filter response for `active: true`
+### GET /meds/:userId
+- Retrieves a list of medications associated with a specified user. To retrieve only current medications, filter the response for those with `active: true`.
 
 Parameters:
-- id: The ID of the user that we want retrieved
+- userId: The ID of the user for whom to retrieve medications.
 
 Response:
 
@@ -112,115 +112,217 @@ Response:
 ]
 ```
 
-### GET /user/:id/meds/:id
-- Endpoint to retrieve medication details for specific medication
+### GET /meds/:userId/:medId
+- Retrieves details of a specific medication for a given user.
 
 Parameters:
-- id: The ID of the user that we want retrieved
-- id: The ID of the medication that we want retrieved
+- userId: The ID of the user.
+- medId: The ID of the medication.
 
 
 Reponse:
 ```
 {
-    "id": 1,
-    "user_id": 123,
-    "medication_name": "Abilify",
-    "dose": 15mg",
+    "id": 5,
+    "active": 0,
+    "name": "Wellbutrin",
+    "dose": "150 mg",
     "frequency": "Once daily",
     "times": [
-        "9:00 AM",
-        "6:00 PM"
-        ],
-    "start_date": "timestamp",
-    "end_date": "timestamp" || NULL
+        "9:00 AM"
+    ],
+    "start_date": "2024-03-20T06:29:50.000Z",
+    "end_date": "2024-03-26T14:26:20.000Z",
+    "created_at": "2024-03-20T06:29:50.000Z",
+    "updated_at": "2024-03-26T14:26:20.000Z",
+    "user_id": 1
 }
 ```
 
-### GET /user/:id/notes/:date
+### GET /notes/userId/:date
 
-- Retrieve notes for a specified date. Includes information about medication that were active on the specified date
-
-Parameters:
-- id: The ID of the user.
-- date: The specific date for the notes and active medications being requested.
-
-Response:
-
-```
-[
-    {
-        "id": 1,
-        "user_id": 123,
-        "note_content": "Lorem ipsum",
-        "medications": [
-            {
-                "id": 1,
-                "medication_name": "Abilify",
-                "dose": "15mg",
-                "frequency": "Once daily",
-                    times": [
-                        "9:00 AM",
-                        "6:00 PM"
-                        ]
-            },
-            // Additional active medication objects at specified date
-        ]
-    }
-]
-```
-### POST /meds/add
-
-- Endpoint to create a new medication
-
-Parameters
-
-- name: The name of the medication.
-- dose: The strength/dose of the medication.
-- frequency: The frequency that the medication is taken.
-- times: An array of times when the medication is taken.
-
-```
-    {
-        "id": 1,
-        "name": "Abilify",
-        "active": true,
-        "dose": "15mg",
-        "frequency": "Once daily",
-        "times": [
-            "9:00 AM",
-            "6:00 PM"
-            ],
-        "start_date": current date
-    }
-```
-
-### POST /meds/:id/update
-
-- Endpoint to create a new entry in the database for a changed dose
+- Retrieve notes for a specified date.
 
 Parameters:
-- id: The ID of the medication to be updated.
-- dose: The updated dose of the medication.
-- frequency: The updated frequency when the medication is taken.
-- times: Array of updated times when the medication is taken.
+- userId: The ID of the user.
+- date: The date for which notes are requested (YYYY-DD-MM).
 
 Response:
 
 ```
 {
-    "id": 1,
-    "name": "Abilify",
-    "active": true,
-    "dose": "15mg",
-    "frequency": "Once daily",
-    "times": [
-        "9:00 AM",
-        "6:00 PM"
-    ],
-    "start_date": current date
+    "id": 3,
+    "date": "2024-03-21T06:00:00.000Z",
+    "note_content": "Feeling pretty down today",
+    "created_at": "2024-03-20T04:27:58.000Z",
+    "updated_at": "2024-03-25T22:08:32.000Z",
+    "user_id": 1
 }
 ```
+
+### GET /meds/:userId/date/:date
+
+- Retrieves medications taken on a specific date for a given user.
+
+Parameters
+- userId: The ID of the user.
+- date: The date for which medications are requested (YYYY-DD-MM).
+
+Response
+
+```
+[
+    {
+        "id": 1,
+        "name": "Prozac",
+        "dose": "20mg",
+        "frequency": "Twice daily",
+        "times": [
+            "9:00 AM",
+            "6:00 PM"
+        ],
+        "start_date": "2024-03-20T04:27:51.000Z",
+        "end_date": "2024-03-26T14:21:42.000Z"
+    },
+]
+```
+
+
+### POST /meds/:userId/add
+
+- Creates a new medication entry for a user.
+
+Parameters
+
+- userId: The ID of the user.
+
+Request
+```
+{
+    "name": "Buspirone",
+    "dose": "60 mg",
+    "frequency": "Once daily",
+    "times": "6:00PM",
+    "user_id": 1
+}
+```
+
+Response
+```
+    {
+        "id": 37,
+        "active": 1,
+        "name": "Buspirone",
+        "dose": "50 mg",
+        "frequency": "Once daily",
+        "times": [
+            "5:00PM"
+        ],
+        "start_date": "2024-03-26T15:42:33.000Z",
+        "end_date": null,
+        "created_at": "2024-03-26T15:42:33.000Z",
+        "updated_at": "2024-03-26T15:42:33.000Z",
+        "user_id": 1
+    }
+```
+
+### POST /meds/:medId/update
+
+- Creates a new entry in the database for a changed dose/frequency/times of medication.
+
+Parameters:
+- medId: The ID of the medication.
+
+Request
+```
+{
+    "name": "Buspirone",
+    "dose": "60 mg",
+    "frequency": "Once daily",
+    "times": "6:00PM",
+    "user_id": 1
+}
+```
+
+Response
+```
+    {
+        "id": 38,
+        "active": 1,
+        "name": "Buspirone",
+        "dose": "60 mg",
+        "frequency": "Once daily",
+        "times": [
+            "6:00PM"
+        ],
+        "start_date": "2024-03-26T15:47:00.000Z",
+        "end_date": null,
+        "created_at": "2024-03-26T15:47:00.000Z",
+        "updated_at": "2024-03-26T15:47:00.000Z",
+        "user_id": 1
+    }
+```
+
+
+### PATCH /notes/:userId
+
+- medId: The ID of the medication.
+
+Parameters:
+- userId: The ID of the user.
+
+Request
+
+```
+{
+    "date": "2024-03-11",
+    "note_content": "Feeling energetic and optimistic"
+}
+```
+
+Response
+```
+{
+    "id": 9,
+    "date": "2024-03-11T06:00:00.000Z",
+    "note_content": "Feeling energetic and optimistic",
+    "created_at": "2024-03-26T15:57:36.000Z",
+    "updated_at": "2024-03-26T15:57:36.000Z",
+    "user_id": 1
+}
+```
+
+
+### POST /notes/:userId
+
+- Creates a new note for a specified user.
+
+Parameters: 
+- userId: The ID of the user.
+
+Request
+
+```
+{
+    "date": "2024-03-11",
+    "note_content": "Feeling energetic and optimistic"
+}
+```
+
+
+Response
+
+```
+{
+    "id": 9,
+    "date": "2024-03-11T06:00:00.000Z",
+    "note_content": "Feeling energetic and optimistic",
+    "created_at": "2024-03-26T15:57:36.000Z",
+    "updated_at": "2024-03-26T15:57:36.000Z",
+    "user_id": 1
+}
+```
+
 
 ## Auth
 
@@ -258,12 +360,15 @@ BACK END
 - Initial folder structure and git repo
 - Database connection with knex
 - Knex migrations and seeds
-- POST /meds/add - Endpoint to create a new medication
-- POST /meds/:id/update - Endpoint to update/edit med dose, frequency, or times taken
-- GET /user/:id - Endpoint to get a user profile
-- GET /user/:id/meds - Endpoint to retrieve a list of all meds for user
-- GET /user/:id/meds/:id - Endpoint to retireve medication details for specific medication
-- GET /user/:id/notes/:date - Retrieve notes for a specified date. Includes information about medication that were active on the specified date
+- GET /user/:userId
+- GET /meds/:userId
+- GET /meds/:userId/:medId
+- GET /meds/:userId/date/:date
+- POST /meds/:userId/add
+- POST /meds/:medId/update
+- GET /notes/userId/:date
+- PATCH /notes/:userId
+- POST /notes/:userId
 
 
 ## Nice-to-haves
