@@ -3,8 +3,10 @@
 @use '../../assets/styles/global' as *;
 
 
+
 .dashboard {
     background-color: $background-color;
+    padding-bottom: 6rem;
 
     &__title {
         @extend .global__title;

@@ -4,6 +4,9 @@ import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import HistoryCard from '../../components/HistoryCard/HistoryCard';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import gradient from '../../assets/images/pastel-gradient.png'
+import { Link } from 'react-router-dom';
 
 
 export default function MedHistory() {
@@ -32,9 +35,11 @@ export default function MedHistory() {
 
     const matchedMeds = [];
     const unMatchedMeds = []
+    let medId = '';
 
     medArr.map((med) => {
         med.name === medName ? matchedMeds.push(med) : unMatchedMeds.push(med);
+        medId = med.id;
     })
 
     if (!medArr) {
@@ -42,9 +47,19 @@ export default function MedHistory() {
     }
 
     return (
-        <>
-            <Header title={`${medName} History`} />
-            <section className='med-history'>
+
+        <section className='med-history'>
+            <img src={gradient} className='med-history__gradient' alt="gradient" />
+            <div className='med-history__container'>
+                <div className='med-history__head'>
+
+                    <Link to={`../${userId}/medications/`} ><ArrowBackIcon
+                        style={{ color: '#7ECED8', fontSize: "2.1rem" }}
+                        className='med-list__arrow' />
+                    </Link>
+                    <h1 className='med-history__title'>{medName}</h1>
+                </div>
+
                 {matchedMeds.map((med) => {
                     return (
                         <HistoryCard
@@ -52,9 +67,9 @@ export default function MedHistory() {
                             key={med.id} />
                     )
                 })}
+            </div>
+        </section>
 
-            </section>
 
-        </>
     )
 }
