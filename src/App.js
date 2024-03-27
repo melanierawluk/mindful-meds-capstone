@@ -22,13 +22,15 @@ function App() {
   const customTheme = createTheme({
     palette: {
       primary: {
-        main: '#FFB0AF',
+        main: '#7ECED8',
       },
       secondary: {
         main: '#FFB0AF',
       },
     },
   });
+
+
   return (
 
     <BrowserRouter>
@@ -37,11 +39,11 @@ function App() {
         <Route path='/register' element={<Register />} />
         <Route path='/:userId/dashboard' element={<Dashboard />} />
         <Route path='/:userId/medications' element={<MedList />} />
-        <Route path='/:userId/medications/:medId' element={<MedDetails />} />
+        <Route path='/:userId/medications/:medId' element={<MedDetails customTheme={customTheme} />} />
         <Route path='/:userId/medications/:medName/history' element={<MedHistory />} />
-        <Route path='/:userId/add' element={<AddNewMed />} />
+        <Route path='/:userId/add' element={<AddNewMed customTheme={customTheme} />} />
         <Route path='/:userId/notes' element={<Notes customTheme={customTheme} />} />
-        <Route path='/:userId/profile' element={<Profile />} />
+        <Route path='/:userId/profile' element={<Profile customTheme={customTheme} />} />
       </Routes>
     </BrowserRouter>
 

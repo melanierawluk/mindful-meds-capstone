@@ -7,11 +7,13 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 
-export default function MedDetails() {
+
+export default function MedDetails({ customTheme }) {
     const { userId, medId } = useParams();
     const base_url = process.env.REACT_APP_BASE_URL;
     const navigate = useNavigate();
 
+    const [error, setError] = useState({});
     const [medData, setMedData] = useState({
         active: 1,
         name: '',
@@ -37,8 +39,34 @@ export default function MedDetails() {
         return <div>loading...</div>
     }
 
+    const isFormValid = () => {
+        let isValid = true;
+        const errors = {};
+
+        if (!medData.name) {
+            errors.name = "This field is required";
+            isValid = false;
+        }
+        if (!medData.dose) {
+            errors.dose = "This field is required";
+            isValid = false;
+        } if (!medData.frequency) {
+            errors.frequency = "This field is required";
+            isValid = false;
+        } if (!medData.times) {
+            errors.times = "This field is required";
+            isValid = false;
+        }
+        // Update the error state
+        setError(errors);
+
+        return isValid;
+    };
+
     const handleSubmit = async (event) => {
         event.preventDefault();
+        isFormValid();
+
 
         const updatedMedObj = {
             active: 1,
@@ -74,7 +102,8 @@ export default function MedDetails() {
                     showHistory={true}
                     userId={userId}
                     medId={medId}
-                // disableNameInput={true} 
+                    customTheme={customTheme}
+                    error={error}
                 />
             </section>
             <BottomNav />

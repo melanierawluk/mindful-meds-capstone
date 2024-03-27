@@ -7,6 +7,7 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { useState, useEffect } from 'react';
 import { ThemeProvider } from '@mui/material/styles';
+import { Button } from '@mui/material';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 
@@ -91,9 +92,10 @@ export default function Notes({ customTheme }) {
     return (
         <>
             <Header title='Notes' />
-            <section className='notes'>
-                <div className='notes__calendar'>
-                    <ThemeProvider theme={customTheme}>
+            <ThemeProvider theme={customTheme}>
+                <section className='notes'>
+                    <div className='notes__calendar'>
+
                         <LocalizationProvider dateAdapter={AdapterDayjs}>
                             <DateCalendar
                                 views={['day']}
@@ -101,37 +103,33 @@ export default function Notes({ customTheme }) {
                                 value={selectedDate}
                                 autoFocus={false} />
                         </LocalizationProvider>
-                    </ThemeProvider>
-                </div>
-
-                <div className='notes__container'>
-                    <div className='notes__medications'>
-                        <h4 className='notes__label'>MEDICATIONS</h4>
-                        {medContent.length === 0 ? (<p className='notes__meds-list--none'>No meds logged</p>) :
-                            (medContent.map((med) => {
-                                return (
-                                    <div className='notes__meds-list'>
-                                        <p className='notes__meds-list-item'>{medContent && med.name}</p>
-                                        <p className='notes__meds-list-item'>{medContent && (`${med.dose} - ${med.frequency}`)}</p>
-                                    </div>
-                                )
-                            })
-                            )}
                     </div>
-                    <form action="submit">
-                        <label className='notes__label'>NOTES</label>
-                        <textarea
-                            className='notes__input'
-                            value={noteContent && noteContent.note_content}
-                            onChange={handleNoteChange}
-                        />
-                        {/* <button type='submit' className='notes__button' onClick={handleNoteEdit}>Save</button> */}
-                        <button type='submit' className='notes__button' onClick={submitNoteEdit}>Save</button>
-
-                    </form>
-                </div>
-            </section>
-
+                    <div className='notes__container'>
+                        <div className='notes__medications'>
+                            <h4 className='notes__label'>MEDICATIONS</h4>
+                            {medContent.length === 0 ? (<p className='notes__meds-list--none'>No meds logged</p>) :
+                                (medContent.map((med) => {
+                                    return (
+                                        <div className='notes__meds-list'>
+                                            <p className='notes__meds-list-item'>{medContent && med.name}</p>
+                                            <p className='notes__meds-list-item'>{medContent && (`${med.dose} - ${med.frequency}`)}</p>
+                                        </div>
+                                    )
+                                })
+                                )}
+                        </div>
+                        <form action="submit">
+                            <label className='notes__label'>NOTES</label>
+                            <textarea
+                                className='notes__input'
+                                value={noteContent && noteContent.note_content}
+                                onChange={handleNoteChange}
+                            />
+                            <Button sx={{ my: 3, p: 0.8, borderRadius: 2, color: 'white', fontSize: 15 }} type="submit" fullWidth onClick={submitNoteEdit} variant='contained'>Save</Button>
+                        </form>
+                    </div>
+                </section >
+            </ThemeProvider>
             <BottomNav />
         </>
     )
