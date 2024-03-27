@@ -47,7 +47,7 @@ export default function Profile({ customTheme }) {
                             <Input type="text" name="name" label="NAME" value={userProfile.name} onChange={handleInputChange} />
                             <Input type="text" name="email" label="EMAIL" value={userProfile.email} onChange={handleInputChange} />
                         </div>
-                        <Link to="../login">
+                        <Link to="../login" className='profile__button-link'>
                             <Button sx={{ my: 3, p: 1, borderRadius: 2, color: 'white', fontSize: 15, width: '100%' }} type="submit" variant='contained'>Log out</Button>
                         </Link>
                     </div>

@@ -20,12 +20,11 @@
     }
 
     &__inputs {
-        width: 85%;
+        width: 80%;
         margin: 0 auto;
     }
 
-    &__button {
-        @extend .global__button;
-        // width: 85%;
+    &__button-link {
+        width: 80%;
     }
 }

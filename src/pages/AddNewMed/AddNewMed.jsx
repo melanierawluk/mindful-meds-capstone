@@ -50,17 +50,21 @@ export default function AddNewMed({ customTheme }) {
         // selectedTime1 and selectedTime2 states & converted to readable dates,
         // then added to an array
         const selectedDates = [];
-        if (selectedTime1 && selectedTime2) {
-            const formattedTime1 = dayjs(selectedTime1).format('h:mm A')
-            const formattedTime2 = dayjs(selectedTime2).format('h:mm A')
-            selectedDates.push(formattedTime1, formattedTime2);
+
+        if (selectedTime1) {
+            const formattedTime1 = dayjs(selectedTime1).format('h:mm A');
+            selectedDates.push(formattedTime1);
+        }
+        if (selectedTime2) {
+            const formattedTime2 = dayjs(selectedTime2).format('h:mm A');
+            selectedDates.push(formattedTime2);
         }
 
         // create new obj to send data
         const newMedObj = {
             active: 1,
             name: medData.name,
-            dose: `${medData.dose} mg`,
+            dose: `${medData.dose}`,
             frequency: medData.frequency,
             times: selectedDates,
             user_id: userId

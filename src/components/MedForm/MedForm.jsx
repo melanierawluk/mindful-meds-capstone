@@ -6,6 +6,7 @@ import { TimePicker } from '@mui/x-date-pickers';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { useState } from 'react';
+import dayjs from 'dayjs';
 import {
     Button,
     TextField,
@@ -52,6 +53,10 @@ export default function MedForm({
     setSelectedTime2,
     selectedTime2
 }) {
+
+    // Throwing a value.idValid error - to pre-populate the times for existing meds
+    // const medDataTime1 = dayjs(medData.times[0], 'h:mm A').toDate();
+    // const medDataTime2 = dayjs(medData.times[1], 'h:mm A').toDate();
 
     const [open, setOpen] = useState();
     const handleOpen = () => setOpen(true);
@@ -126,8 +131,6 @@ export default function MedForm({
         }
     };
 
-
-
     return (
         <div className='med-form__container'>
             <ThemeProvider theme={customTheme}>
@@ -174,12 +177,12 @@ export default function MedForm({
                                 onChange={handleInputChange}
                                 error={error.frequency}
                             >
-                                <MenuItem value="once-daily">Once Daily</MenuItem>
-                                <MenuItem value="twice-daily">Twice Daily</MenuItem>
+                                <MenuItem value="Once Daily">Once Daily</MenuItem>
+                                <MenuItem value="Twice Daily">Twice Daily</MenuItem>
                             </Select>
                         </FormControl>
 
-                        {medData.frequency === 'once-daily' && (
+                        {medData.frequency === 'Once Daily' && (
                             <LocalizationProvider dateAdapter={AdapterDayjs}>
                                 <TimePicker
                                     sx={{ width: '100%' }}
@@ -191,7 +194,7 @@ export default function MedForm({
                                     error={error.times} />
                             </LocalizationProvider>
                         )}
-                        {medData.frequency === 'twice-daily' && (
+                        {medData.frequency === 'Twice Daily' && (
                             <LocalizationProvider dateAdapter={AdapterDayjs}>
                                 <TimePicker
                                     sx={{ mb: 3, width: '100%' }}

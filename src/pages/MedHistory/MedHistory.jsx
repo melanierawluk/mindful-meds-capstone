@@ -38,7 +38,7 @@ export default function MedHistory() {
     let medId = '';
 
     medArr.map((med) => {
-        med.name === medName ? matchedMeds.push(med) : unMatchedMeds.push(med);
+        med.name === medName ? matchedMeds.unshift(med) : unMatchedMeds.unshift(med);
         medId = med.id;
     })
 

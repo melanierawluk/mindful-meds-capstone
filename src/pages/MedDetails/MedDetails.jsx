@@ -46,11 +46,18 @@ export default function MedDetails({ customTheme }) {
     const handleSubmit = async (event) => {
         event.preventDefault();
 
+        // Accounts for the frequency when meds are taken. Times are stored in the
+        // selectedTime1 and selectedTime2 states & converted to readable dates,
+        // then added to an array
         const selectedDates = [];
-        if (selectedTime1 && selectedTime2) {
-            const formattedTime1 = dayjs(selectedTime1).format('h:mm A')
-            const formattedTime2 = dayjs(selectedTime2).format('h:mm A')
-            selectedDates.push(formattedTime1, formattedTime2);
+
+        if (selectedTime1) {
+            const formattedTime1 = dayjs(selectedTime1).format('h:mm A');
+            selectedDates.push(formattedTime1);
+        }
+        if (selectedTime2) {
+            const formattedTime2 = dayjs(selectedTime2).format('h:mm A');
+            selectedDates.push(formattedTime2);
         }
 
 
@@ -67,8 +74,8 @@ export default function MedDetails({ customTheme }) {
             const response = await axios.post(`${base_url}/meds/${medId}/update`, updatedMedObj)
             const newMedResponse = await axios.get(`${base_url}/meds/${userId}/${response.data.id}`);
             console.log("reponse", response)
-            console.log("newMedResponse", newMedResponse)
-            // navigate(`/${userId}/meds/${response.data.id}`);
+            console.log("newMedResponse", newMedResponse.data)
+            // navigate(`/${userId}/medications/${newMedResponse.data}`);
         } catch (error) {
             console.log(error)
         }

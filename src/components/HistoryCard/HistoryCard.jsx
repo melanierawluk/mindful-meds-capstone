@@ -10,8 +10,14 @@ export default function HistoryCard({ med }) {
         <section className='history-card'>
             <div className='history-card__card'>
                 <p className='history-card__dates'>{formattedStartDate} - {formattedEndDate === 'Invalid Date' ? "PRESENT" : formattedEndDate}</p>
-                <p className='history-card__content'>{med.dose} - {med.frequency}</p>
+                <p className='history-card__content'>{`${med.dose} mg`} </p>
+
+                <p className='history-card__content'> {med.frequency} </p>
+                {med.times.map((time) => {
+                    return (<p className='history-card__content'>{time}</p>)
+                })}
+
             </div>
-        </section>
+        </section >
     )
 }
