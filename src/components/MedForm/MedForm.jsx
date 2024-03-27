@@ -53,37 +53,34 @@ export default function MedForm({
     selectedTime2
 }) {
 
-
     const [open, setOpen] = useState();
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
 
     const [openSnackbar, setOpenSnackbar] = useState(false);
-    const handleOpenSnackbar = () => setOpen(true);
+    // const handleOpenSnackbar = () => setOpen(true);
 
-    const handleClick = () => {
-        setOpen(true);
-    };
+    // const handleClick = () => {
+    //     setOpen(true);
+    // };
 
     const handleCloseSnackbar = (event, reason) => {
         if (reason === 'clickaway') {
             return;
         }
 
-        setOpenSnackbar(true); // Set openBar state to true to show the Snackbar
+        setOpenSnackbar(true);
 
-        // Close the Snackbar after the specified duration
         setTimeout(() => {
             setOpenSnackbar(false);
-        }, 2000); // 5000 milliseconds = 5 seconds, adjust as needed
+        }, 2000);
     };
 
-
+    //  Close the modal on button click and trigger the Snackbar
     const handleStopMedLocal = () => {
-        handleStopMed(); // Call the function to stop the medication
-        setOpenSnackbar(true); // Open the Snackbar
-
-        handleClose(); // Close the modal
+        handleStopMed();
+        setOpenSnackbar(true);
+        handleClose();
     };
 
     const action = (
@@ -103,11 +100,12 @@ export default function MedForm({
     );
 
 
-
+    // When Once Daily is selected
     const handleTimeChange1 = (time) => {
         setSelectedTime1(time);
     };
 
+    // When Twice Daily is selected
     const handleTimeChange2 = (time) => {
         setSelectedTime2(time);
     };
@@ -223,6 +221,8 @@ export default function MedForm({
                             onClick={handleOpen} className='med-form__button--delete'>
                             Stop Medication
                         </Button>)}
+
+                    {/* Modal to confirm is the user wants to stop the medication */}
                     <Modal
                         open={open}
                         onClose={handleClose}
@@ -242,15 +242,15 @@ export default function MedForm({
                             </Box>
                         </Box>
                     </Modal>
-                    <div>
-                        <Snackbar
-                            open={openSnackbar}
-                            autoHideDuration={1000}
-                            onClose={handleCloseSnackbar}
-                            message={`Stopped ${medData.name}`}
-                            action={action}
-                        />
-                    </div>
+
+                    {/* Snackbar alert when medication is stopped */}
+                    <Snackbar
+                        open={openSnackbar}
+                        autoHideDuration={1000}
+                        onClose={handleCloseSnackbar}
+                        message={`Stopped ${medData.name}`}
+                        action={action}
+                    />
                 </form>
             </ThemeProvider>
         </div>
