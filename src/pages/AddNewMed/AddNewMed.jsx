@@ -5,6 +5,7 @@ import MedForm from '../../components/MedForm/MedForm'
 import { useState } from 'react'
 import axios from 'axios'
 import { useNavigate, useParams } from 'react-router-dom'
+import dayjs from 'dayjs'
 
 export default function AddNewMed({ customTheme }) {
 
@@ -21,61 +22,58 @@ export default function AddNewMed({ customTheme }) {
         user_id: ''
     });
 
+    const [selectedTime1, setSelectedTime1] = useState();
+    const [selectedTime2, setSelectedTime2] = useState();
     const [error, setError] = useState({});
 
     if (!medData) {
         return <div>loading...</div>;
     }
-    const isFormValid = () => {
-        let isValid = true;
-        const newError = {};
-
-        if (!medData.name) {
-            newError.name = "This field is required";
-            isValid = false;
-        }
-        if (!medData.dose) {
-            newError.dose = "This field is required";
-            isValid = false;
-        }
-        if (!medData.frequency) {
-            newError.frequency = "This field is required";
-            isValid = false;
-        }
-        if (!medData.times) {
-            newError.times = "This field is required";
-            isValid = false;
-        }
-
-        setError(newError)
-        return isValid;
-    };
 
 
     // Handle the form submit
     const handleSubmit = async (event) => {
         event.preventDefault();
 
-        const isValidForm = isFormValid();
-
-        if (isValidForm) {
-            // create new obj to send data
-            const newMedObj = {
-                active: 1,
-                name: medData.name,
-                dose: medData.dose,
-                frequency: medData.frequency,
-                times: medData.times,
-                user_id: userId
-            };
-
-            try {
-                await axios.post(`${base_url}/meds/${userId}/add`, newMedObj);
-                navigate(`/${userId}/medications`)
-            } catch (error) {
-                console.error("Error adding medication:", error);
-            }
+        if (!medData.name || !medData.dose || !medData.frequency) {
+            setError({
+                name: !medData.name ? "This field is required" : null,
+                dose: !medData.dose ? "This field is required" : null,
+                frequency: !medData.frequency ? "This field is required" : null,
+                // times: !medData.times ? "This field is required" : null
+            });
+            console.log(error)
+            return;
         }
+
+        // Accounts for the frequency when meds are taken. Times are stored in the
+        // selectedTime1 and selectedTime2 states & converted to readable dates,
+        // then added to an array
+        const selectedDates = [];
+        if (selectedTime1 && selectedTime2) {
+            const formattedTime1 = dayjs(selectedTime1).format('h:mm A')
+            const formattedTime2 = dayjs(selectedTime2).format('h:mm A')
+            selectedDates.push(formattedTime1, formattedTime2);
+        }
+
+        // create new obj to send data
+        const newMedObj = {
+            active: 1,
+            name: medData.name,
+            dose: `${medData.dose} mg`,
+            frequency: medData.frequency,
+            times: selectedDates,
+            user_id: userId
+        };
+
+
+        try {
+            await axios.post(`${base_url}/meds/${userId}/add`, newMedObj);
+            navigate(`/${userId}/medications`)
+        } catch (error) {
+            console.error("Error adding medication:", error);
+        }
+        // }
     }
 
     return (
@@ -88,6 +86,10 @@ export default function AddNewMed({ customTheme }) {
                 showPlaceHolder={true}
                 error={error}
                 customTheme={customTheme}
+                setSelectedTime1={setSelectedTime1}
+                selectedTime1={selectedTime1}
+                selectedTime2={selectedTime2}
+                setSelectedTime2={setSelectedTime2}
             />
             <BottomNav />
         </>

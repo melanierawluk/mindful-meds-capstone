@@ -6,6 +6,7 @@ import MedForm from '../../components/MedForm/MedForm';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
+import dayjs from 'dayjs'
 
 
 export default function MedDetails({ customTheme }) {
@@ -23,6 +24,9 @@ export default function MedDetails({ customTheme }) {
         user_id: ''
     });
 
+    const [selectedTime1, setSelectedTime1] = useState();
+    const [selectedTime2, setSelectedTime2] = useState();
+
     useEffect(() => {
         const getMedDetails = async () => {
             try {
@@ -39,33 +43,15 @@ export default function MedDetails({ customTheme }) {
         return <div>loading...</div>
     }
 
-    const isFormValid = () => {
-        let isValid = true;
-        const errors = {};
-
-        if (!medData.name) {
-            errors.name = "This field is required";
-            isValid = false;
-        }
-        if (!medData.dose) {
-            errors.dose = "This field is required";
-            isValid = false;
-        } if (!medData.frequency) {
-            errors.frequency = "This field is required";
-            isValid = false;
-        } if (!medData.times) {
-            errors.times = "This field is required";
-            isValid = false;
-        }
-        // Update the error state
-        setError(errors);
-
-        return isValid;
-    };
-
     const handleSubmit = async (event) => {
         event.preventDefault();
-        isFormValid();
+
+        const selectedDates = [];
+        if (selectedTime1 && selectedTime2) {
+            const formattedTime1 = dayjs(selectedTime1).format('h:mm A')
+            const formattedTime2 = dayjs(selectedTime2).format('h:mm A')
+            selectedDates.push(formattedTime1, formattedTime2);
+        }
 
 
         const updatedMedObj = {
@@ -73,7 +59,7 @@ export default function MedDetails({ customTheme }) {
             name: medData.name,
             dose: medData.dose,
             frequency: medData.frequency,
-            times: medData.times,
+            times: selectedDates,
             user_id: userId
         };
 
@@ -104,6 +90,10 @@ export default function MedDetails({ customTheme }) {
                     medId={medId}
                     customTheme={customTheme}
                     error={error}
+                    setSelectedTime1={setSelectedTime1}
+                    selectedTime1={selectedTime1}
+                    setSelectedTime2={setSelectedTime2}
+                    selectedTime2={selectedTime2}
                 />
             </section>
             <BottomNav />
