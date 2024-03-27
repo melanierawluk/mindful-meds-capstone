@@ -1,4 +1,5 @@
 import './MedForm.scss';
+import * as React from 'react';
 import { Link } from 'react-router-dom';
 import { ThemeProvider } from '@emotion/react';
 import { TimePicker } from '@mui/x-date-pickers';
@@ -6,15 +7,34 @@ import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { useState } from 'react';
 import {
-    Box,
     Button,
     TextField,
     Select,
     InputLabel,
     MenuItem,
     FormControl,
-    InputAdornment
+    InputAdornment,
+    Modal,
+    Box,
+    Typography,
+    IconButton
 } from '@mui/material';
+import CloseIcon from '@mui/icons-material/Close';
+import Snackbar from '@mui/material/Snackbar';
+
+const style = {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: '90%',
+    bgcolor: 'background.paper',
+    // border: '2px solid #000',
+    boxShadow: 25,
+    borderRadius: 4,
+    p: 4,
+};
+
 
 
 export default function MedForm({
@@ -22,7 +42,7 @@ export default function MedForm({
     medData,
     setMedData,
     showDeleteButton,
-    handleDeleteMed,
+    handleStopMed,
     showHistory,
     userId,
     error,
@@ -32,6 +52,57 @@ export default function MedForm({
     setSelectedTime2,
     selectedTime2
 }) {
+
+
+    const [open, setOpen] = useState();
+    const handleOpen = () => setOpen(true);
+    const handleClose = () => setOpen(false);
+
+    const [openSnackbar, setOpenSnackbar] = useState(false);
+    const handleOpenSnackbar = () => setOpen(true);
+
+    const handleClick = () => {
+        setOpen(true);
+    };
+
+    const handleCloseSnackbar = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+
+        setOpenSnackbar(true); // Set openBar state to true to show the Snackbar
+
+        // Close the Snackbar after the specified duration
+        setTimeout(() => {
+            setOpenSnackbar(false);
+        }, 2000); // 5000 milliseconds = 5 seconds, adjust as needed
+    };
+
+
+    const handleStopMedLocal = () => {
+        handleStopMed(); // Call the function to stop the medication
+        setOpenSnackbar(true); // Open the Snackbar
+
+        handleClose(); // Close the modal
+    };
+
+    const action = (
+        <React.Fragment>
+            {/* <Button color="secondary" size="small" onClick={handleCloseSnackbar}>
+                UNDO
+            </Button> */}
+            <IconButton
+                size="small"
+                aria-label="close"
+                color="inherit"
+                onClick={handleCloseSnackbar}
+            >
+                <CloseIcon fontSize="small" />
+            </IconButton>
+        </React.Fragment>
+    );
+
+
 
     const handleTimeChange1 = (time) => {
         setSelectedTime1(time);
@@ -56,6 +127,8 @@ export default function MedForm({
             }));
         }
     };
+
+
 
     return (
         <div className='med-form__container'>
@@ -144,7 +217,40 @@ export default function MedForm({
 
                     <Button sx={{ my: 3, p: 1, borderRadius: 2, color: 'white', fontSize: 15 }} type="submit" variant='contained'>Save</Button>
                     {showHistory && (<Link className='med-form__card' to={`/${userId}/medications/${medData.name}/history`}><p>View History</p></Link>)}
-                    {showDeleteButton && (<Button sx={{ my: 3, }} type="button" variant='contained' color='secondary' onClick={handleDeleteMed} className='med-form__button--delete'>Stop Medication</Button>)}
+                    {showDeleteButton && (
+                        <Button sx={{ my: 3, borderRadius: 2, }} type="button"
+                            variant='contained' color='secondary'
+                            onClick={handleOpen} className='med-form__button--delete'>
+                            Stop Medication
+                        </Button>)}
+                    <Modal
+                        open={open}
+                        onClose={handleClose}
+                        aria-labelledby="modal-modal-title"
+                        aria-describedby="modal-modal-description"
+                    >
+                        <Box sx={style}>
+                            <Typography id="modal-modal-title" variant="h6" component="h2">
+                                Stop Medication
+                            </Typography>
+                            <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                                {`Are you sure you want to stop ${medData.name}?`}
+                            </Typography>
+                            <Box sx={{ display: 'flex', justifyContent: 'space-around', mt: 3 }}>
+                                <Button variant='contained' onClick={handleStopMedLocal}>Yes</Button>
+                                <Button variant='contained' onClick={handleClose} color='secondary'>No</Button>
+                            </Box>
+                        </Box>
+                    </Modal>
+                    <div>
+                        <Snackbar
+                            open={openSnackbar}
+                            autoHideDuration={1000}
+                            onClose={handleCloseSnackbar}
+                            message={`Stopped ${medData.name}`}
+                            action={action}
+                        />
+                    </div>
                 </form>
             </ThemeProvider>
         </div>

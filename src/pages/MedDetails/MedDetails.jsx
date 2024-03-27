@@ -74,6 +74,15 @@ export default function MedDetails({ customTheme }) {
         }
     }
 
+    const handleStopMed = async () => {
+        try {
+            await axios.patch(`${base_url}/meds/${userId}/${medId}`)
+        } catch (error) {
+            console.log(error)
+        }
+
+    }
+
 
     return (
         <>
@@ -83,7 +92,7 @@ export default function MedDetails({ customTheme }) {
                     handleSubmit={handleSubmit}
                     medData={medData}
                     setMedData={setMedData}
-                    // handleDeleteMed={handleDeleteMed}
+                    handleStopMed={handleStopMed}
                     showDeleteButton={true}
                     showHistory={true}
                     userId={userId}
