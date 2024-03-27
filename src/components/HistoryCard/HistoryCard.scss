@@ -4,7 +4,7 @@
 
 
 .history-card {
-    padding-top: 30px;
+    padding-bottom: 30px;
 
     &__card {
         width: 85%;
@@ -23,7 +23,8 @@
     }
 
     &__content {
+        @include roboto-regular-italic;
         padding-bottom: 7px;
-
+        color: $text-color;
     }
 }

@@ -27,7 +27,7 @@
 
     &__title {
         text-align: center;
-        @include roboto-bold;
+        @include roboto-medium;
         color: $primary-color;
         font-size: 1.8rem;
     }

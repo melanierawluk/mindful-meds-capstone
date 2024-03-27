@@ -8,6 +8,7 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { useState, useEffect } from 'react';
 import { ThemeProvider } from '@mui/material/styles';
 import { Button } from '@mui/material';
+import TextField from '@mui/material/TextField';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 
@@ -120,8 +121,13 @@ export default function Notes({ customTheme }) {
                         </div>
                         <form action="submit">
                             <label className='notes__label'>NOTES</label>
-                            <textarea
-                                className='notes__input'
+
+                            <TextField
+                                id="notes"
+                                multiline
+                                fullWidth
+                                rows={2}
+                                sx={{ mt: 1 }}
                                 value={noteContent && noteContent.note_content}
                                 onChange={handleNoteChange}
                             />

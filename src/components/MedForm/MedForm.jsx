@@ -131,6 +131,7 @@ export default function MedForm({
         }
     };
 
+
     return (
         <div className='med-form__container'>
             <ThemeProvider theme={customTheme}>
@@ -140,7 +141,7 @@ export default function MedForm({
                             type="text"
                             variant='outlined'
                             fullWidth
-                            sx={{ mb: 3 }}
+                            sx={{ mb: 2 }}
                             id="name"
                             placeholder="'Wellbutrin'"
                             htmlFor="name"
@@ -154,7 +155,7 @@ export default function MedForm({
                             type="text"
                             variant='outlined'
                             fullWidth
-                            sx={{ mb: 3 }}
+                            sx={{ mb: 2 }}
                             id="dose"
                             htmlFor="dose"
                             name="dose"
@@ -166,7 +167,7 @@ export default function MedForm({
                                 endAdornment: <InputAdornment position="start">mg</InputAdornment>,
                             }} />
 
-                        <FormControl fullWidth sx={{ mb: 3 }}>
+                        <FormControl fullWidth sx={{ mb: 2 }}>
                             <InputLabel id="frequency">Frequency</InputLabel>
                             <Select
                                 labelId="frequency"
@@ -197,7 +198,7 @@ export default function MedForm({
                         {medData.frequency === 'Twice Daily' && (
                             <LocalizationProvider dateAdapter={AdapterDayjs}>
                                 <TimePicker
-                                    sx={{ mb: 3, width: '100%' }}
+                                    sx={{ mb: 2, width: '100%' }}
                                     margin="normal"
                                     label="Schedule"
                                     name="startTime"
@@ -216,7 +217,7 @@ export default function MedForm({
                         )}
                     </div>
 
-                    <Button sx={{ my: 3, p: 1, borderRadius: 2, color: 'white', fontSize: 15 }} type="submit" variant='contained'>Save</Button>
+                    <Button sx={{ my: 2, p: 1, borderRadius: 2, color: 'white', fontSize: 15 }} type="submit" variant='contained'>Save</Button>
                     {showHistory && (<Link className='med-form__card' to={`/${userId}/medications/${medData.name}/history`}><p>View History</p></Link>)}
                     {showDeleteButton && (
                         <Button sx={{ my: 3, borderRadius: 2, }} type="button"

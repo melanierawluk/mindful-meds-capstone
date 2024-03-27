@@ -5,8 +5,24 @@
 
 
 .med-details {
-    padding-bottom: 6rem;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+
+    &__arrow {
+        margin: 15px 0 10px 20px;
+    }
+
+    &__heading {
+        display: flex;
+        align-items: center;
+    }
+
+    &__link {
+        text-decoration: none;
+        color: $primary-color;
+    }
+
+    &__back {
+        font-weight: 500;
+        font-size: 1.3rem;
+        margin: 5px 0 0 5px;
+    }
 }

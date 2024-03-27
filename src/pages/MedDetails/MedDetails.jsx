@@ -1,10 +1,14 @@
 import './MedDetails.scss';
-
+import { Link } from 'react-router-dom';
 import BottomNav from '../../components/BottomNav/BottomNav';
 import Header from '../../components/Header/Header';
 import MedForm from '../../components/MedForm/MedForm';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
+import gradient from '../../assets/images/pastel-gradient.png'
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import { Skeleton } from '@mui/material';
+
 import axios from 'axios';
 import dayjs from 'dayjs'
 
@@ -87,7 +91,20 @@ export default function MedDetails({ customTheme }) {
         } catch (error) {
             console.log(error)
         }
+    }
 
+
+    if (!medData) {
+        return (
+            <>
+                <Header title={medData.name} />
+                <section className='med-details'>
+                    <img src={gradient} className='med-details__gradient' alt="gradient" />
+                    <Skeleton variant="rectangular" width={210} height={118} />
+                </section >
+                <BottomNav />
+            </>
+        )
     }
 
 
@@ -95,24 +112,37 @@ export default function MedDetails({ customTheme }) {
         <>
             <Header title={medData.name} />
             <section className='med-details'>
-                <MedForm
-                    handleSubmit={handleSubmit}
-                    medData={medData}
-                    setMedData={setMedData}
-                    handleStopMed={handleStopMed}
-                    showDeleteButton={true}
-                    showHistory={true}
-                    userId={userId}
-                    medId={medId}
-                    customTheme={customTheme}
-                    error={error}
-                    setSelectedTime1={setSelectedTime1}
-                    selectedTime1={selectedTime1}
-                    setSelectedTime2={setSelectedTime2}
-                    selectedTime2={selectedTime2}
-                />
-            </section>
-            <BottomNav />
+                <div className='med-details__container'>
+                    <div className='med-details__head'>
+
+                        <Link className='med-details__link' to={`../${userId}/medications`} >
+                            <div className='med-details__heading'>
+                                <ArrowBackIcon
+                                    style={{ color: '#7ECED8', fontSize: "2.1rem" }}
+                                    className='med-details__arrow' />
+                                <p className='med-details__back'>Back</p>
+                            </div>
+                        </Link>
+                    </div>
+                    <MedForm
+                        handleSubmit={handleSubmit}
+                        medData={medData}
+                        setMedData={setMedData}
+                        handleStopMed={handleStopMed}
+                        showDeleteButton={true}
+                        showHistory={true}
+                        userId={userId}
+                        medId={medId}
+                        customTheme={customTheme}
+                        error={error}
+                        setSelectedTime1={setSelectedTime1}
+                        selectedTime1={selectedTime1}
+                        setSelectedTime2={setSelectedTime2}
+                        selectedTime2={selectedTime2}
+                    />
+                </div>
+            </section >
+            {/* <BottomNav /> */}
         </>
     )
 
