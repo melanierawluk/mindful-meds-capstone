@@ -7,12 +7,13 @@
 .med-details {
 
     &__arrow {
-        margin: 15px 0 10px 20px;
+        margin: 15px 0 10px 35px;
     }
 
     &__heading {
         display: flex;
         align-items: center;
+        padding: 10px 0;
     }
 
     &__link {

@@ -4,9 +4,7 @@
 
 
 .med-list {
-    background-color: $background-color;
     padding-bottom: 6rem;
-
 
     &__title {
         @extend .global__title;
@@ -23,7 +21,7 @@
 
     &__block {
         margin: 0 auto;
-        width: 85%;
+        width: 78%;
     }
 
     &__link {

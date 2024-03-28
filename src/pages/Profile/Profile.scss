@@ -3,11 +3,10 @@
 @use '../../assets/styles/global' as *;
 
 .profile {
-    // padding-top: 30px;
 
     &__gradient {
         width: 100%;
-        height: 9rem;
+        height: 11rem;
         z-index: -1;
         position: relative;
     }
@@ -20,11 +19,11 @@
     }
 
     &__inputs {
-        width: 80%;
+        width: 75%;
         margin: 0 auto;
     }
 
     &__button-link {
-        width: 80%;
+        width: 75%;
     }
 }

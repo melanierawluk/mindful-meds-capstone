@@ -83,18 +83,20 @@ export default function AddNewMed({ customTheme }) {
     return (
         <>
             <Header title="Add New Med" />
-            <MedForm
-                handleSubmit={handleSubmit}
-                medData={medData}
-                setMedData={setMedData}
-                showPlaceHolder={true}
-                error={error}
-                customTheme={customTheme}
-                setSelectedTime1={setSelectedTime1}
-                selectedTime1={selectedTime1}
-                selectedTime2={selectedTime2}
-                setSelectedTime2={setSelectedTime2}
-            />
+            <section className='add-new-med'>
+                <MedForm
+                    handleSubmit={handleSubmit}
+                    medData={medData}
+                    setMedData={setMedData}
+                    showPlaceHolder={true}
+                    error={error}
+                    customTheme={customTheme}
+                    setSelectedTime1={setSelectedTime1}
+                    selectedTime1={selectedTime1}
+                    selectedTime2={selectedTime2}
+                    setSelectedTime2={setSelectedTime2}
+                />
+            </section>
             <BottomNav />
         </>
     )

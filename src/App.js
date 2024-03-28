@@ -12,6 +12,7 @@ import MedHistory from './pages/MedHistory/MedHistory';
 // import Header from './components/Header/Header';
 // import BottomNav from './components/BottomNav/BottomNav';
 import { createTheme } from '@mui/material/styles';
+import Frame from './components/Frame/Frame';
 
 
 
@@ -34,13 +35,14 @@ function App() {
   return (
 
     <BrowserRouter>
+      <Frame />
       <Routes>
-        <Route path='/login' element={<Login />} />
-        <Route path='/register' element={<Register />} />
-        <Route path='/:userId/dashboard' element={<Dashboard />} />
-        <Route path='/:userId/medications' element={<MedList />} />
+        <Route path='/login' element={<Login customTheme={customTheme} />} />
+        <Route path='/register' element={<Register customTheme={customTheme} />} />
+        <Route path='/:userId/dashboard' element={<Dashboard customTheme={customTheme} />} />
+        <Route path='/:userId/medications' element={<MedList customTheme={customTheme} />} />
         <Route path='/:userId/medications/:medId' element={<MedDetails customTheme={customTheme} />} />
-        <Route path='/:userId/medications/:medName/history' element={<MedHistory />} />
+        <Route path='/:userId/medications/:medName/history' element={<MedHistory customTheme={customTheme} />} />
         <Route path='/:userId/add' element={<AddNewMed customTheme={customTheme} />} />
         <Route path='/:userId/notes' element={<Notes customTheme={customTheme} />} />
         <Route path='/:userId/profile' element={<Profile customTheme={customTheme} />} />

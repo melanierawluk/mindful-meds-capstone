@@ -5,9 +5,7 @@
 
 
 .dashboard {
-    // background-color: $background-color;
     padding-bottom: 6rem;
-    // height: 100vh;
 
     &__title {
         @extend .global__title;
@@ -25,7 +23,7 @@
     }
 
     &__card {
-        width: 85%;
+        width: 78%;
         height: 3rem;
         background-color: $accent-color;
         border-radius: 10px;
