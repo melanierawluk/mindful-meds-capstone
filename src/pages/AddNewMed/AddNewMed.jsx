@@ -73,7 +73,7 @@ export default function AddNewMed({ customTheme }) {
 
         try {
             await axios.post(`${base_url}/meds/${userId}/add`, newMedObj);
-            navigate(`/${userId}/medications`)
+            navigate(`/${userId}/dashboard`)
         } catch (error) {
             console.error("Error adding medication:", error);
         }

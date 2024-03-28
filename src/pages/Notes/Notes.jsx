@@ -1,3 +1,4 @@
+import * as React from 'react';
 import './Notes.scss'
 import BottomNav from '../../components/BottomNav/BottomNav'
 import Header from '../../components/Header/Header'
@@ -7,16 +8,47 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { useState, useEffect } from 'react';
 import { ThemeProvider } from '@mui/material/styles';
-import { Button } from '@mui/material';
+import { Button, IconButton } from '@mui/material';
 import TextField from '@mui/material/TextField';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
+import CloseIcon from '@mui/icons-material/Close';
+import Snackbar from '@mui/material/Snackbar';
 
 export default function Notes({ customTheme }) {
 
     const base_url = process.env.REACT_APP_BASE_URL;
     const { userId } = useParams();
 
+    const [openSnackbar, setOpenSnackbar] = useState(false);
+
+    const handleCloseSnackbar = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+
+        setOpenSnackbar(true);
+
+        setTimeout(() => {
+            setOpenSnackbar(false);
+        }, 2000);
+    };
+
+    const action = (
+        <React.Fragment>
+            {/* <Button color="secondary" size="small" onClick={handleCloseSnackbar}>
+                UNDO
+            </Button> */}
+            <IconButton
+                size="small"
+                aria-label="close"
+                color="inherit"
+                onClick={handleCloseSnackbar}
+            >
+                <CloseIcon fontSize="small" />
+            </IconButton>
+        </React.Fragment>
+    );
     // Keep track of the users selected date
     const [selectedDate, setSelectedDate] = useState(dayjs());
     const formattedDate = selectedDate.format('YYYY-MM-DD');
@@ -87,6 +119,8 @@ export default function Notes({ customTheme }) {
         } catch (error) {
             console.log(error)
         }
+        setOpenSnackbar(true);
+
     }
 
 
@@ -113,7 +147,7 @@ export default function Notes({ customTheme }) {
                                     return (
                                         <div className='notes__meds-list'>
                                             <p className='notes__meds-list-item'>{medContent && med.name}</p>
-                                            <p className='notes__meds-list-item'>{medContent && (`${med.dose} - ${med.frequency}`)}</p>
+                                            <p className='notes__meds-list-item'>{medContent && (`${med.dose} mg - ${med.frequency}`)}</p>
                                         </div>
                                     )
                                 })
@@ -133,6 +167,14 @@ export default function Notes({ customTheme }) {
                             />
                             <Button sx={{ my: 3, p: 0.8, borderRadius: 2, color: 'white', fontSize: 15 }} type="submit" fullWidth onClick={submitNoteEdit} variant='contained'>Save</Button>
                         </form>
+                        <Snackbar
+                            open={openSnackbar}
+                            autoHideDuration={1000}
+                            onClose={handleCloseSnackbar}
+                            message={'Note Saved'}
+                            action={action}
+                            sx={{ m: 5 }}
+                        />
                     </div>
                 </section >
             </ThemeProvider>

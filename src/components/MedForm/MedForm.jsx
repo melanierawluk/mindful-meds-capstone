@@ -28,14 +28,12 @@ const style = {
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
-    width: '90%',
+    width: '80%',
     bgcolor: 'background.paper',
-    // border: '2px solid #000',
     boxShadow: 25,
     borderRadius: 4,
     p: 4,
 };
-
 
 
 export default function MedForm({
@@ -254,6 +252,7 @@ export default function MedForm({
                         onClose={handleCloseSnackbar}
                         message={`Stopped ${medData.name}`}
                         action={action}
+                        sx={{ m: 5 }}
                     />
                 </form>
             </ThemeProvider>
