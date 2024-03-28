@@ -18,10 +18,10 @@ export default function AddNewMed({ customTheme }) {
     const [openSaveSnackbar, setOpenSaveSnackbar] = useState(false);
 
     const [medData, setMedData] = useState({
-        active: 1,
+        active: '',
         name: '',
         dose: '',
-        frequency: '',
+        frequency: 'Once Daily',
         times: '',
         user_id: ''
     });
@@ -94,7 +94,6 @@ export default function AddNewMed({ customTheme }) {
                     handleSubmit={handleSubmit}
                     medData={medData}
                     setMedData={setMedData}
-                    showPlaceHolder={true}
                     error={error}
                     customTheme={customTheme}
                     setSelectedTime1={setSelectedTime1}

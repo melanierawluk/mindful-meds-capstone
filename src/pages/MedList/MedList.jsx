@@ -49,6 +49,11 @@ export default function MedList() {
 
     const filteredInactiveMedArr = removeDuplicateInactiveMeds(activeMedArr, inactiveMedArr)
 
+    // Remove duplicated in inactive array
+    const uniqueInactiveMeds = filteredInactiveMedArr.filter((obj, index) =>
+        filteredInactiveMedArr.findIndex((item) => item.name === obj.name) === index);
+
+
     return (
         <>
             <Header title='Medications' />
@@ -70,7 +75,7 @@ export default function MedList() {
                 </div>
                 <div className='med-list__block'>
                     <h2 className='med-list__heading'>Past</h2>
-                    {filteredInactiveMedArr.map((med) => {
+                    {uniqueInactiveMeds.map((med) => {
                         return (
                             <Link className='med-list__link' to={`/${userId}/medications/${med.id}`} key={med.id}>
                                 <InactiveMedCard

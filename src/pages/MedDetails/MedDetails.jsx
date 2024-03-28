@@ -20,7 +20,7 @@ export default function MedDetails({ customTheme }) {
 
     const [error, setError] = useState({});
     const [medData, setMedData] = useState({
-        active: 1,
+        active: '',
         name: '',
         dose: '',
         frequency: '',
@@ -30,6 +30,21 @@ export default function MedDetails({ customTheme }) {
 
     const [selectedTime1, setSelectedTime1] = useState();
     const [selectedTime2, setSelectedTime2] = useState();
+
+    // Modal and Snackbar
+    const [open, setOpen] = useState(false);
+    const handleOpen = () => setOpen(true);
+    const handleClose = () => setOpen(false);
+
+    const [openSnackbar, setOpenSnackbar] = useState(false);
+    const [openUpdateSnackbar, setOpenUpdateSnackbar] = useState(false);
+
+    const handleCloseSnackbar = () => {
+        setTimeout(() => {
+            setOpenSnackbar(false);
+            navigate(`/${userId}/medications`);
+        }, 2000)
+    }
 
     useEffect(() => {
         const getMedDetails = async () => {
@@ -64,7 +79,6 @@ export default function MedDetails({ customTheme }) {
             selectedDates.push(formattedTime2);
         }
 
-
         const updatedMedObj = {
             active: 1,
             name: medData.name,
@@ -75,11 +89,12 @@ export default function MedDetails({ customTheme }) {
         };
 
         try {
-            const response = await axios.post(`${base_url}/meds/${medId}/update`, updatedMedObj)
-            const newMedResponse = await axios.get(`${base_url}/meds/${userId}/${response.data.id}`);
-            console.log("reponse", response)
-            console.log("newMedResponse", newMedResponse.data)
-            // navigate(`/${userId}/medications/${newMedResponse.data}`);
+            await axios.post(`${base_url}/meds/${medId}/update`, updatedMedObj)
+            setOpenUpdateSnackbar(true);
+            setTimeout(() => {
+                setOpenUpdateSnackbar(false);
+                navigate(`/${userId}/dashboard`);
+            }, 2000);
         } catch (error) {
             console.log(error)
         }
@@ -88,11 +103,12 @@ export default function MedDetails({ customTheme }) {
     const handleStopMed = async () => {
         try {
             await axios.patch(`${base_url}/meds/${userId}/${medId}`)
+            handleClose();
+            setOpenSnackbar(true);
         } catch (error) {
             console.log(error)
         }
     }
-
 
     if (!medData) {
         return (
@@ -106,7 +122,6 @@ export default function MedDetails({ customTheme }) {
             </>
         )
     }
-
 
     return (
         <>
@@ -129,20 +144,23 @@ export default function MedDetails({ customTheme }) {
                         medData={medData}
                         setMedData={setMedData}
                         handleStopMed={handleStopMed}
-                        showDeleteButton={true}
                         showHistory={true}
                         userId={userId}
-                        medId={medId}
                         customTheme={customTheme}
                         error={error}
                         setSelectedTime1={setSelectedTime1}
                         selectedTime1={selectedTime1}
                         setSelectedTime2={setSelectedTime2}
                         selectedTime2={selectedTime2}
+                        openSnackbar={openSnackbar}
+                        handleCloseSnackbar={handleCloseSnackbar}
+                        open={open}
+                        handleClose={handleClose}
+                        handleOpen={handleOpen}
+                        openUpdateSnackbar={openUpdateSnackbar}
                     />
                 </div>
             </section >
-            {/* <BottomNav /> */}
         </>
     )
 

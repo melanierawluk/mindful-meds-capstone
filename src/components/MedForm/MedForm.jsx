@@ -5,7 +5,7 @@ import { ThemeProvider } from '@emotion/react';
 import { TimePicker } from '@mui/x-date-pickers';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import {
     Button,
     TextField,
@@ -19,7 +19,6 @@ import {
     Typography,
 } from '@mui/material';
 import Snackbar from '@mui/material/Snackbar';
-import { useNavigate } from 'react-router-dom';
 
 const style = {
     position: 'absolute',
@@ -47,7 +46,6 @@ export default function MedForm({
     handleSubmit,
     medData,
     setMedData,
-    showDeleteButton,
     handleStopMed,
     showHistory,
     userId,
@@ -58,32 +56,22 @@ export default function MedForm({
     setSelectedTime2,
     selectedTime2,
     openSaveSnackbar,
+    openSnackbar,
+    handleCloseSnackbar,
+    open,
+    handleClose,
+    handleOpen,
+    openUpdateSnackbar
 }) {
 
     // Throwing a value.idValid error - to pre-populate the times for existing meds
     // const medDataTime1 = dayjs(medData.times[0], 'h:mm A').toDate();
     // const medDataTime2 = dayjs(medData.times[1], 'h:mm A').toDate();
+    const [deleteButtonVisible, setDeleteButtonVisible] = useState(false);
 
-    const navigate = useNavigate();
-    const [open, setOpen] = useState(false);
-    const handleOpen = () => setOpen(true);
-    const handleClose = () => setOpen(false);
-
-    const [openSnackbar, setOpenSnackbar] = useState(false);
-
-    //  Close the modal on button click and trigger the Snackbar
-    const handleStopMedLocal = () => {
-        handleStopMed();
-        setOpenSnackbar(true);
-        handleClose();
-    };
-
-    const handleCloseSnackbar = () => {
-        setTimeout(() => {
-            setOpenSnackbar(false);
-            navigate(`/${userId}/medications`);
-        }, 2000)
-    }
+    useEffect(() => {
+        setDeleteButtonVisible(medData.active === 1);
+    }, [medData]);
 
     // When Once Daily is selected
     const handleTimeChange1 = (time) => {
@@ -110,6 +98,7 @@ export default function MedForm({
             }));
         }
     };
+
 
 
     return (
@@ -199,15 +188,23 @@ export default function MedForm({
 
                     <Button sx={buttonStyle} type="submit" variant='contained' >Save</Button>
 
+                    {/* Snackbar for creating new med */}
                     <Snackbar
                         open={openSaveSnackbar}
                         autoHideDuration={1000}
-                        message={`Medication Saved`}
+                        message={`${medData.name} Created`}
                         sx={{ mb: 10, mx: 3 }}
+                    />
+                    {/* Snackbar for updating med */}
+                    <Snackbar
+                        open={openUpdateSnackbar}
+                        autoHideDuration={1000}
+                        message={`${medData.name} Updated`}
+                        sx={{ mb: 5, mx: 4 }}
                     />
 
                     {showHistory && (<Link to={`/${userId}/medications/${medData.name}/history`}><Button sx={buttonStyle} variant='contained'>View History</Button></Link>)}
-                    {showDeleteButton && (
+                    {deleteButtonVisible && (
                         <Button
                             sx={buttonStyle}
                             type="button"
@@ -217,7 +214,6 @@ export default function MedForm({
                             className='med-form__button--delete'>
                             Stop Medication
                         </Button>)}
-
                     {/* Modal to confirm is the user wants to stop the medication */}
                     <Modal
                         open={open}
@@ -233,7 +229,7 @@ export default function MedForm({
                                 {`Are you sure you want to stop ${medData.name}?`}
                             </Typography>
                             <Box sx={{ display: 'flex', justifyContent: 'space-around', mt: 3 }}>
-                                <Button variant='contained' onClick={handleStopMedLocal}>Yes</Button>
+                                <Button variant='contained' onClick={handleStopMed}>Yes</Button>
                                 <Button variant='contained' onClick={handleClose} color='secondary'>No</Button>
                             </Box>
                         </Box>
