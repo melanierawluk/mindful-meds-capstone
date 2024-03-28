@@ -1,17 +1,21 @@
+
 import './AddNewMed.scss'
 import BottomNav from '../../components/BottomNav/BottomNav'
 import Header from '../../components/Header/Header'
 import MedForm from '../../components/MedForm/MedForm'
-import { useState } from 'react'
+import React, { useState } from 'react'
 import axios from 'axios'
 import { useNavigate, useParams } from 'react-router-dom'
 import dayjs from 'dayjs'
+
 
 export default function AddNewMed({ customTheme }) {
 
     const base_url = process.env.REACT_APP_BASE_URL;
     const navigate = useNavigate();
     const { userId } = useParams();
+
+    const [openSaveSnackbar, setOpenSaveSnackbar] = useState(false);
 
     const [medData, setMedData] = useState({
         active: 1,
@@ -29,7 +33,6 @@ export default function AddNewMed({ customTheme }) {
     if (!medData) {
         return <div>loading...</div>;
     }
-
 
     // Handle the form submit
     const handleSubmit = async (event) => {
@@ -73,11 +76,14 @@ export default function AddNewMed({ customTheme }) {
 
         try {
             await axios.post(`${base_url}/meds/${userId}/add`, newMedObj);
-            navigate(`/${userId}/dashboard`)
+            setOpenSaveSnackbar(true);
+            setTimeout(() => {
+                setOpenSaveSnackbar(false);
+                navigate(`/${userId}/dashboard`);
+            }, 2000);
         } catch (error) {
             console.error("Error adding medication:", error);
         }
-        // }
     }
 
     return (
@@ -95,6 +101,7 @@ export default function AddNewMed({ customTheme }) {
                     selectedTime1={selectedTime1}
                     selectedTime2={selectedTime2}
                     setSelectedTime2={setSelectedTime2}
+                    openSaveSnackbar={openSaveSnackbar}
                 />
             </section>
             <BottomNav />

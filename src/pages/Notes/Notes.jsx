@@ -15,6 +15,15 @@ import axios from 'axios';
 import CloseIcon from '@mui/icons-material/Close';
 import Snackbar from '@mui/material/Snackbar';
 
+const buttonStyle = {
+    mt: 2,
+    borderRadius: 2,
+    fontSize: 13,
+    height: '2.5rem',
+    width: '100%',
+    fontWeight: 'regular'
+}
+
 export default function Notes({ customTheme }) {
 
     const base_url = process.env.REACT_APP_BASE_URL;
@@ -165,7 +174,7 @@ export default function Notes({ customTheme }) {
                                 value={noteContent && noteContent.note_content}
                                 onChange={handleNoteChange}
                             />
-                            <Button sx={{ my: 3, p: 0.8, borderRadius: 2, color: 'white', fontSize: 15 }} type="submit" fullWidth onClick={submitNoteEdit} variant='contained'>Save</Button>
+                            <Button sx={buttonStyle} type="submit" fullWidth onClick={submitNoteEdit} variant='contained'>Save</Button>
                         </form>
                         <Snackbar
                             open={openSnackbar}

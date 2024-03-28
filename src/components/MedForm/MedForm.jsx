@@ -6,7 +6,6 @@ import { TimePicker } from '@mui/x-date-pickers';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { useState } from 'react';
-import dayjs from 'dayjs';
 import {
     Button,
     TextField,
@@ -18,10 +17,9 @@ import {
     Modal,
     Box,
     Typography,
-    IconButton
 } from '@mui/material';
-import CloseIcon from '@mui/icons-material/Close';
 import Snackbar from '@mui/material/Snackbar';
+import { useNavigate } from 'react-router-dom';
 
 const style = {
     position: 'absolute',
@@ -34,6 +32,15 @@ const style = {
     borderRadius: 4,
     p: 4,
 };
+
+const buttonStyle = {
+    mt: 2,
+    borderRadius: 2,
+    fontSize: 13,
+    height: '2.5rem',
+    width: '100%',
+    fontWeight: 'regular'
+}
 
 
 export default function MedForm({
@@ -49,35 +56,20 @@ export default function MedForm({
     setSelectedTime1,
     selectedTime1,
     setSelectedTime2,
-    selectedTime2
+    selectedTime2,
+    openSaveSnackbar,
 }) {
 
     // Throwing a value.idValid error - to pre-populate the times for existing meds
     // const medDataTime1 = dayjs(medData.times[0], 'h:mm A').toDate();
     // const medDataTime2 = dayjs(medData.times[1], 'h:mm A').toDate();
 
-    const [open, setOpen] = useState();
+    const navigate = useNavigate();
+    const [open, setOpen] = useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
 
     const [openSnackbar, setOpenSnackbar] = useState(false);
-    // const handleOpenSnackbar = () => setOpen(true);
-
-    // const handleClick = () => {
-    //     setOpen(true);
-    // };
-
-    const handleCloseSnackbar = (event, reason) => {
-        if (reason === 'clickaway') {
-            return;
-        }
-
-        setOpenSnackbar(true);
-
-        setTimeout(() => {
-            setOpenSnackbar(false);
-        }, 2000);
-    };
 
     //  Close the modal on button click and trigger the Snackbar
     const handleStopMedLocal = () => {
@@ -86,22 +78,12 @@ export default function MedForm({
         handleClose();
     };
 
-    const action = (
-        <React.Fragment>
-            {/* <Button color="secondary" size="small" onClick={handleCloseSnackbar}>
-                UNDO
-            </Button> */}
-            <IconButton
-                size="small"
-                aria-label="close"
-                color="inherit"
-                onClick={handleCloseSnackbar}
-            >
-                <CloseIcon fontSize="small" />
-            </IconButton>
-        </React.Fragment>
-    );
-
+    const handleCloseSnackbar = () => {
+        setTimeout(() => {
+            setOpenSnackbar(false);
+            navigate(`/${userId}/medications`);
+        }, 2000)
+    }
 
     // When Once Daily is selected
     const handleTimeChange1 = (time) => {
@@ -215,12 +197,24 @@ export default function MedForm({
                         )}
                     </div>
 
-                    <Button sx={{ my: 2, p: 1, borderRadius: 2, color: 'white', fontSize: 15 }} type="submit" variant='contained'>Save</Button>
-                    {showHistory && (<Link className='med-form__card' to={`/${userId}/medications/${medData.name}/history`}><p>View History</p></Link>)}
+                    <Button sx={buttonStyle} type="submit" variant='contained' >Save</Button>
+
+                    <Snackbar
+                        open={openSaveSnackbar}
+                        autoHideDuration={1000}
+                        message={`Medication Saved`}
+                        sx={{ mb: 10, mx: 3 }}
+                    />
+
+                    {showHistory && (<Link to={`/${userId}/medications/${medData.name}/history`}><Button sx={buttonStyle} variant='contained'>View History</Button></Link>)}
                     {showDeleteButton && (
-                        <Button sx={{ my: 3, borderRadius: 2, }} type="button"
-                            variant='contained' color='secondary'
-                            onClick={handleOpen} className='med-form__button--delete'>
+                        <Button
+                            sx={buttonStyle}
+                            type="button"
+                            variant='contained'
+                            color='secondary'
+                            onClick={handleOpen}
+                            className='med-form__button--delete'>
                             Stop Medication
                         </Button>)}
 
@@ -251,8 +245,7 @@ export default function MedForm({
                         autoHideDuration={1000}
                         onClose={handleCloseSnackbar}
                         message={`Stopped ${medData.name}`}
-                        action={action}
-                        sx={{ m: 5 }}
+                        sx={{ mb: 5, mx: 4 }}
                     />
                 </form>
             </ThemeProvider>

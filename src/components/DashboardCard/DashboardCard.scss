@@ -19,7 +19,7 @@
         width: 78%;
         background-color: $accent-color;
         border-radius: 10px;
-        padding: 15px 0 15px 30px;
+        padding: 15px 0 15px 20px;
         background-image: url('../../assets/images/right-chevron.svg');
         background-repeat: no-repeat;
         background-position: 90%;
@@ -32,9 +32,14 @@
     &__medication {
         display: flex;
         padding: 15px 0 0 0;
+        align-items: center;
 
         &-name {
             padding-right: 10px;
+        }
+
+        &-icon {
+            margin-right: 10px;
         }
     }
 }

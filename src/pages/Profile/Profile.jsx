@@ -1,11 +1,20 @@
 import './Profile.scss'
 import BottomNav from '../../components/BottomNav/BottomNav'
+import Header from '../../components/Header/Header'
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
-import just_breathe from '../../assets/images/just_breathe.png'
-import { Button, TextField, ThemeProvider } from '@mui/material';
+import { Avatar, Button, TextField, ThemeProvider } from '@mui/material';
+
+const buttonStyle = {
+    mt: 2,
+    borderRadius: 2,
+    fontSize: 13,
+    height: '2.5rem',
+    width: '100%',
+    fontWeight: 'regular'
+}
 
 export default function Profile({ customTheme }) {
     const base_url = process.env.REACT_APP_BASE_URL;
@@ -36,12 +45,20 @@ export default function Profile({ customTheme }) {
         }));
     };
 
+    const firstName = userProfile.name.split(' ')
+
     return (
         <>
+            <Header />
             <ThemeProvider theme={customTheme}>
                 <section className='profile'>
-                    <img src={just_breathe} className='profile__gradient' alt="gradient" />
+                    {/* <img src={just_breathe} className='profile__gradient' alt="gradient" /> */}
                     <div className='profile__container'>
+                        <div className='profile__header'>
+                            <h2 className='profile__welcome'>Hello, <br /> {firstName[0]} </h2>
+                            {/* <Avatar className='profile__avatar' sx={{ bgcolor: '#FFB0AF' }} >LE</Avatar> */}
+                            {/* <p className='profile__name'>{firstName[0]}</p> */}
+                        </div>
                         <div className='profile__inputs'>
                             <TextField
                                 fullWidth
@@ -63,7 +80,7 @@ export default function Profile({ customTheme }) {
                             />
                         </div>
                         <Link to="../login" className='profile__button-link'>
-                            <Button sx={{ my: 3, p: 1, borderRadius: 2, color: 'white', fontSize: 15, width: '100%' }} type="submit" variant='contained'>Log out</Button>
+                            <Button sx={buttonStyle} type="submit" variant='contained'>Log out</Button>
                         </Link>
                     </div>
                 </section>

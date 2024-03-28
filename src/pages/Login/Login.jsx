@@ -1,8 +1,16 @@
 import './Login.scss';
 import logo from '../../assets/images/logo.png';
-import Input from '../../components/Input/Input'
 import { Link } from 'react-router-dom';
 import { Button, TextField, ThemeProvider } from '@mui/material';
+
+const buttonStyle = {
+    mt: 2,
+    borderRadius: 2,
+    fontSize: 13,
+    height: '2.5rem',
+    width: '100%',
+    fontWeight: 'regular'
+}
 
 export default function Login({ customTheme }) {
 
@@ -28,7 +36,7 @@ export default function Login({ customTheme }) {
                                 name="password"
                                 label="Password"
                             />
-                            <Link to='../1/dashboard'><Button variant='contained' sx={{ my: 1, color: 'white' }} className="login__form-button"> Log in</Button></Link>
+                            <Link to='../1/dashboard'><Button variant='contained' sx={buttonStyle} className="login__form-button"> Log in</Button></Link>
                         </form>
                         <div className='login__text-container'>
                             <p className='login__text'>Forgot Password?</p>

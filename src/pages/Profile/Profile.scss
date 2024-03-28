@@ -12,13 +12,26 @@
     }
 
     &__container {
-        padding-top: 30px;
+        padding-top: 20px;
         display: flex;
         flex-direction: column;
         align-items: center;
     }
 
+    &__welcome {
+        @include pattaya;
+        color: $secondary-color;
+        font-size: 2.7rem;
+        transform: rotate(-16deg);
+        line-height: 1;
+    }
+
+    &__name {
+        @extend .profile__welcome;
+    }
+
     &__inputs {
+        padding-top: 50px;
         width: 75%;
         margin: 0 auto;
     }

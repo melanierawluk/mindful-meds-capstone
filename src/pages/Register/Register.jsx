@@ -1,9 +1,17 @@
 import './Register.scss';
 import gradient from '../../assets/images/pastel-gradient.png';
-import Input from '../../components/Input/Input';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { Link } from 'react-router-dom';
 import { Button, TextField, ThemeProvider } from '@mui/material';
+
+const buttonStyle = {
+    mt: 2,
+    borderRadius: 2,
+    fontSize: 13,
+    height: '2.5rem',
+    width: '100%',
+    fontWeight: 'regular'
+}
 
 export default function Register({ customTheme }) {
 
@@ -50,7 +58,7 @@ export default function Register({ customTheme }) {
                                 id="confirm_password"
                                 label="Confirm Password"
                             />
-                            <Button variant='contained' fullWidth sx={{ my: 1, color: 'white', height: '2.5rem' }}>Sign up</Button>
+                            <Button variant='contained' fullWidth sx={buttonStyle}>Sign up</Button>
                         </form>
                     </div>
                 </div>
