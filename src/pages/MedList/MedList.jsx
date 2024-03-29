@@ -3,21 +3,19 @@ import BottomNav from '../../components/BottomNav/BottomNav';
 import Header from '../../components/Header/Header';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-import { useParams } from 'react-router-dom';
 import ActiveMedCard from '../../components/ActiveMedCard/ActiveMedCard';
 import InactiveMedCard from '../../components/InactiveMedCard/InactiveMedCard';
 import { Link } from 'react-router-dom';
 
-export default function MedList() {
+export default function MedList({ userProfile }) {
     const base_url = process.env.REACT_APP_BASE_URL;
-    const { userId } = useParams();
 
     const [medicationList, setMedicationList] = useState([]);
 
     useEffect(() => {
         const getMedicationList = async () => {
             try {
-                const response = await axios.get(`${base_url}/meds/${userId}`)
+                const response = await axios.get(`${base_url}/meds/${userProfile.id}`)
                 setMedicationList(response.data)
             } catch (error) {
                 console.log(error)
@@ -63,7 +61,7 @@ export default function MedList() {
 
                     {activeMedArr.map((med) => {
                         return (
-                            <Link className='med-list__link' to={`/${userId}/medications/${med.id}`} key={med.id}>
+                            <Link className='med-list__link' to={`/medications/${med.id}`} key={med.id}>
                                 <ActiveMedCard
                                     medicationList={medicationList}
                                     setMedicationList={setMedicationList}
@@ -77,7 +75,7 @@ export default function MedList() {
                     <h2 className='med-list__heading'>Past</h2>
                     {uniqueInactiveMeds.map((med) => {
                         return (
-                            <Link className='med-list__link' to={`/${userId}/medications/${med.id}`} key={med.id}>
+                            <Link className='med-list__link' to={`/medications/${med.id}`} key={med.id}>
                                 <InactiveMedCard
                                     medicationList={medicationList}
                                     setMedicationList={setMedicationList}

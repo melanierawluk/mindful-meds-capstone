@@ -10,7 +10,6 @@ import { useState, useEffect } from 'react';
 import { ThemeProvider } from '@mui/material/styles';
 import { Button, IconButton } from '@mui/material';
 import TextField from '@mui/material/TextField';
-import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import CloseIcon from '@mui/icons-material/Close';
 import Snackbar from '@mui/material/Snackbar';
@@ -24,10 +23,9 @@ const buttonStyle = {
     fontWeight: 'regular'
 }
 
-export default function Notes({ customTheme }) {
+export default function Notes({ customTheme, userProfile }) {
 
     const base_url = process.env.REACT_APP_BASE_URL;
-    const { userId } = useParams();
 
     const [openSnackbar, setOpenSnackbar] = useState(false);
 
@@ -71,11 +69,11 @@ export default function Notes({ customTheme }) {
         const getNotesAndMedsByDate = async () => {
             try {
                 // GET notes on selected date
-                const notesResponse = await axios.get(`${base_url}/notes/${userId}/${formattedDate}`);
+                const notesResponse = await axios.get(`${base_url}/notes/${userProfile.id}/${formattedDate}`);
                 setNoteContent(notesResponse.data);
 
                 // GET active meds on selected date
-                const medsResponse = await axios.get(`${base_url}/meds/${userId}/date/${formattedDate}`);
+                const medsResponse = await axios.get(`${base_url}/meds/${userProfile.id}/date/${formattedDate}`);
                 setMedContent(medsResponse.data);
             } catch (error) {
                 console.log(error);
@@ -120,9 +118,9 @@ export default function Notes({ customTheme }) {
 
         try {
             if (noteContent.id) {
-                await axios.patch(`${base_url}/notes/${userId}`, updatedNote);
+                await axios.patch(`${base_url}/notes/${userProfile.id}`, updatedNote);
             } else {
-                await axios.post(`${base_url}/notes/${userId}`, newNote);
+                await axios.post(`${base_url}/notes/${userProfile.id}`, newNote);
 
             }
         } catch (error) {

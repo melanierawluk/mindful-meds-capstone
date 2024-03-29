@@ -13,8 +13,8 @@ import axios from 'axios';
 import dayjs from 'dayjs'
 
 
-export default function MedDetails({ customTheme }) {
-    const { userId, medId } = useParams();
+export default function MedDetails({ customTheme, userProfile }) {
+    const { medId } = useParams();
     const base_url = process.env.REACT_APP_BASE_URL;
     const navigate = useNavigate();
 
@@ -42,14 +42,14 @@ export default function MedDetails({ customTheme }) {
     const handleCloseSnackbar = () => {
         setTimeout(() => {
             setOpenSnackbar(false);
-            navigate(`/${userId}/medications`);
+            navigate(`/medications`);
         }, 2000)
     }
 
     useEffect(() => {
         const getMedDetails = async () => {
             try {
-                const response = await axios.get(`${base_url}/meds/${userId}/${medId}`)
+                const response = await axios.get(`${base_url}/meds/${userProfile.id}/${medId}`)
                 setMedData(response.data)
             } catch (error) {
                 console.log(error)
@@ -85,7 +85,7 @@ export default function MedDetails({ customTheme }) {
             dose: medData.dose,
             frequency: medData.frequency,
             times: selectedDates,
-            user_id: userId
+            user_id: userProfile.id
         };
 
         try {
@@ -93,7 +93,7 @@ export default function MedDetails({ customTheme }) {
             setOpenUpdateSnackbar(true);
             setTimeout(() => {
                 setOpenUpdateSnackbar(false);
-                navigate(`/${userId}/dashboard`);
+                navigate(`/dashboard`);
             }, 2000);
         } catch (error) {
             console.log(error)
@@ -102,7 +102,7 @@ export default function MedDetails({ customTheme }) {
 
     const handleStopMed = async () => {
         try {
-            await axios.patch(`${base_url}/meds/${userId}/${medId}`)
+            await axios.patch(`${base_url}/meds/${userProfile.id}/${medId}`)
             handleClose();
             setOpenSnackbar(true);
         } catch (error) {
@@ -130,7 +130,7 @@ export default function MedDetails({ customTheme }) {
                 <div className='med-details__container'>
                     <div className='med-details__head'>
 
-                        <Link className='med-details__link' to={`../${userId}/medications`} >
+                        <Link className='med-details__link' to={`../medications`} >
                             <div className='med-details__heading'>
                                 <ArrowBackIcon
                                     style={{ color: '#7ECED8', fontSize: "2.1rem" }}
@@ -145,7 +145,7 @@ export default function MedDetails({ customTheme }) {
                         setMedData={setMedData}
                         handleStopMed={handleStopMed}
                         showHistory={true}
-                        userId={userId}
+                        userId={userProfile.id}
                         customTheme={customTheme}
                         error={error}
                         setSelectedTime1={setSelectedTime1}

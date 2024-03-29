@@ -2,9 +2,7 @@ import './Profile.scss'
 import BottomNav from '../../components/BottomNav/BottomNav'
 import Header from '../../components/Header/Header'
 import { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
 import { Avatar, Button, TextField, ThemeProvider } from '@mui/material';
 
 const buttonStyle = {
@@ -12,28 +10,42 @@ const buttonStyle = {
     borderRadius: 2,
     fontSize: 13,
     height: '2.5rem',
-    width: '100%',
+    width: '75%',
     fontWeight: 'regular'
 }
 
 export default function Profile({ customTheme }) {
     const base_url = process.env.REACT_APP_BASE_URL;
 
-    const { userId } = useParams();
-    const [userProfile, setUserProfile] = useState({ name: '', email: '' });
+    const [userProfile, setUserProfile] = useState(null);
+    const [isLoading, setIsLoading] = useState(true);
+    const [failedAuth, setFailedAuth] = useState(false);
+
 
     useEffect(() => {
         const getUserProfile = async () => {
+            const token = sessionStorage.getItem("token");
+
             try {
-                const response = await axios.get(`${base_url}/user/${userId}`)
+                const response = await axios.get(`${base_url}/user/auth`, {
+                    headers: { Authorization: `Bearer ${token}` }
+                });
                 setUserProfile(response.data)
             } catch (error) {
-                console.log(error)
+                console.log(error);
+                setFailedAuth(true);
             }
-        }
+            setIsLoading(false);
+        };
         getUserProfile();
+
     }, [])
 
+    const logout = () => {
+        sessionStorage.removeItem("token");
+        setFailedAuth(true);
+        setUserProfile(null)
+    }
 
     // Add function to update user profile name/email. Password?
 
@@ -45,7 +57,8 @@ export default function Profile({ customTheme }) {
         }));
     };
 
-    const firstName = userProfile.name.split(' ')
+    // const firstName = userProfile.name.split(' ')
+    console.log(userProfile)
 
     return (
         <>
@@ -55,7 +68,7 @@ export default function Profile({ customTheme }) {
                     {/* <img src={just_breathe} className='profile__gradient' alt="gradient" /> */}
                     <div className='profile__container'>
                         <div className='profile__header'>
-                            <h2 className='profile__welcome'>Hello, <br /> {firstName[0]} </h2>
+                            <h2 className='profile__welcome'>Hello, <br />  </h2>
                             {/* <Avatar className='profile__avatar' sx={{ bgcolor: '#FFB0AF' }} >LE</Avatar> */}
                             {/* <p className='profile__name'>{firstName[0]}</p> */}
                         </div>
@@ -66,7 +79,7 @@ export default function Profile({ customTheme }) {
                                 type="text"
                                 name="name"
                                 label="Name"
-                                value={userProfile.name}
+                                // value={userProfile.name}
                                 onChange={handleInputChange}
                             />
                             <TextField
@@ -75,13 +88,13 @@ export default function Profile({ customTheme }) {
                                 type="text"
                                 name="email"
                                 label="Email"
-                                value={userProfile.email}
+                                // value={userProfile.email}
                                 onChange={handleInputChange}
                             />
                         </div>
-                        <Link to="../login" className='profile__button-link'>
-                            <Button sx={buttonStyle} type="submit" variant='contained'>Log out</Button>
-                        </Link>
+                        {/* <Link to="../login" className='profile__button-link'> */}
+                        <Button sx={buttonStyle} type="submit" variant='contained' onClick={logout}>Log out</Button>
+                        {/* </Link> */}
                     </div>
                 </section>
             </ThemeProvider>

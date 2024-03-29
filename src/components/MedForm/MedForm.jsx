@@ -61,7 +61,8 @@ export default function MedForm({
     open,
     handleClose,
     handleOpen,
-    openUpdateSnackbar
+    openUpdateSnackbar,
+    userProfile
 }) {
 
     // Throwing a value.idValid error - to pre-populate the times for existing meds
@@ -203,7 +204,7 @@ export default function MedForm({
                         sx={{ mb: 5, mx: 4 }}
                     />
 
-                    {showHistory && (<Link to={`/${userId}/medications/${medData.name}/history`}><Button sx={buttonStyle} variant='contained'>View History</Button></Link>)}
+                    {showHistory && (<Link to={`/medications/${medData.name}/history`}><Button sx={buttonStyle} variant='contained'>View History</Button></Link>)}
                     {deleteButtonVisible && (
                         <Button
                             sx={buttonStyle}

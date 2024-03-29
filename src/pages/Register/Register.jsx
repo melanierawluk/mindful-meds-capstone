@@ -3,6 +3,8 @@ import gradient from '../../assets/images/pastel-gradient.png';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { Link } from 'react-router-dom';
 import { Button, TextField, ThemeProvider } from '@mui/material';
+import { useState } from 'react';
+import axios from 'axios';
 
 const buttonStyle = {
     mt: 2,
@@ -15,6 +17,30 @@ const buttonStyle = {
 
 export default function Register({ customTheme }) {
 
+    const [error, setError] = useState(null);
+    const [success, setSuccess] = useState(false);
+    const base_url = process.env.REACT_APP_BASE_URL;
+
+
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+
+        try {
+            await axios.post(`${base_url}/auth/register`, {
+                name: event.target.name.value,
+                email: event.target.email.value,
+                password: event.target.password.value
+            })
+
+            setSuccess(true);
+            setError(null);
+            event.target.reset()
+        } catch (error) {
+            setSuccess(false);
+            setError(error.response.data)
+        }
+    }
+
     return (
 
         <ThemeProvider theme={customTheme}>
@@ -25,7 +51,7 @@ export default function Register({ customTheme }) {
                         <div className='register__head'>
                             <h1 className='register__title'><Link to='../login'><ArrowBackIcon style={{ color: '#7ECED8', fontSize: "2.1rem" }} /></Link> Create New <br /> Account</h1>
                         </div>
-                        <form className='register__form' action="">
+                        <form className='register__form' onSubmit={handleSubmit}>
                             <TextField
                                 fullWidth
                                 sx={{ my: 1 }}
@@ -58,7 +84,9 @@ export default function Register({ customTheme }) {
                                 id="confirm_password"
                                 label="Confirm Password"
                             />
-                            <Button variant='contained' fullWidth sx={buttonStyle}>Sign up</Button>
+                            <Button type="submit" variant='contained' fullWidth sx={buttonStyle}>Sign up</Button>
+                            {success && <div className="signup__message">Signed up!</div>}
+                            {error && <div className="signup__message">{error}</div>}
                         </form>
                     </div>
                 </div>

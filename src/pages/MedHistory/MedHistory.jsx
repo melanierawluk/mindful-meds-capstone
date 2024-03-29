@@ -8,16 +8,16 @@ import { Link } from 'react-router-dom';
 import Header from '../../components/Header/Header';
 
 
-export default function MedHistory() {
+export default function MedHistory({ userProfile }) {
 
-    const { userId, medName } = useParams();
+    const { medName } = useParams();
     const base_url = process.env.REACT_APP_BASE_URL;
     const [medArr, setMedArr] = useState([])
 
     useEffect(() => {
         const getMedDetails = async () => {
             try {
-                const response = await axios.get(`${base_url}/meds/${userId}`)
+                const response = await axios.get(`${base_url}/meds/${userProfile.id}`)
                 setMedArr(response.data)
             } catch (error) {
                 console.log(error)
@@ -45,7 +45,7 @@ export default function MedHistory() {
         <>
             <Header title={medName} />
             <section className='med-history'>
-                <Link className='med-history__link' to={`http://localhost:3000/${userId}/medications/${medId}`} >
+                <Link className='med-history__link' to={`http://localhost:3000/medications/${medId}`} >
                     <div className='med-history__heading'>
                         <ArrowBackIcon
                             style={{ color: '#7ECED8', fontSize: "2.1rem" }}

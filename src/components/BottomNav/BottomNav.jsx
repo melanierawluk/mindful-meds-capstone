@@ -11,20 +11,20 @@ export default function BottomNav() {
 
     return (
         <nav className='bottom-nav'>
-            <Link to='/1/dashboard'>
-                <HomeOutlinedIcon style={{ color: location.pathname === '/1/dashboard' ? '#7ECED8' : '#4D4C4C', fontSize: '2.5rem' }} />
+            <Link to='/dashboard'>
+                <HomeOutlinedIcon style={{ color: location.pathname === '/dashboard' ? '#7ECED8' : '#4D4C4C', fontSize: '2.5rem' }} />
             </Link>
-            <Link to='/1/medications'>
-                <MedicationOutlinedIcon style={{ color: location.pathname === '/1/medications' ? '#7ECED8' : '#4D4C4C', fontSize: '2.5rem' }} />
+            <Link to='/medications'>
+                <MedicationOutlinedIcon style={{ color: location.pathname === '/medications' ? '#7ECED8' : '#4D4C4C', fontSize: '2.5rem' }} />
             </Link>
-            <Link to='/1/add'>
-                <AddIcon style={{ color: location.pathname === '/1/add' ? '#7ECED8' : '#4D4C4C', fontSize: '2.5rem' }} />
+            <Link to='/add'>
+                <AddIcon style={{ color: location.pathname === '/add' ? '#7ECED8' : '#4D4C4C', fontSize: '2.5rem' }} />
             </Link>
-            <Link to='/1/notes'>
-                <EditNoteIcon style={{ color: location.pathname === '/1/notes' ? '#7ECED8' : '#4D4C4C', fontSize: '2.5rem' }} />
+            <Link to='/notes'>
+                <EditNoteIcon style={{ color: location.pathname === '/notes' ? '#7ECED8' : '#4D4C4C', fontSize: '2.5rem' }} />
             </Link>
-            <Link to='/1/profile'>
-                <AccountCircleOutlinedIcon style={{ color: location.pathname === '/1/profile' ? '#7ECED8' : '#4D4C4C', fontSize: '2.5rem' }} />
+            <Link to='/profile'>
+                <AccountCircleOutlinedIcon style={{ color: location.pathname === '/profile' ? '#7ECED8' : '#4D4C4C', fontSize: '2.5rem' }} />
             </Link>
         </nav>
     )

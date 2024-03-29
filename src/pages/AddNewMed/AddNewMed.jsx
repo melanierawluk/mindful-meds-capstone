@@ -5,15 +5,14 @@ import Header from '../../components/Header/Header'
 import MedForm from '../../components/MedForm/MedForm'
 import React, { useState } from 'react'
 import axios from 'axios'
-import { useNavigate, useParams } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import dayjs from 'dayjs'
 
 
-export default function AddNewMed({ customTheme }) {
+export default function AddNewMed({ customTheme, userProfile }) {
 
     const base_url = process.env.REACT_APP_BASE_URL;
     const navigate = useNavigate();
-    const { userId } = useParams();
 
     const [openSaveSnackbar, setOpenSaveSnackbar] = useState(false);
 
@@ -70,16 +69,16 @@ export default function AddNewMed({ customTheme }) {
             dose: `${medData.dose}`,
             frequency: medData.frequency,
             times: selectedDates,
-            user_id: userId
+            user_id: userProfile.id
         };
 
 
         try {
-            await axios.post(`${base_url}/meds/${userId}/add`, newMedObj);
+            await axios.post(`${base_url}/meds/${userProfile.id}/add`, newMedObj);
             setOpenSaveSnackbar(true);
             setTimeout(() => {
                 setOpenSaveSnackbar(false);
-                navigate(`/${userId}/dashboard`);
+                navigate(`/dashboard`);
             }, 2000);
         } catch (error) {
             console.error("Error adding medication:", error);
