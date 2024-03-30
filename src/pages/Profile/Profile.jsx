@@ -3,7 +3,8 @@ import BottomNav from '../../components/BottomNav/BottomNav'
 import Header from '../../components/Header/Header'
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Avatar, Button, TextField, ThemeProvider } from '@mui/material';
+import { Button, TextField, ThemeProvider } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 
 const buttonStyle = {
     mt: 2,
@@ -16,10 +17,11 @@ const buttonStyle = {
 
 export default function Profile({ customTheme }) {
     const base_url = process.env.REACT_APP_BASE_URL;
+    const navigate = useNavigate()
 
     const [userProfile, setUserProfile] = useState(null);
-    const [isLoading, setIsLoading] = useState(true);
-    const [failedAuth, setFailedAuth] = useState(false);
+    // const [isLoading, setIsLoading] = useState(true);
+    // const [failedAuth, setFailedAuth] = useState(false);
 
 
     useEffect(() => {
@@ -33,9 +35,9 @@ export default function Profile({ customTheme }) {
                 setUserProfile(response.data)
             } catch (error) {
                 console.log(error);
-                setFailedAuth(true);
+                // setFailedAuth(true);
             }
-            setIsLoading(false);
+            // setIsLoading(false);
         };
         getUserProfile();
 
@@ -43,11 +45,11 @@ export default function Profile({ customTheme }) {
 
     const logout = () => {
         sessionStorage.removeItem("token");
-        setFailedAuth(true);
-        setUserProfile(null)
-    }
+        // setFailedAuth(true);
+        setUserProfile(null);
+        navigate('/login')
+    };
 
-    // Add function to update user profile name/email. Password?
 
     const handleInputChange = (event) => {
         const { name, value } = event.target;
@@ -57,20 +59,24 @@ export default function Profile({ customTheme }) {
         }));
     };
 
-    // const firstName = userProfile.name.split(' ')
-    console.log(userProfile)
+    let userName = '';
+    let userEmail = '';
+    if (userProfile) {
+        userName = userProfile.name;
+        userEmail = userProfile.email;
+    }
+    const firstName = userName.split(' ')
+
 
     return (
         <>
             <Header />
             <ThemeProvider theme={customTheme}>
                 <section className='profile'>
-                    {/* <img src={just_breathe} className='profile__gradient' alt="gradient" /> */}
                     <div className='profile__container'>
                         <div className='profile__header'>
                             <h2 className='profile__welcome'>Hello, <br />  </h2>
-                            {/* <Avatar className='profile__avatar' sx={{ bgcolor: '#FFB0AF' }} >LE</Avatar> */}
-                            {/* <p className='profile__name'>{firstName[0]}</p> */}
+                            <p className='profile__name'>{firstName[0]}</p>
                         </div>
                         <div className='profile__inputs'>
                             <TextField
@@ -79,7 +85,7 @@ export default function Profile({ customTheme }) {
                                 type="text"
                                 name="name"
                                 label="Name"
-                                // value={userProfile.name}
+                                value={userName}
                                 onChange={handleInputChange}
                             />
                             <TextField
@@ -88,13 +94,11 @@ export default function Profile({ customTheme }) {
                                 type="text"
                                 name="email"
                                 label="Email"
-                                // value={userProfile.email}
+                                value={userEmail}
                                 onChange={handleInputChange}
                             />
                         </div>
-                        {/* <Link to="../login" className='profile__button-link'> */}
                         <Button sx={buttonStyle} type="submit" variant='contained' onClick={logout}>Log out</Button>
-                        {/* </Link> */}
                     </div>
                 </section>
             </ThemeProvider>

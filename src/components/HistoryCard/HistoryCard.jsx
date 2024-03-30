@@ -7,7 +7,7 @@ export default function HistoryCard({ med }) {
     const formattedEndDate = dayjs(med.end_date).format('MM-DD-YYYY');
 
     return (
-        <section className='history-card'>
+        <section className='history-card' key={med.id}>
             <div className='history-card__card'>
                 <p className='history-card__dates'>{formattedStartDate} - {formattedEndDate === 'Invalid Date' ? "PRESENT" : formattedEndDate}</p>
                 <p className='history-card__content'>{`${med.dose} mg`} </p>

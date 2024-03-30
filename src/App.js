@@ -9,16 +9,11 @@ import Notes from './pages/Notes/Notes';
 import Profile from './pages/Profile/Profile';
 import MedDetails from './pages/MedDetails/MedDetails';
 import MedHistory from './pages/MedHistory/MedHistory';
-// import Header from './components/Header/Header';
-// import BottomNav from './components/BottomNav/BottomNav';
 import { createTheme } from '@mui/material/styles';
 import Frame from './components/Frame/Frame';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 
-
-
-// Med detail and Med history modals?
 
 function App() {
 
@@ -34,8 +29,6 @@ function App() {
   });
 
   const [userProfile, setUserProfile] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const [failedAuth, setFailedAuth] = useState(false);
   const base_url = process.env.REACT_APP_BASE_URL;
 
 
@@ -48,16 +41,13 @@ function App() {
           headers: { Authorization: `Bearer ${token}` }
         });
         setUserProfile(response.data)
-        console.log("userProfile", userProfile)
       } catch (error) {
         console.log(error);
-        setFailedAuth(true);
       }
-      setIsLoading(false);
     };
 
     getUserProfile()
-  }, [])
+  }, [base_url, userProfile])
 
 
 
