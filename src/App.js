@@ -41,7 +41,6 @@ function App() {
           headers: { Authorization: `Bearer ${token}` }
         });
         setUserProfile(response.data)
-        console.log(userProfile)
       } catch (error) {
         console.log(error);
       }

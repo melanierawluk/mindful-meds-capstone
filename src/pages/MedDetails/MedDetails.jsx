@@ -1,13 +1,10 @@
 import './MedDetails.scss';
 import { Link } from 'react-router-dom';
-import BottomNav from '../../components/BottomNav/BottomNav';
 import Header from '../../components/Header/Header';
 import MedForm from '../../components/MedForm/MedForm';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import gradient from '../../assets/images/pastel-gradient.png'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import { Skeleton } from '@mui/material';
 
 import axios from 'axios';
 import dayjs from 'dayjs'
@@ -19,17 +16,10 @@ export default function MedDetails({ customTheme, userProfile }) {
     const navigate = useNavigate();
 
     const [error, setError] = useState({});
-    const [medData, setMedData] = useState({
-        active: '',
-        name: '',
-        dose: '',
-        frequency: '',
-        times: '',
-        user_id: ''
-    });
+    const [medData, setMedData] = useState(null);
 
-    const [selectedTime1, setSelectedTime1] = useState();
-    const [selectedTime2, setSelectedTime2] = useState();
+    const [selectedTime1, setSelectedTime1] = useState({});
+    const [selectedTime2, setSelectedTime2] = useState({});
 
     // Modal and Snackbar
     const [open, setOpen] = useState(false);
@@ -43,19 +33,24 @@ export default function MedDetails({ customTheme, userProfile }) {
         setTimeout(() => {
             setOpenSnackbar(false);
             navigate(`/medications`);
-        }, 2000)
+        }, 1500)
     }
 
     useEffect(() => {
         const getMedDetails = async () => {
             try {
                 const token = sessionStorage.getItem("token");
-                const response = await axios.get(`${base_url}/meds/${userProfile.id}/${medId}`, {
-                    headers: {
-                        Authorization: `Bearer ${token}`
+
+                if (userProfile && userProfile.id) {
+                    const response = await axios.get(`${base_url}/meds/${userProfile.id}/${medId}`, {
+                        headers: {
+                            Authorization: `Bearer ${token}`
+                        }
+                    })
+                    if (response.data) {
+                        setMedData(response.data)
                     }
-                })
-                setMedData(response.data)
+                }
             } catch (error) {
                 console.log(error)
             }
@@ -63,9 +58,6 @@ export default function MedDetails({ customTheme, userProfile }) {
         getMedDetails();
     }, [])
 
-    if (!medData) {
-        return <div>loading...</div>
-    }
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -82,6 +74,7 @@ export default function MedDetails({ customTheme, userProfile }) {
         if (selectedTime2) {
             const formattedTime2 = dayjs(selectedTime2).format('h:mm A');
             selectedDates.push(formattedTime2);
+
         }
 
         const updatedMedObj = {
@@ -92,6 +85,9 @@ export default function MedDetails({ customTheme, userProfile }) {
             times: selectedDates,
             user_id: userProfile.id
         };
+        console.log(selectedTime1)
+        console.log(selectedTime2)
+
 
         try {
             const token = sessionStorage.getItem("token");
@@ -108,7 +104,7 @@ export default function MedDetails({ customTheme, userProfile }) {
             setTimeout(() => {
                 setOpenUpdateSnackbar(false);
                 navigate(`/dashboard`, { updatedMedObj });
-            }, 2000);
+            }, 1500);
         } catch (error) {
             console.log(error)
         }
@@ -133,17 +129,8 @@ export default function MedDetails({ customTheme, userProfile }) {
         }
     }
 
-    if (!medData) {
-        return (
-            <>
-                <Header title={medData.name} />
-                <section className='med-details'>
-                    <img src={gradient} className='med-details__gradient' alt="gradient" />
-                    <Skeleton variant="rectangular" width={210} height={118} />
-                </section >
-                <BottomNav />
-            </>
-        )
+    if (!medData || medData === null) {
+        return <></>
     }
 
     return (

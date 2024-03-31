@@ -13,8 +13,8 @@ export default function HistoryCard({ med }) {
                 <p className='history-card__content'>{`${med.dose} mg`} </p>
 
                 <p className='history-card__content'> {med.frequency} </p>
-                {med.times.map((time) => {
-                    return (<p className='history-card__content'>{time}</p>)
+                {med.times.map((time, index) => {
+                    return (<p key={index} className='history-card__content'>{time}</p>)
                 })}
 
             </div>

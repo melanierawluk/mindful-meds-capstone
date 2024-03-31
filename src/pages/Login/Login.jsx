@@ -50,6 +50,8 @@ export default function Login({ customTheme }) {
                                 type="text"
                                 name="email"
                                 label="Email"
+                                error={error}
+                                helperText={error ? "Please enter your email" : ""}
                             />
                             <TextField
                                 fullWidth
@@ -57,9 +59,10 @@ export default function Login({ customTheme }) {
                                 type="password"
                                 name="password"
                                 label="Password"
+                                error={error}
+                                helperText={error ? "Please enter your password" : ""}
                             />
                             <Button type='submit' variant='contained' sx={buttonStyle} className="login__form-button"> Log in</Button>
-                            {error && <div className="login__message">{error}</div>}
                         </form>
                         <div className='login__text-container'>
                             <p className='login__text'>Forgot Password?</p>

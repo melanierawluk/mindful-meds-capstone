@@ -9,9 +9,8 @@ import axios from 'axios';
 
 
 export default function Dashboard({ userProfile }) {
-    const base_url = process.env.REACT_APP_BASE_URL;
-    // const [userProfile, setUserProfile] = useState(null);
 
+    const base_url = process.env.REACT_APP_BASE_URL;
 
     const [activeMedArr, setActiveMedArr] = useState([]);
     const [inactiveMedArr, setInactiveMedArr] = useState([]);
@@ -22,19 +21,21 @@ export default function Dashboard({ userProfile }) {
                 const token = sessionStorage.getItem("token");
 
                 // GET the medications
-                const response = await axios.get(`${base_url}/meds/${userProfile.id}`, {
-                    headers: {
-                        Authorization: `Bearer ${token}`
-                    }
-                })
-                const meds = response.data;
+                if (userProfile) {
+                    const response = await axios.get(`${base_url}/meds/${userProfile.id}`, {
+                        headers: {
+                            Authorization: `Bearer ${token}`
+                        }
+                    })
+                    const meds = response.data;
 
-                // Filter active and inactive medications
-                const activeMeds = meds.filter(med => med.active === 1);
-                const inactiveMeds = meds.filter(med => med.active === 0);
+                    // Filter active and inactive medications
+                    const activeMeds = meds.filter(med => med.active === 1);
+                    const inactiveMeds = meds.filter(med => med.active === 0);
 
-                setActiveMedArr(activeMeds);
-                setInactiveMedArr(inactiveMeds);
+                    setActiveMedArr(activeMeds);
+                    setInactiveMedArr(inactiveMeds);
+                }
             } catch (error) {
                 console.log(error)
             }

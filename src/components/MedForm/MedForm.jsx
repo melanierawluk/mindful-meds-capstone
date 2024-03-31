@@ -3,8 +3,10 @@ import * as React from 'react';
 import { Link } from 'react-router-dom';
 import { ThemeProvider } from '@emotion/react';
 import { TimePicker } from '@mui/x-date-pickers';
+import Snackbar from '@mui/material/Snackbar';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import dayjs from 'dayjs';
 import { useState, useEffect } from 'react';
 import {
     Button,
@@ -18,8 +20,9 @@ import {
     Box,
     Typography,
 } from '@mui/material';
-import Snackbar from '@mui/material/Snackbar';
 
+
+/// MUI styles
 const style = {
     position: 'absolute',
     top: '50%',
@@ -40,6 +43,7 @@ const buttonStyle = {
     width: '100%',
     fontWeight: 'regular'
 }
+///
 
 
 export default function MedForm({
@@ -48,7 +52,6 @@ export default function MedForm({
     setMedData,
     handleStopMed,
     showHistory,
-    userId,
     error,
     customTheme,
     setSelectedTime1,
@@ -62,27 +65,37 @@ export default function MedForm({
     handleClose,
     handleOpen,
     openUpdateSnackbar,
-    userProfile
+    isAddNewMedPage
 }) {
 
-    // Throwing a value.idValid error - to pre-populate the times for existing meds
-    // const medDataTime1 = dayjs(medData.times[0], 'h:mm A').toDate();
-    // const medDataTime2 = dayjs(medData.times[1], 'h:mm A').toDate();
+    // Convert the times array into date object to populate the TimePicker field for MedDetails page
+    const medDataTime1 = medData.times[0] ? dayjs(medData.times[0], 'h:mm A').toDate() : null;
+    const medDataTime2 = medData.times[1] ? dayjs(medData.times[1], 'h:mm A').toDate() : null;
     const [deleteButtonVisible, setDeleteButtonVisible] = useState(false);
+    const [saveButtonVisible, setSaveButtonVisible] = useState(false)
+
 
     useEffect(() => {
         setDeleteButtonVisible(medData.active === 1);
-    }, [medData]);
+        setSaveButtonVisible(medData.active === 1 || isAddNewMedPage)
+    }, [medData.active, isAddNewMedPage]);
 
-    // When Once Daily is selected
+    // When 'Once Daily' is selected
     const handleTimeChange1 = (time) => {
-        setSelectedTime1(time);
+        setSelectedTime1(time.toDate());
+        setSelectedTime2(selectedTime2 || medDataTime2);
     };
 
-    // When Twice Daily is selected
+    // When 'Twice Daily' is selected
     const handleTimeChange2 = (time) => {
-        setSelectedTime2(time);
+        setSelectedTime2(time.toDate());
+        setSelectedTime1(selectedTime1 || medDataTime1);
     };
+
+    console.log("selectedTime1", selectedTime1)
+    console.log("selectedTime1", selectedTime2)
+    console.log("medDataTime1", medDataTime1)
+    console.log("medDataTime2", medDataTime2)
 
     const handleInputChange = (event) => {
         const { name, value } = event.target;
@@ -119,7 +132,8 @@ export default function MedForm({
                             label="Medication Name"
                             value={medData.name}
                             onChange={handleInputChange}
-                            error={error.name} />
+                            error={error.name}
+                            disabled={!isAddNewMedPage && (deleteButtonVisible || !deleteButtonVisible)} />
 
                         <TextField
                             type="text"
@@ -133,6 +147,7 @@ export default function MedForm({
                             value={medData.dose}
                             onChange={handleInputChange}
                             error={error.dose}
+                            disabled={!isAddNewMedPage && !deleteButtonVisible}
                             InputProps={{
                                 endAdornment: <InputAdornment position="start">mg</InputAdornment>,
                             }} />
@@ -147,7 +162,9 @@ export default function MedForm({
                                 name="frequency"
                                 onChange={handleInputChange}
                                 error={error.frequency}
+                                disabled={!isAddNewMedPage && !deleteButtonVisible}
                             >
+
                                 <MenuItem value="Once Daily">Once Daily</MenuItem>
                                 <MenuItem value="Twice Daily">Twice Daily</MenuItem>
                             </Select>
@@ -160,9 +177,11 @@ export default function MedForm({
                                     margin="normal"
                                     label="Schedule"
                                     name="startTime"
-                                    value={selectedTime1}
+                                    value={medDataTime1 ? dayjs(medDataTime1) : selectedTime1}
                                     onChange={handleTimeChange1}
-                                    error={error.times} />
+                                    error={error.times}
+                                    disabled={!isAddNewMedPage && !deleteButtonVisible}
+                                />
                             </LocalizationProvider>
                         )}
                         {medData.frequency === 'Twice Daily' && (
@@ -172,35 +191,44 @@ export default function MedForm({
                                     margin="normal"
                                     label="Schedule"
                                     name="startTime"
-                                    value={selectedTime1}
+                                    value={medDataTime1 ? dayjs(medDataTime1) : selectedTime1}
                                     onChange={handleTimeChange1}
-                                    error={error.times} />
+                                    error={error.times}
+                                    disabled={!isAddNewMedPage && !deleteButtonVisible}
+                                />
                                 <TimePicker
                                     sx={{ mb: 3, width: '100%' }}
                                     margin="normal"
                                     label="Schedule"
                                     name="startTime"
-                                    value={selectedTime2}
+                                    value={medDataTime2 ? dayjs(medDataTime2) : selectedTime2}
                                     onChange={handleTimeChange2}
-                                    error={error.times} />
+                                    error={error.times}
+                                    disabled={!isAddNewMedPage && !deleteButtonVisible}
+                                />
                             </LocalizationProvider>
                         )}
                     </div>
 
-                    <Button sx={buttonStyle} type="submit" variant='contained' >Save</Button>
+                    {saveButtonVisible && (
+                        <Button sx={buttonStyle}
+                            type="submit"
+                            variant='contained'
+                        >Save</Button>)}
 
                     {/* Snackbar for creating new med */}
                     <Snackbar
                         open={openSaveSnackbar}
                         autoHideDuration={1000}
-                        message={`${medData.name} Created`}
+                        message={`Medication added: ${medData.name}`}
                         sx={{ mb: 10, mx: 3 }}
                     />
+
                     {/* Snackbar for updating med */}
                     <Snackbar
                         open={openUpdateSnackbar}
                         autoHideDuration={1000}
-                        message={`${medData.name} Updated`}
+                        message={`Medication updated: ${medData.name}`}
                         sx={{ mb: 5, mx: 4 }}
                     />
 
@@ -215,6 +243,7 @@ export default function MedForm({
                             className='med-form__button--delete'>
                             Stop Medication
                         </Button>)}
+
                     {/* Modal to confirm is the user wants to stop the medication */}
                     <Modal
                         open={open}
@@ -241,7 +270,7 @@ export default function MedForm({
                         open={openSnackbar}
                         autoHideDuration={1000}
                         onClose={handleCloseSnackbar}
-                        message={`Stopped ${medData.name}`}
+                        message={`Stopped medication: ${medData.name}`}
                         sx={{ mb: 5, mx: 4 }}
                     />
                 </form>

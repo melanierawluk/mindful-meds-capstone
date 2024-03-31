@@ -20,7 +20,7 @@ export default function AddNewMed({ customTheme, userProfile }) {
         active: '',
         name: '',
         dose: '',
-        frequency: 'Once Daily',
+        frequency: '',
         times: '',
         user_id: ''
     });
@@ -42,7 +42,7 @@ export default function AddNewMed({ customTheme, userProfile }) {
                 name: !medData.name ? "This field is required" : null,
                 dose: !medData.dose ? "This field is required" : null,
                 frequency: !medData.frequency ? "This field is required" : null,
-                // times: !medData.times ? "This field is required" : null
+                times: !medData.times ? "This field is required" : null
             });
             console.log(error)
             return;
@@ -88,7 +88,7 @@ export default function AddNewMed({ customTheme, userProfile }) {
                 setOpenSaveSnackbar(false);
                 // Send medData along with the redirect to not lose it
                 navigate(`/dashboard`, { medData });
-            }, 2000);
+            }, 1500);
         } catch (error) {
             console.error("Error adding medication:", error);
         }
@@ -109,6 +109,8 @@ export default function AddNewMed({ customTheme, userProfile }) {
                     selectedTime2={selectedTime2}
                     setSelectedTime2={setSelectedTime2}
                     openSaveSnackbar={openSaveSnackbar}
+                    open={false}
+                    isAddNewMedPage={true}
                 />
             </section>
             <BottomNav />
