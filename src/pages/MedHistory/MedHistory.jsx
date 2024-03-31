@@ -17,7 +17,12 @@ export default function MedHistory({ userProfile }) {
     useEffect(() => {
         const getMedDetails = async () => {
             try {
-                const response = await axios.get(`${base_url}/meds/${userProfile.id}`)
+                const token = sessionStorage.getItem("token");
+                const response = await axios.get(`${base_url}/meds/${userProfile.id}`, {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                });
                 setMedArr(response.data)
             } catch (error) {
                 console.log(error)

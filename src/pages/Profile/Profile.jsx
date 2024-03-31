@@ -4,7 +4,7 @@ import Header from '../../components/Header/Header'
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Button, TextField, ThemeProvider } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 
 const buttonStyle = {
     mt: 2,
@@ -20,8 +20,8 @@ export default function Profile({ customTheme }) {
     const navigate = useNavigate()
 
     const [userProfile, setUserProfile] = useState(null);
-    // const [isLoading, setIsLoading] = useState(true);
-    // const [failedAuth, setFailedAuth] = useState(false);
+    const [isLoading, setIsLoading] = useState(true);
+    const [failedAuth, setFailedAuth] = useState(false);
 
 
     useEffect(() => {
@@ -67,6 +67,24 @@ export default function Profile({ customTheme }) {
     }
     const firstName = userName.split(' ')
 
+    // if (failedAuth) {
+    //     return (
+    //         <main className="dashboard">
+    //             <h1 className="dashboard__title">Dashboard</h1>
+    //             <p>You must be logged in to see this page.</p>
+    //             <p><Link to="/login">Log in</Link></p>
+    //         </main>
+    //     )
+    // }
+
+    // if (isLoading) {
+    //     return (
+    //         <main className="dashboard">
+    //             <h1 className="dashboard__title">Dashboard</h1>
+    //             <p>Loading...</p>
+    //         </main>
+    //     )
+    // }
 
     return (
         <>

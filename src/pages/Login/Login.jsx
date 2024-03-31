@@ -28,7 +28,6 @@ export default function Login({ customTheme }) {
                 email: event.target.email.value,
                 password: event.target.password.value
             });
-
             sessionStorage.setItem("token", response.data.token);
             navigate("/dashboard");
         } catch (error) {

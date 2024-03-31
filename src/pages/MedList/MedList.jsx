@@ -12,10 +12,16 @@ export default function MedList({ userProfile }) {
 
     const [medicationList, setMedicationList] = useState([]);
 
+
     useEffect(() => {
         const getMedicationList = async () => {
             try {
-                const response = await axios.get(`${base_url}/meds/${userProfile.id}`)
+                const token = sessionStorage.getItem("token");
+                const response = await axios.get(`${base_url}/meds/${userProfile.id}`, {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                })
                 setMedicationList(response.data)
             } catch (error) {
                 console.log(error)

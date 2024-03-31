@@ -49,7 +49,12 @@ export default function MedDetails({ customTheme, userProfile }) {
     useEffect(() => {
         const getMedDetails = async () => {
             try {
-                const response = await axios.get(`${base_url}/meds/${userProfile.id}/${medId}`)
+                const token = sessionStorage.getItem("token");
+                const response = await axios.get(`${base_url}/meds/${userProfile.id}/${medId}`, {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                })
                 setMedData(response.data)
             } catch (error) {
                 console.log(error)
@@ -89,11 +94,20 @@ export default function MedDetails({ customTheme, userProfile }) {
         };
 
         try {
-            await axios.post(`${base_url}/meds/${medId}/update`, updatedMedObj)
+            const token = sessionStorage.getItem("token");
+            const response = await axios.post(`${base_url}/meds/${medId}/update`, updatedMedObj, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            })
+            if (response.data.token) {
+                sessionStorage.setItem("token", response.data.token);
+            }
+
             setOpenUpdateSnackbar(true);
             setTimeout(() => {
                 setOpenUpdateSnackbar(false);
-                navigate(`/dashboard`);
+                navigate(`/dashboard`, { updatedMedObj });
             }, 2000);
         } catch (error) {
             console.log(error)
@@ -102,7 +116,16 @@ export default function MedDetails({ customTheme, userProfile }) {
 
     const handleStopMed = async () => {
         try {
-            await axios.patch(`${base_url}/meds/${userProfile.id}/${medId}`)
+            const token = sessionStorage.getItem("token");
+            const response = await axios.patch(`${base_url}/meds/${userProfile.id}/${medId}`, {}, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
+
+            if (response.data.token) {
+                sessionStorage.setItem("token", response.data.token);
+            }
             handleClose();
             setOpenSnackbar(true);
         } catch (error) {

@@ -7,8 +7,11 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 
+
 export default function Dashboard({ userProfile }) {
     const base_url = process.env.REACT_APP_BASE_URL;
+    // const [userProfile, setUserProfile] = useState(null);
+
 
     const [activeMedArr, setActiveMedArr] = useState([]);
     const [inactiveMedArr, setInactiveMedArr] = useState([]);
@@ -16,8 +19,14 @@ export default function Dashboard({ userProfile }) {
     useEffect(() => {
         const getMedicationSchedule = async () => {
             try {
+                const token = sessionStorage.getItem("token");
+
                 // GET the medications
-                const response = await axios.get(`${base_url}/meds/${userProfile.id}`)
+                const response = await axios.get(`${base_url}/meds/${userProfile.id}`, {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                })
                 const meds = response.data;
 
                 // Filter active and inactive medications
@@ -32,6 +41,8 @@ export default function Dashboard({ userProfile }) {
         }
         getMedicationSchedule();
     }, [])
+
+
 
 
     return (

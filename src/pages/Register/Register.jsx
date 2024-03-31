@@ -1,7 +1,7 @@
 import './Register.scss';
 import gradient from '../../assets/images/pastel-gradient.png';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Button, TextField, ThemeProvider } from '@mui/material';
 import { useState } from 'react';
 import axios from 'axios';
@@ -20,7 +20,7 @@ export default function Register({ customTheme }) {
     const [error, setError] = useState(null);
     const [success, setSuccess] = useState(false);
     const base_url = process.env.REACT_APP_BASE_URL;
-
+    const navigate = useNavigate()
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -35,6 +35,7 @@ export default function Register({ customTheme }) {
             setSuccess(true);
             setError(null);
             event.target.reset()
+            navigate('/login')
         } catch (error) {
             setSuccess(false);
             setError(error.response.data)

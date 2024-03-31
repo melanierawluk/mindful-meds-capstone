@@ -62,7 +62,7 @@ export default function AddNewMed({ customTheme, userProfile }) {
             selectedDates.push(formattedTime2);
         }
 
-        // create new obj to send data
+        // Create new object to send data
         const newMedObj = {
             active: 1,
             name: medData.name,
@@ -72,13 +72,22 @@ export default function AddNewMed({ customTheme, userProfile }) {
             user_id: userProfile.id
         };
 
-
         try {
-            await axios.post(`${base_url}/meds/${userProfile.id}/add`, newMedObj);
+            const token = sessionStorage.getItem("token");
+            const response = await axios.post(`${base_url}/meds/${userProfile.id}/add`, newMedObj, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
+
+            if (response.data.token) {
+                sessionStorage.setItem("token", response.data.token);
+            }
             setOpenSaveSnackbar(true);
             setTimeout(() => {
                 setOpenSaveSnackbar(false);
-                navigate(`/dashboard`);
+                // Send medData along with the redirect to not lose it
+                navigate(`/dashboard`, { medData });
             }, 2000);
         } catch (error) {
             console.error("Error adding medication:", error);

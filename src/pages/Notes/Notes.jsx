@@ -68,12 +68,22 @@ export default function Notes({ customTheme, userProfile }) {
     useEffect(() => {
         const getNotesAndMedsByDate = async () => {
             try {
+                const token = sessionStorage.getItem("token");
+
                 // GET notes on selected date
-                const notesResponse = await axios.get(`${base_url}/notes/${userProfile.id}/${formattedDate}`);
+                const notesResponse = await axios.get(`${base_url}/notes/${userProfile.id}/${formattedDate}`, {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                });
                 setNoteContent(notesResponse.data);
 
                 // GET active meds on selected date
-                const medsResponse = await axios.get(`${base_url}/meds/${userProfile.id}/date/${formattedDate}`);
+                const medsResponse = await axios.get(`${base_url}/meds/${userProfile.id}/date/${formattedDate}`, {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                });
                 setMedContent(medsResponse.data);
             } catch (error) {
                 console.log(error);
@@ -117,10 +127,19 @@ export default function Notes({ customTheme, userProfile }) {
         }
 
         try {
+            const token = sessionStorage.getItem("token");
             if (noteContent.id) {
-                await axios.patch(`${base_url}/notes/${userProfile.id}`, updatedNote);
+                await axios.patch(`${base_url}/notes/${userProfile.id}`, updatedNote, {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                });
             } else {
-                await axios.post(`${base_url}/notes/${userProfile.id}`, newNote);
+                await axios.post(`${base_url}/notes/${userProfile.id}`, newNote, {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                });
 
             }
         } catch (error) {
@@ -152,7 +171,7 @@ export default function Notes({ customTheme, userProfile }) {
                             {medContent.length === 0 ? (<p className='notes__meds-list--none'>No meds logged</p>) :
                                 (medContent.map((med) => {
                                     return (
-                                        <div className='notes__meds-list'>
+                                        <div className='notes__meds-list' key={med.id}>
                                             <p className='notes__meds-list-item'>{medContent && med.name}</p>
                                             <p className='notes__meds-list-item'>{medContent && (`${med.dose} mg - ${med.frequency}`)}</p>
                                         </div>
