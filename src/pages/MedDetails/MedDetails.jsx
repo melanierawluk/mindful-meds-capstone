@@ -85,8 +85,6 @@ export default function MedDetails({ customTheme, userProfile }) {
             times: selectedDates,
             user_id: userProfile.id
         };
-        console.log(selectedTime1)
-        console.log(selectedTime2)
 
 
         try {

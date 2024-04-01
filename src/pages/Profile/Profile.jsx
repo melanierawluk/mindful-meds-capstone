@@ -4,7 +4,7 @@ import Header from '../../components/Header/Header'
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Button, TextField, ThemeProvider } from '@mui/material';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const buttonStyle = {
     mt: 2,
@@ -20,9 +20,6 @@ export default function Profile({ customTheme }) {
     const navigate = useNavigate()
 
     const [userProfile, setUserProfile] = useState(null);
-    const [isLoading, setIsLoading] = useState(true);
-    const [failedAuth, setFailedAuth] = useState(false);
-
 
     useEffect(() => {
         const getUserProfile = async () => {
@@ -35,9 +32,7 @@ export default function Profile({ customTheme }) {
                 setUserProfile(response.data)
             } catch (error) {
                 console.log(error);
-                // setFailedAuth(true);
             }
-            // setIsLoading(false);
         };
         getUserProfile();
 
@@ -45,7 +40,6 @@ export default function Profile({ customTheme }) {
 
     const logout = () => {
         sessionStorage.removeItem("token");
-        // setFailedAuth(true);
         setUserProfile(null);
         navigate('/login')
     };
@@ -66,25 +60,6 @@ export default function Profile({ customTheme }) {
         userEmail = userProfile.email;
     }
     const firstName = userName.split(' ')
-
-    // if (failedAuth) {
-    //     return (
-    //         <main className="dashboard">
-    //             <h1 className="dashboard__title">Dashboard</h1>
-    //             <p>You must be logged in to see this page.</p>
-    //             <p><Link to="/login">Log in</Link></p>
-    //         </main>
-    //     )
-    // }
-
-    // if (isLoading) {
-    //     return (
-    //         <main className="dashboard">
-    //             <h1 className="dashboard__title">Dashboard</h1>
-    //             <p>Loading...</p>
-    //         </main>
-    //     )
-    // }
 
     return (
         <>
@@ -123,7 +98,6 @@ export default function Profile({ customTheme }) {
                 </section>
             </ThemeProvider>
             <BottomNav />
-
         </>
     )
 }

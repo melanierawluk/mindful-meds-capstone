@@ -43,9 +43,6 @@ export default function Notes({ customTheme, userProfile }) {
 
     const action = (
         <React.Fragment>
-            {/* <Button color="secondary" size="small" onClick={handleCloseSnackbar}>
-                UNDO
-            </Button> */}
             <IconButton
                 size="small"
                 aria-label="close"
@@ -87,7 +84,7 @@ export default function Notes({ customTheme, userProfile }) {
                 setMedContent(medsResponse.data);
             } catch (error) {
                 console.log(error);
-                // Check if the error is 404 (not found), if so, set noteContent to an empty string
+                // Check if the error is 404 if so, set noteContent to an empty string
                 if (error.response && error.response.status === 404) {
                     setNoteContent("");
                     setMedContent([]);

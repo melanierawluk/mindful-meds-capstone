@@ -45,7 +45,6 @@ export default function Dashboard({ userProfile }) {
 
 
 
-
     return (
         <>
             <Header title={`Today, ${currentDate}`} />

@@ -1,11 +1,7 @@
 import './DashboardCard.scss';
 import VerifiedIcon from '@mui/icons-material/Verified';
-import { useState } from 'react';
 
 export default function DashboardCard({ activeMedArr }) {
-
-    // For logging meds taken
-    const [logged, setLogged] = useState();
 
     // GROUP BY TIME
     function groupMedicationsByTime(medications) {

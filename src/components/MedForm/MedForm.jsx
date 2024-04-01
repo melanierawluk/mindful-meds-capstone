@@ -166,7 +166,6 @@ export default function MedForm({
                                     margin="normal"
                                     label="Schedule"
                                     name="startTime"
-                                    // value={medDataTime1 ? medDataTime1 : selectedTime1}
                                     value={selectedTime1}
                                     onChange={handleTimeChange1}
                                     error={error.times}
@@ -181,9 +180,7 @@ export default function MedForm({
                                     margin="normal"
                                     label="Schedule"
                                     name="startTime"
-                                    // value={medDataTime1 ? medDataTime1 : selectedTime1}
                                     value={selectedTime1}
-
                                     onChange={handleTimeChange1}
                                     error={error.times}
                                     disabled={!isAddNewMedPage && !deleteButtonVisible}
@@ -193,9 +190,7 @@ export default function MedForm({
                                     margin="normal"
                                     label="Schedule"
                                     name="startTime"
-                                    // value={medDataTime2 ? medDataTime2 : selectedTime2}
                                     value={selectedTime2}
-
                                     onChange={handleTimeChange2}
                                     error={error.times}
                                     disabled={!isAddNewMedPage && !deleteButtonVisible}

@@ -1,5 +1,4 @@
 import './ActiveMedCard.scss';
-import { Link } from 'react-router-dom';
 
 
 export default function MedCard({ med }) {
