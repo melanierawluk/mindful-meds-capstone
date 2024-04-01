@@ -1,0 +1,56 @@
+@use './variables' as *;
+@use './typography' as *;
+
+
+.global {
+
+    &__button {
+        @extend .ripple;
+        margin-top: 1rem;
+        background-color: $primary-color;
+        border: none;
+        color: #fff;
+        border-radius: 10px;
+        padding: 0.5rem;
+        font-size: inherit;
+        transition: background-color 0.15s;
+        width: 100%;
+        height: 2.5rem;
+    }
+
+    &__heading {
+        text-align: center;
+        @include roboto-bold;
+        color: $primary-color;
+        font-size: 2.5rem;
+    }
+
+    &__title {
+        text-align: center;
+        @include roboto-medium;
+        color: $primary-color;
+        font-size: 1.5rem;
+    }
+
+    &__card {
+        background-color: $accent-color;
+        border-radius: 10px;
+    }
+
+}
+
+// Ripple effect for buttons
+.ripple {
+    background-position: center;
+    transition: background 0.5s;
+
+    &:hover {
+        background: $primary-color radial-gradient(circle, transparent 1%, $primary-color 1%) center/15000%;
+    }
+
+    &:active {
+        background-color: #3EC9DB;
+        background-size: 100%;
+        transition: background 0s;
+    }
+}

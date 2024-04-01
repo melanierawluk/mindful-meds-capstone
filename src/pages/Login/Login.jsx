@@ -1,29 +1,76 @@
 import './Login.scss';
 import logo from '../../assets/images/logo.png';
-import { Box, TextField, Button } from '@mui/material';
+import { Link, useNavigate } from 'react-router-dom';
+import { Button, TextField, ThemeProvider } from '@mui/material';
+import axios from 'axios';
+import { useState } from 'react';
 
+const buttonStyle = {
+    mt: 2,
+    borderRadius: 2,
+    fontSize: 13,
+    height: '2.5rem',
+    width: '100%',
+    fontWeight: 'regular'
+}
 
+export default function Login({ customTheme }) {
 
-export default function Login() {
+    const [error, setError] = useState(null);
+    const navigate = useNavigate();
+    const base_url = process.env.REACT_APP_BASE_URL;
+
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+
+        try {
+            const response = await axios.post(`${base_url}/auth/login`, {
+                email: event.target.email.value,
+                password: event.target.password.value
+            });
+            sessionStorage.setItem("token", response.data.token);
+            navigate("/dashboard");
+        } catch (error) {
+            setError(error.response.data);
+        }
+    };
 
 
     return (
-        <section className='login'>
-            <img src={logo} className='login__gradient' alt="gradient" />
-            <div className='login__form-container'>
-                <Box
-                    component="form"
-                    sx={{
-                        '& > :not(style)': { m: 1, width: '25ch' },
-                    }}
-                    noValidate
-                    autoComplete="off"
-                >
-                    <TextField id="outlined-basic" label="EMAIL" variant="outlined" />
-                    <TextField id="outlined-basic" label="PASSWORD" variant="outlined" />
-                    <Button className="login__form-button" variant="contained">Log in</Button>
-                </Box>
-            </div>
-        </section>
+        <ThemeProvider theme={customTheme}>
+            <section className='login'>
+                <img src={logo} className='login__gradient' alt="gradient" />
+                <div className='login__container'>
+                    <div className='login__form-container'>
+                        <h1 className='login__title'>Login</h1>
+                        <form className='login__form' onSubmit={handleSubmit}>
+                            <TextField
+                                fullWidth
+                                sx={{ my: 1 }}
+                                type="text"
+                                name="email"
+                                label="Email"
+                                error={error}
+                                helperText={error ? "Please enter your email" : ""}
+                            />
+                            <TextField
+                                fullWidth
+                                sx={{ my: 1 }}
+                                type="password"
+                                name="password"
+                                label="Password"
+                                error={error}
+                                helperText={error ? "Please enter your password" : ""}
+                            />
+                            <Button type='submit' variant='contained' sx={buttonStyle} className="login__form-button"> Log in</Button>
+                        </form>
+                        <div className='login__text-container'>
+                            <p className='login__text'>Forgot Password?</p>
+                            <Link className='login__text' to='../register'><p >Sign up</p></Link>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </ThemeProvider>
     )
 }

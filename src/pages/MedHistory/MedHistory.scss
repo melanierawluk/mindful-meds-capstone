@@ -1,0 +1,29 @@
+@use '../../assets/styles/typography' as *;
+@use '../../assets/styles/variables' as *;
+@use '../../assets/styles/global' as *;
+
+
+.med-history {
+
+    &__arrow {
+        margin: 15px 0 10px 35px;
+    }
+
+    &__heading {
+        display: flex;
+        align-items: center;
+        padding: 10px 0;
+    }
+
+    &__link {
+        text-decoration: none;
+        color: $primary-color;
+    }
+
+    &__back {
+        font-weight: 500;
+        font-size: 1.3rem;
+        margin: 5px 0 0 5px;
+        color: $primary-color;
+    }
+}

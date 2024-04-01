@@ -7,27 +7,67 @@ import MedList from './pages/MedList/MedList';
 import AddNewMed from './pages/AddNewMed/AddNewMed';
 import Notes from './pages/Notes/Notes';
 import Profile from './pages/Profile/Profile';
-import Header from './components/Header/Header';
-import BottomNav from './components/BottomNav/BottomNav';
+import MedDetails from './pages/MedDetails/MedDetails';
+import MedHistory from './pages/MedHistory/MedHistory';
+import { createTheme } from '@mui/material/styles';
+import Frame from './components/Frame/Frame';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
 
-// Med detail and Med history modals?
 
 function App() {
+
+  const customTheme = createTheme({
+    palette: {
+      primary: {
+        main: '#7ECED8',
+      },
+      secondary: {
+        main: '#FFB0AF',
+      },
+    },
+  });
+
+  const [userProfile, setUserProfile] = useState(null);
+  const base_url = process.env.REACT_APP_BASE_URL;
+
+
+  useEffect(() => {
+    const getUserProfile = async () => {
+      const token = sessionStorage.getItem("token");
+
+      try {
+        const response = await axios.get(`${base_url}/user/auth`, {
+          headers: { Authorization: `Bearer ${token}` }
+        });
+        setUserProfile(response.data)
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    getUserProfile()
+  }, [])
+
+
+
   return (
 
     <BrowserRouter>
-      <Header />
+      <Frame />
       <Routes>
-        <Route path='/login' element={<Login />} />
-        <Route path='/register' element={<Register />} />
-        <Route path='/dashboard' element={<Dashboard />} />
-        <Route path='/medications' element={<MedList />} />
-        <Route path='/add' element={<AddNewMed />} />
-        <Route path='/notes' element={<Notes />} />
-        <Route path='/profile' element={<Profile />} />
+        <Route path='/login' element={<Login customTheme={customTheme} />} />
+        <Route path='/register' element={<Register customTheme={customTheme} />} />
+        <Route path='/dashboard' element={<Dashboard customTheme={customTheme} userProfile={userProfile} />} />
+        <Route path='/medications' element={<MedList customTheme={customTheme} userProfile={userProfile} />} />
+        <Route path='/medications/:medId' element={<MedDetails customTheme={customTheme} userProfile={userProfile} />} />
+        <Route path='/medications/:medName/history' element={<MedHistory customTheme={customTheme} userProfile={userProfile} />} />
+        <Route path='/add' element={<AddNewMed customTheme={customTheme} userProfile={userProfile} />} />
+        <Route path='/notes' element={<Notes customTheme={customTheme} userProfile={userProfile} />} />
+        <Route path='/profile' element={<Profile customTheme={customTheme} userProfile={userProfile} setUserProfile={setUserProfile} />} />
       </Routes>
-      <BottomNav />
     </BrowserRouter>
+
   );
 }
 

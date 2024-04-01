@@ -1,0 +1,44 @@
+@use '../../assets/styles/typography' as *;
+@use '../../assets/styles/variables' as *;
+@use '../../assets/styles/global' as *;
+
+.dashboard-card {
+
+    &__container {
+        width: 100%;
+    }
+
+    &__time {
+        font-weight: 500;
+        text-align: left;
+        padding-bottom: 5px;
+    }
+
+    &__card {
+        margin: 20px auto;
+        width: 78%;
+        background-color: $accent-color;
+        border-radius: 10px;
+        padding: 15px 0 15px 20px;
+        background-image: url('../../assets/images/right-chevron.svg');
+        background-repeat: no-repeat;
+        background-position: 90%;
+        text-decoration: none;
+        color: black;
+        box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
+    }
+
+    &__medication {
+        display: flex;
+        padding: 15px 0 0 0;
+        align-items: center;
+
+        &-name {
+            padding-right: 10px;
+        }
+
+        &-icon {
+            margin-right: 10px;
+        }
+    }
+}

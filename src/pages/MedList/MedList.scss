@@ -1,0 +1,31 @@
+@use '../../assets/styles/typography' as *;
+@use '../../assets/styles/variables' as *;
+@use '../../assets/styles/global' as *;
+
+
+.med-list {
+    padding-bottom: 6rem;
+
+    &__title {
+        @extend .global__title;
+        background-color: white;
+        padding: 10px 0;
+        margin-bottom: 30px;
+    }
+
+    &__heading {
+        font-size: 1.3rem;
+        padding: 20px 0 10px 0;
+        color: $text-color;
+    }
+
+    &__block {
+        margin: 0 auto;
+        width: 78%;
+    }
+
+    &__link {
+        text-decoration: none;
+        color: $text-color;
+    }
+}

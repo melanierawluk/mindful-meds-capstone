@@ -1,0 +1,38 @@
+@use '../../assets/styles/typography' as *;
+@use '../../assets/styles/variables' as *;
+@use '../../assets/styles/global' as *;
+
+
+
+.dashboard {
+    padding-bottom: 6rem;
+
+    &__title {
+        @extend .global__title;
+        background-color: white;
+        padding: 10px 0;
+        margin-bottom: 30px;
+    }
+
+    &__content {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-evenly;
+        align-items: center;
+        color: $text-color;
+    }
+
+    &__card {
+        width: 78%;
+        height: 3rem;
+        background-color: $accent-color;
+        border-radius: 10px;
+        padding: 15px 0 0 40px;
+        background-image: url('../../assets/images/right-chevron.svg');
+        background-repeat: no-repeat;
+        background-position: 90%;
+        box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
+        text-decoration: none;
+        color: $text-color;
+    }
+}

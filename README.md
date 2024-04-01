@@ -2,26 +2,98 @@
 
 ## Overview
 
-
-- Medication tracking app, focusing on people who take medication for treating mental illnesses.
+Mindful Meds is a medication tracking application designed for individuals managing mental illnesses.
 
 
 ## Problem
 
+Treating mental illnesses often involves a complex combination of medications, necessitating careful monitoring and adjustment. Mindful Meds facilitates tracking current and past medications, along with their respective dosages. This is particularly beneficial during transitions, such as tapering off or introducing new medications. Users can record any side effects or benefits for discussion with their healthcare provider or for future reference.
 
-- Mental illnesses often require a cocktail of medications to treat, and multiple attempts at finding the right combination. This app will help people track the different medications (current and past) and their corresponding doses. This may be especially helpful for times when transitioning meds - either tapering off or adding new medications. Notes for any negative or positive affects can be added in the app and either brought to the attention of the doctor, or used as a reference in the future.
 
-## User Profile
+## Local Installation / Setup
 
-- People who take medication for mental illness.
-- Looking for a way to keep track of medications
-- Mobile app experience
+### Client repo (this one)
+- Install Node packages
+- Launch the application
+- Open the device toolbar in Chrome Dev Tools and select *"iPhone 12 Pro"*
+- Login credentials:
+    - email: `leeland@goldendoodle.com`
+    - password: `1234`
 
-## Features
+    ```
+    npm install
 
-- Add current medications and corresponding medication schedule. Include the name of the medication, the dose, frequency, and times when medication is to be taken
-- Add notes on any symptoms/ side effects. Will either be in calendar or list format. Should show a list of medications that were currently being taken at that time.
-- Show a history of past medications with the date, and dosage
+    npm start
+    ```
+
+### Server repo ([link here](https://github.com/melanierawluk/mindful-meds-server))
+- Install Node packages
+- Set up the database
+- Run migrations
+- Seed the tables
+- Start the server
+
+    ```
+    npm install
+
+    npx knex migrate:latest
+    npx knex seed:run --specific users.js
+    npx knex seed:run --specific medications.js
+    npx knex seed:run --specific notes.js
+
+    node --watch server.js
+    ```
+
+## User Journey
+**Login**
+- Use the credentials provided in the seed files:
+    - email: `leeland@goldendoodle.com`
+    - password: `1234`
+
+**Register**
+- Upon registration, users are redirected to the login page.
+    
+**Dashboard** 
+
+- Upon login, users are directed to the dashboard.
+- The dashboard displays the current medication schedule, grouped by times and including dosages. *NOTE: The cards are not clickable at the moment*.
+- Users can add notes directly from this page or navigate to the notes page via the bottom navigation menu.
+- Future functionality: Implement a modal to log taken medications, with a verification icon appearing afterward.
+
+
+**Medication List**
+- Lists all current and past medications.
+
+- Click each medication to view its details and history.
+
+    - **Medication Details**: 
+        - Users can view detailed information about each medication, edit dosage and frequency, and deactivate medications.
+        - Deactivated medications are moved from the dashboard to the past medications list.
+
+    - **Medication History**: 
+        Displays past dose and schedule combinations for each medication.
+
+
+**Add New Med**
+- Allows users to add new medications with details such as name, dose, frequency, and scheduled times.
+- Redirects users to the dashboard after a brief delay upon saving.
+
+**Notes**
+- Includes a calendar for users to view past medications and associated notes.
+- *Future functionality*: Implement autosave for notes.
+
+**Profile**
+- Displays user information and allows logout.
+- *Future functionality*: Enable users to edit their information.
+
+
+## Additional Future Functionality
+
+- Inventory Tracking: Monitor current medication supply and calculate refill dates.
+- Reminders: Send notifications for medication intake and refills.
+- Logging: Track when users log or skip medications.
+- Swipe Date Functionality: Implement a horizontal scrollable calendar on the dashboard for easy date selection and medication logging.
+
 
 # Implementation
 
@@ -38,29 +110,11 @@
 - MySQL
 
 
-## APIs
+## Visuals
 
-- No external API's
+![](./public/visuals/mm-visuals.png)
 
-## Sitemap
-
-  - Register
-  - Log in 
-  - Dashboard
-  - Medications List
-    - Medication detail modal
-  - Add new med
-  - Notes
-  - Profile
-  
-
-## Mockups
-
-![](./public/capstone_proposal_mockup.png)
-
-## Data
-
-[Back-end repository](https://github.com/melanierawluk/mindful-meds-server)
+## Database
 
 ![](./public/capstone_database.png)
 
@@ -139,27 +193,6 @@ Reponse:
 }
 ```
 
-### GET /notes/userId/:date
-
-- Retrieve notes for a specified date.
-
-Parameters:
-- userId: The ID of the user.
-- date: The date for which notes are requested (YYYY-DD-MM).
-
-Response:
-
-```
-{
-    "id": 3,
-    "date": "2024-03-21T06:00:00.000Z",
-    "note_content": "Feeling pretty down today",
-    "created_at": "2024-03-20T04:27:58.000Z",
-    "updated_at": "2024-03-25T22:08:32.000Z",
-    "user_id": 1
-}
-```
-
 ### GET /meds/:userId/date/:date
 
 - Retrieves medications taken on a specific date for a given user.
@@ -186,7 +219,6 @@ Response
     },
 ]
 ```
-
 
 ### POST /meds/:userId/add
 
@@ -248,7 +280,7 @@ Response
 ```
     {
         "id": 38,
-        "active": 1,
+        "active": 0,
         "name": "Buspirone",
         "dose": "60 mg",
         "frequency": "Once daily",
@@ -262,6 +294,43 @@ Response
         "user_id": 1
     }
 ```
+
+
+### GET /notes/userId/:date
+
+- Retrieve notes for a specified date.
+
+Parameters:
+- userId: The ID of the user.
+- date: The date for which notes are requested (YYYY-DD-MM).
+
+Response:
+
+```
+{
+    "id": 3,
+    "date": "2024-03-21T06:00:00.000Z",
+    "note_content": "Feeling pretty down today",
+    "created_at": "2024-03-20T04:27:58.000Z",
+    "updated_at": "2024-03-25T22:08:32.000Z",
+    "user_id": 1
+}
+```
+
+
+Response
+
+```
+{
+    "id": 9,
+    "date": "2024-03-11T06:00:00.000Z",
+    "note_content": "Feeling energetic and optimistic",
+    "created_at": "2024-03-26T15:57:36.000Z",
+    "updated_at": "2024-03-26T15:57:36.000Z",
+    "user_id": 1
+}
+```
+
 
 
 ### PATCH /notes/:userId
@@ -322,62 +391,3 @@ Response
     "user_id": 1
 }
 ```
-
-
-## Auth
-
-- Method of authentication has not been finalized (*"Nice to have"*)
-
-## Roadmap
-
-
-FRONT END
-- Initial folder structure and git repo
-- Setup SASS variables, mixins, colors, fonts
-- Assets: icons for menu, icons for tablet/capsule
-- Setup react router
-- Header component (pastel gradient)
-- Menu/footer component (5 icons: home, pills, plus, notes, avatar)
-- Log in page
-- Sign up page
-- Dashboard page
-- Medication List page
-    - Medication detail modal 
-- Add new med page
-- Notes page
-- Profile page
-- Components:
-    - Header
-    - Footer/Menu
-    - Cards
-    - Popup/modal
-    - Calendar
-    - Buttons
-    - Inputs
-
-
-BACK END
-- Initial folder structure and git repo
-- Database connection with knex
-- Knex migrations and seeds
-- GET /user/:userId
-- GET /meds/:userId
-- GET /meds/:userId/:medId
-- GET /meds/:userId/date/:date
-- POST /meds/:userId/add
-- POST /meds/:medId/update
-- GET /notes/userId/:date
-- PATCH /notes/:userId
-- POST /notes/:userId
-
-
-## Nice-to-haves
-
-
-- Connect API with list of common meds. When adding a new med, could suggest meds while user is typing
-- Keep track of current medication inventory. Enter the amount of pills you have and how many you need to take each day and the app will calculate the date at which you need a refill.
-- Text/email/push reminders for when to take medications based on the schedule added, and also for refilling meds. Send a reminder to the user to take notes when starting a new medication or tapering off one.
-- Tracking for when the user logs or skips a certain medication for the day. Along with this, the swipe date functionality for the dashboard would be added. Selecting a certain date would tell the user whether or not they logged the medication. There would likely be a limitation for how far back th user could swipe, and likely no forward swiping into the future dates.
-- User authentication
-    - POST /auth/login - Endpoint to log in a user
-    - POST /auth/register - Endpoint to create a new user

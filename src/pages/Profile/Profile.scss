@@ -1,0 +1,42 @@
+@use '../../assets/styles/typography' as *;
+@use '../../assets/styles/variables' as *;
+@use '../../assets/styles/global' as *;
+
+.profile {
+
+    &__gradient {
+        width: 100%;
+        height: 11rem;
+        z-index: -1;
+        position: relative;
+    }
+
+    &__container {
+        padding-top: 20px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    &__welcome {
+        @include pattaya;
+        color: $secondary-color;
+        font-size: 2.7rem;
+        transform: rotate(-16deg);
+        line-height: 1;
+    }
+
+    &__name {
+        @extend .profile__welcome;
+    }
+
+    &__inputs {
+        padding-top: 50px;
+        width: 75%;
+        margin: 0 auto;
+    }
+
+    &__button-link {
+        width: 75%;
+    }
+}
