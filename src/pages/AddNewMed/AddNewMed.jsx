@@ -25,8 +25,8 @@ export default function AddNewMed({ customTheme, userProfile }) {
         user_id: ''
     });
 
-    const [selectedTime1, setSelectedTime1] = useState();
-    const [selectedTime2, setSelectedTime2] = useState();
+    const [selectedTime1, setSelectedTime1] = useState(null);
+    const [selectedTime2, setSelectedTime2] = useState(null);
     const [error, setError] = useState({});
 
     if (!medData) {

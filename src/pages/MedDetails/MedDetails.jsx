@@ -18,8 +18,8 @@ export default function MedDetails({ customTheme, userProfile }) {
     const [error, setError] = useState({});
     const [medData, setMedData] = useState(null);
 
-    const [selectedTime1, setSelectedTime1] = useState({});
-    const [selectedTime2, setSelectedTime2] = useState({});
+    const [selectedTime1, setSelectedTime1] = useState(null);
+    const [selectedTime2, setSelectedTime2] = useState(null);
 
     // Modal and Snackbar
     const [open, setOpen] = useState(false);

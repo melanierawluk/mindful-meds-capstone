@@ -105,6 +105,7 @@ export default function Profile({ customTheme }) {
                                 label="Name"
                                 value={userName}
                                 onChange={handleInputChange}
+                                disabled
                             />
                             <TextField
                                 fullWidth
@@ -114,6 +115,7 @@ export default function Profile({ customTheme }) {
                                 label="Email"
                                 value={userEmail}
                                 onChange={handleInputChange}
+                                disabled
                             />
                         </div>
                         <Button sx={buttonStyle} type="submit" variant='contained' onClick={logout}>Log out</Button>

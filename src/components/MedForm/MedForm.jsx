@@ -6,7 +6,6 @@ import { TimePicker } from '@mui/x-date-pickers';
 import Snackbar from '@mui/material/Snackbar';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import dayjs from 'dayjs';
 import { useState, useEffect } from 'react';
 import {
     Button,
@@ -68,12 +67,8 @@ export default function MedForm({
     isAddNewMedPage
 }) {
 
-    // Convert the times array into date object to populate the TimePicker field for MedDetails page
-    const medDataTime1 = medData.times[0] ? dayjs(medData.times[0], 'h:mm A').toDate() : null;
-    const medDataTime2 = medData.times[1] ? dayjs(medData.times[1], 'h:mm A').toDate() : null;
     const [deleteButtonVisible, setDeleteButtonVisible] = useState(false);
     const [saveButtonVisible, setSaveButtonVisible] = useState(false)
-
 
     useEffect(() => {
         setDeleteButtonVisible(medData.active === 1);
@@ -82,20 +77,15 @@ export default function MedForm({
 
     // When 'Once Daily' is selected
     const handleTimeChange1 = (time) => {
-        setSelectedTime1(time.toDate());
-        setSelectedTime2(selectedTime2 || medDataTime2);
+        setSelectedTime1(time);
+
     };
 
     // When 'Twice Daily' is selected
     const handleTimeChange2 = (time) => {
-        setSelectedTime2(time.toDate());
-        setSelectedTime1(selectedTime1 || medDataTime1);
+        setSelectedTime2(time);
     };
 
-    console.log("selectedTime1", selectedTime1)
-    console.log("selectedTime1", selectedTime2)
-    console.log("medDataTime1", medDataTime1)
-    console.log("medDataTime2", medDataTime2)
 
     const handleInputChange = (event) => {
         const { name, value } = event.target;
@@ -112,7 +102,6 @@ export default function MedForm({
             }));
         }
     };
-
 
 
     return (
@@ -177,7 +166,8 @@ export default function MedForm({
                                     margin="normal"
                                     label="Schedule"
                                     name="startTime"
-                                    value={medDataTime1 ? dayjs(medDataTime1) : selectedTime1}
+                                    // value={medDataTime1 ? medDataTime1 : selectedTime1}
+                                    value={selectedTime1}
                                     onChange={handleTimeChange1}
                                     error={error.times}
                                     disabled={!isAddNewMedPage && !deleteButtonVisible}
@@ -191,7 +181,9 @@ export default function MedForm({
                                     margin="normal"
                                     label="Schedule"
                                     name="startTime"
-                                    value={medDataTime1 ? dayjs(medDataTime1) : selectedTime1}
+                                    // value={medDataTime1 ? medDataTime1 : selectedTime1}
+                                    value={selectedTime1}
+
                                     onChange={handleTimeChange1}
                                     error={error.times}
                                     disabled={!isAddNewMedPage && !deleteButtonVisible}
@@ -201,7 +193,9 @@ export default function MedForm({
                                     margin="normal"
                                     label="Schedule"
                                     name="startTime"
-                                    value={medDataTime2 ? dayjs(medDataTime2) : selectedTime2}
+                                    // value={medDataTime2 ? medDataTime2 : selectedTime2}
+                                    value={selectedTime2}
+
                                     onChange={handleTimeChange2}
                                     error={error.times}
                                     disabled={!isAddNewMedPage && !deleteButtonVisible}
