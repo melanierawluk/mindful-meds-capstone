@@ -16,6 +16,7 @@ Treating mental illnesses often involves a complex combination of medications, n
 - Install Node packages
 - Launch the application
 - Open the device toolbar in Chrome Dev Tools and select *"iPhone 12 Pro"*
+- Navigate to `http://localhost:3000/login`
 - Login credentials:
     - email: `leeland@goldendoodle.com`
     - password: `1234`
