@@ -28,29 +28,6 @@ function App() {
     },
   });
 
-  const [userProfile, setUserProfile] = useState(null);
-  const base_url = process.env.REACT_APP_BASE_URL;
-
-
-  useEffect(() => {
-    const getUserProfile = async () => {
-      const token = sessionStorage.getItem("token");
-
-      try {
-        const response = await axios.get(`${base_url}/user/auth`, {
-          headers: { Authorization: `Bearer ${token}` }
-        });
-        setUserProfile(response.data)
-      } catch (error) {
-        console.log(error);
-      }
-    };
-
-    getUserProfile()
-  }, [])
-
-
-
   return (
 
     <BrowserRouter>
@@ -58,13 +35,13 @@ function App() {
       <Routes>
         <Route path='/login' element={<Login customTheme={customTheme} />} />
         <Route path='/register' element={<Register customTheme={customTheme} />} />
-        <Route path='/dashboard' element={<Dashboard customTheme={customTheme} userProfile={userProfile} />} />
-        <Route path='/medications' element={<MedList customTheme={customTheme} userProfile={userProfile} />} />
-        <Route path='/medications/:medId' element={<MedDetails customTheme={customTheme} userProfile={userProfile} />} />
-        <Route path='/medications/:medName/history' element={<MedHistory customTheme={customTheme} userProfile={userProfile} />} />
-        <Route path='/add' element={<AddNewMed customTheme={customTheme} userProfile={userProfile} />} />
-        <Route path='/notes' element={<Notes customTheme={customTheme} userProfile={userProfile} />} />
-        <Route path='/profile' element={<Profile customTheme={customTheme} userProfile={userProfile} setUserProfile={setUserProfile} />} />
+        <Route path='/dashboard' element={<Dashboard customTheme={customTheme} />} />
+        <Route path='/medications' element={<MedList customTheme={customTheme} />} />
+        <Route path='/medications/:medId' element={<MedDetails customTheme={customTheme} />} />
+        <Route path='/medications/:medName/history' element={<MedHistory customTheme={customTheme} />} />
+        <Route path='/add' element={<AddNewMed customTheme={customTheme} />} />
+        <Route path='/notes' element={<Notes customTheme={customTheme} />} />
+        <Route path='/profile' element={<Profile customTheme={customTheme} />} />
       </Routes>
     </BrowserRouter>
 

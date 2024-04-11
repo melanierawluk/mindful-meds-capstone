@@ -5,14 +5,16 @@ import axios from 'axios';
 import HistoryCard from '../../components/HistoryCard/HistoryCard';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import Header from '../../components/Header/Header';
+import useUserProfile from '../../utils/useUserProfile';
 
 
-export default function MedHistory({ userProfile }) {
+export default function MedHistory() {
 
     const { medName } = useParams();
     const base_url = process.env.REACT_APP_BASE_URL;
     const [medArr, setMedArr] = useState([])
     const navigate = useNavigate()
+    const userProfile = useUserProfile()
 
     const handleGoBack = () => {
         navigate(-1); // Navigating back one page
@@ -34,7 +36,7 @@ export default function MedHistory({ userProfile }) {
             }
         }
         getMedDetails();
-    }, [])
+    }, [userProfile])
 
     const matchedMeds = [];
     const unMatchedMeds = []

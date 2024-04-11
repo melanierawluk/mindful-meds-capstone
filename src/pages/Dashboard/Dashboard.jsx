@@ -6,32 +6,14 @@ import currentDate from '../../utils/currentDate';
 import { Link } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
+import useUserProfile from '../../utils/useUserProfile';
 
 
 export default function Dashboard({ customTheme }) {
 
     const base_url = process.env.REACT_APP_BASE_URL;
-
     const [activeMedArr, setActiveMedArr] = useState([]);
-    const [userProfile, setUserProfile] = useState(null);
-
-    useEffect(() => {
-        const getUserProfile = async () => {
-            const token = sessionStorage.getItem("token");
-
-            try {
-                const response = await axios.get(`${base_url}/user/auth`, {
-                    headers: { Authorization: `Bearer ${token}` }
-                });
-                setUserProfile(response.data)
-            } catch (error) {
-                console.log(error);
-            }
-        };
-        getUserProfile();
-
-    }, [])
-
+    const userProfile = useUserProfile
 
     useEffect(() => {
         const getMedicationSchedule = async () => {

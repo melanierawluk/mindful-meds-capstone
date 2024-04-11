@@ -13,6 +13,7 @@ import TextField from '@mui/material/TextField';
 import axios from 'axios';
 import CloseIcon from '@mui/icons-material/Close';
 import Snackbar from '@mui/material/Snackbar';
+import useUserProfile from '../../utils/useUserProfile';
 
 const buttonStyle = {
     mt: 2,
@@ -23,10 +24,10 @@ const buttonStyle = {
     fontWeight: 'regular'
 }
 
-export default function Notes({ customTheme, userProfile }) {
+export default function Notes({ customTheme }) {
 
     const base_url = process.env.REACT_APP_BASE_URL;
-
+    const userProfile = useUserProfile();
     const [openSnackbar, setOpenSnackbar] = useState(false);
 
     const handleCloseSnackbar = (event, reason) => {
@@ -93,7 +94,7 @@ export default function Notes({ customTheme, userProfile }) {
         };
 
         getNotesAndMedsByDate();
-    }, [selectedDate]);
+    }, [selectedDate, userProfile]);
 
 
     // Handle the changed date

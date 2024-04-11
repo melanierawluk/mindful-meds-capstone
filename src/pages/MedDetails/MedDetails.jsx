@@ -5,15 +5,16 @@ import MedForm from '../../components/MedForm/MedForm';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-
+import useUserProfile from '../../utils/useUserProfile';
 import axios from 'axios';
 import dayjs from 'dayjs'
 
 
-export default function MedDetails({ customTheme, userProfile }) {
+export default function MedDetails({ customTheme }) {
     const { medId } = useParams();
     const base_url = process.env.REACT_APP_BASE_URL;
     const navigate = useNavigate();
+    const userProfile = useUserProfile();
 
     const [error, setError] = useState({});
     const [medData, setMedData] = useState(null);
@@ -56,7 +57,7 @@ export default function MedDetails({ customTheme, userProfile }) {
             }
         }
         getMedDetails();
-    }, [])
+    }, [userProfile])
 
 
     const handleSubmit = async (event) => {

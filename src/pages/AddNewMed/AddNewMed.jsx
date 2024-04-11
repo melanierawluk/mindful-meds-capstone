@@ -1,4 +1,3 @@
-
 import './AddNewMed.scss'
 import BottomNav from '../../components/BottomNav/BottomNav'
 import Header from '../../components/Header/Header'
@@ -7,13 +6,13 @@ import React, { useState } from 'react'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
 import dayjs from 'dayjs'
+import useUserProfile from '../../utils/useUserProfile';
 
-
-export default function AddNewMed({ customTheme, userProfile }) {
+export default function AddNewMed({ customTheme }) {
 
     const base_url = process.env.REACT_APP_BASE_URL;
     const navigate = useNavigate();
-
+    const userProfile = useUserProfile()
     const [openSaveSnackbar, setOpenSaveSnackbar] = useState(false);
 
     const [medData, setMedData] = useState({

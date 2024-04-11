@@ -6,12 +6,12 @@ import axios from 'axios';
 import ActiveMedCard from '../../components/ActiveMedCard/ActiveMedCard';
 import InactiveMedCard from '../../components/InactiveMedCard/InactiveMedCard';
 import { Link } from 'react-router-dom';
+import useUserProfile from '../../utils/useUserProfile';
 
-export default function MedList({ userProfile }) {
+export default function MedList() {
     const base_url = process.env.REACT_APP_BASE_URL;
-
     const [medicationList, setMedicationList] = useState([]);
-
+    const userProfile = useUserProfile();
 
     useEffect(() => {
         const getMedicationList = async () => {
@@ -32,7 +32,7 @@ export default function MedList({ userProfile }) {
             }
         }
         getMedicationList();
-    }, [])
+    }, [userProfile])
 
     const activeMedArr = [];
     const inactiveMedArr = [];
