@@ -11,6 +11,7 @@ Treating mental illnesses often involves a complex combination of medications, n
 
 
 ## Local Installation / Setup
+*Note: This app is a work in progress, features are being actively edited and added. Most up to date version will be on the develop branch*
 
 ### Client repo (this one)
 - Install Node packages
