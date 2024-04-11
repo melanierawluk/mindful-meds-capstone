@@ -1,7 +1,16 @@
+import { Link } from 'react-router-dom';
 import './DashboardCard.scss';
+import LogMedModal from '../LogMedModal/LogMedModal';
 import VerifiedIcon from '@mui/icons-material/Verified';
+import { useState } from 'react';
 
-export default function DashboardCard({ activeMedArr }) {
+
+export default function DashboardCard({ activeMedArr, customTheme }) {
+
+
+    const [open, setOpen] = useState(false);
+    const handleOpen = () => setOpen(true);
+    const handleClose = () => setOpen(false);
 
     // GROUP BY TIME
     function groupMedicationsByTime(medications) {
@@ -49,11 +58,11 @@ export default function DashboardCard({ activeMedArr }) {
     // invoke the sorting function
     const sortedMeds = sortMedicationsByTime(groupedMeds)
 
-
     return (
+
         <div className='dashboard-card__container'>
             {Object.entries(sortedMeds).map(([time, meds]) => (
-                <div key={time} className='dashboard-card__card'>
+                <Link onClick={handleOpen}><div key={time} className='dashboard-card__card'>
                     <h3 className='dashboard-card__time'>{time}</h3>
                     <div className='dashboard-card__medications'>
                         {meds.map((med, index) => (
@@ -64,8 +73,16 @@ export default function DashboardCard({ activeMedArr }) {
                             </div>
                         ))}
                     </div>
-                </div>
+                </div></Link>
             ))}
+
+            <LogMedModal customTheme={customTheme}
+                sortedMeds={sortedMeds}
+                open={open}
+                handleClose={handleClose}
+                handleOpen={handleOpen}
+            />
         </div>
+
     );
 }

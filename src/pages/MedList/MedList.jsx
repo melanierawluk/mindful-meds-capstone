@@ -17,12 +17,14 @@ export default function MedList({ userProfile }) {
         const getMedicationList = async () => {
             try {
                 const token = sessionStorage.getItem("token");
-                if (userProfile?.id) {
-                    const response = await axios.get(`${base_url}/meds/${userProfile.id}`, {
-                        headers: {
-                            Authorization: `Bearer ${token}`
+                if (userProfile) {
+                    const response = await axios.get(`${base_url}/meds/${userProfile.id}`
+                        , {
+                            headers: {
+                                Authorization: `Bearer ${token}`
+                            }
                         }
-                    })
+                    )
                     setMedicationList(response.data)
                 }
             } catch (error) {
@@ -30,7 +32,7 @@ export default function MedList({ userProfile }) {
             }
         }
         getMedicationList();
-    }, [userProfile])
+    }, [])
 
     const activeMedArr = [];
     const inactiveMedArr = [];
