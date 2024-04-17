@@ -7,11 +7,30 @@
 .dashboard {
     padding-bottom: 6rem;
 
-    &__title {
-        @extend .global__title;
-        background-color: white;
-        padding: 10px 0;
-        margin-bottom: 30px;
+    &__calendar {
+        display: flex;
+        justify-content: space-evenly;
+        padding: 5px 37px;
+
+        &-day {
+            text-align: center;
+            padding: 10px 0 5px 0;
+        }
+
+        &-date {
+            display: flex;
+            flex-direction: column;
+        }
+
+        &-number {
+            background-color: $secondary-color;
+            text-align: center;
+            margin: auto;
+            padding-top: 10px;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+        }
     }
 
     &__content {

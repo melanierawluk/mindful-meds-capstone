@@ -2,7 +2,7 @@ import './Dashboard.scss';
 import BottomNav from '../../components/BottomNav/BottomNav';
 import Header from '../../components/Header/Header';
 import DashboardCard from '../../components/DashboardCard/DashboardCard';
-import currentDate from '../../utils/currentDate';
+import * as currentDate from '../../utils/currentDate';
 import { Link } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
@@ -44,10 +44,28 @@ export default function Dashboard({ customTheme }) {
         getMedicationSchedule();
     }, [userProfile, base_url])
 
+    function generateDay(dayOffset) {
+        const currentDay = currentDate.day; // numbered day
+        const currentDayIndex = currentDate.dayArr.indexOf(currentDate.currentDay);
+        const dayIndex = (currentDayIndex + dayOffset + 7) % 7;
+        return currentDate.dayArr[dayIndex];
+    }
+
+    const calendarDays = [-3, -2, -1, 0, 1, 2, 3].map(offset => (
+        <div className='dashboard__calendar-date'>
+            <p className='dashboard__calendar-day'>{generateDay(offset)}</p>
+            <p className='dashboard__calendar-number'>{currentDate.day + offset}</p>
+        </div>
+    ))
+
     return (
         <>
-            <Header title={`Today, ${currentDate}`} />
+            <Header title={`Today, ${currentDate.currentDate}`} />
+
             <section className='dashboard'>
+                <div className='dashboard__calendar'>
+                    {calendarDays}
+                </div>
                 <div className='dashboard__content'>
                     <DashboardCard
                         userProfile={userProfile}
