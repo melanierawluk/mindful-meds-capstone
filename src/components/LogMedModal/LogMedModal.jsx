@@ -14,15 +14,16 @@ const style = {
 };
 
 
-export default function LogMedModal({ customTheme, sortedMeds, open, handleClose, selectedTime }) {
+export default function LogMedModal({ customTheme,
+    sortedMeds,
+    open,
+    handleClose,
+    selectedTime,
+    handleLogMed,
+    handleSkipMed,
+    medsBySelectedTime
+}) {
 
-    // Iterate over all meds on the dashboard and add meds that match with the selected time to an array
-    const medsBySelectedTime = [];
-    Object.entries(sortedMeds).forEach(([time, med]) => {
-        if (time === selectedTime) {
-            medsBySelectedTime.push(...med)
-        }
-    })
 
     return (
         <ThemeProvider theme={customTheme}>
@@ -39,13 +40,10 @@ export default function LogMedModal({ customTheme, sortedMeds, open, handleClose
 
                     {medsBySelectedTime.map((med) => (
                         <div key={med.id} className='log-med-modal__card'>
-                            {/* <h3 className='log-med-modal__time'>{med.time}</h3> */}
                             <div className='log-med-modal__medications'>
                                 <div key={med.index} className='log-med-modal__medication'>
-                                    {/* <Box sx={{ display: 'flex' }}> */}
                                     <p className='log-med-modal__medication-name'>{med.name}</p>
                                     <p className='log-med-modal__medication-dose'>{`${med.dose} mg`}</p>
-                                    {/* </Box> */}
                                 </div>
 
                             </div>
@@ -55,8 +53,8 @@ export default function LogMedModal({ customTheme, sortedMeds, open, handleClose
                     ))}
 
                     <Box sx={{ display: 'flex', justifyContent: 'space-around', mt: 3 }}>
-                        <Button variant='contained' >Taken</Button>
-                        <Button variant='contained' color='secondary'>Skipped</Button>
+                        <Button variant='contained' onClick={handleLogMed}>Taken</Button>
+                        <Button variant='contained' color='secondary' onClick={handleSkipMed}>Skipped</Button>
                     </Box>
                 </Box>
             </Modal>
