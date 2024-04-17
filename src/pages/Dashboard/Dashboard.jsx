@@ -36,7 +36,6 @@ export default function Dashboard({ customTheme }) {
                     const activeMeds = meds.filter(med => med.active === 1);
 
                     setActiveMedArr(activeMeds);
-                    console.log("activeMeds", activeMeds)
                 }
             } catch (error) {
                 console.log(error)

@@ -8,8 +8,15 @@ import { useState } from 'react';
 export default function DashboardCard({ activeMedArr, customTheme }) {
 
 
+    const [selectedTime, setSelectedTime] = useState();
+
+    const handleCardClick = (time) => {
+        setSelectedTime(time)
+        setOpen(true)
+    }
+
     const [open, setOpen] = useState(false);
-    const handleOpen = () => setOpen(true);
+    // const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
 
     // GROUP BY TIME
@@ -62,7 +69,7 @@ export default function DashboardCard({ activeMedArr, customTheme }) {
 
         <div className='dashboard-card__container'>
             {Object.entries(sortedMeds).map(([time, meds]) => (
-                <Link onClick={handleOpen}><div key={time} className='dashboard-card__card'>
+                <div onClick={() => handleCardClick(time)} key={time} className='dashboard-card__card'>
                     <h3 className='dashboard-card__time'>{time}</h3>
                     <div className='dashboard-card__medications'>
                         {meds.map((med, index) => (
@@ -73,14 +80,15 @@ export default function DashboardCard({ activeMedArr, customTheme }) {
                             </div>
                         ))}
                     </div>
-                </div></Link>
+                </div>
             ))}
 
             <LogMedModal customTheme={customTheme}
                 sortedMeds={sortedMeds}
                 open={open}
                 handleClose={handleClose}
-                handleOpen={handleOpen}
+                time={sortedMeds.time}
+                selectedTime={selectedTime}
             />
         </div>
 

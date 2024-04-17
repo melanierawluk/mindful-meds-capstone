@@ -1,9 +1,5 @@
 import './LogMedModal.scss'
 import { Modal, Box, Typography, Button, ThemeProvider } from '@mui/material';
-import { useState } from 'react';
-import VerifiedIcon from '@mui/icons-material/Verified';
-
-
 
 const style = {
     position: 'absolute',
@@ -18,13 +14,18 @@ const style = {
 };
 
 
+export default function LogMedModal({ customTheme, sortedMeds, open, handleClose, selectedTime }) {
 
-export default function LogMedModal({ customTheme, sortedMeds, open, handleClose }) {
-
+    // Iterate over all meds on the dashboard and add meds that match with the selected time to an array
+    const medsBySelectedTime = [];
+    Object.entries(sortedMeds).forEach(([time, med]) => {
+        if (time === selectedTime) {
+            medsBySelectedTime.push(...med)
+        }
+    })
 
     return (
         <ThemeProvider theme={customTheme}>
-
             <Modal
                 open={open}
                 onClose={handleClose}
@@ -35,19 +36,24 @@ export default function LogMedModal({ customTheme, sortedMeds, open, handleClose
                     <Typography id="modal-modal-title" variant="h6" component="h2">
                         Log Medication
                     </Typography>
-                    {Object.entries(sortedMeds).map(([time, meds]) => (
-                        <div key={time} className='log-med-modal__card'>
-                            <h3 className='log-med-modal__time'>{time}</h3>
+
+                    {medsBySelectedTime.map((med) => (
+                        <div key={med.id} className='log-med-modal__card'>
+                            {/* <h3 className='log-med-modal__time'>{med.time}</h3> */}
                             <div className='log-med-modal__medications'>
-                                {meds.map((med, index) => (
-                                    <div key={index} className='log-med-modal__medication'>
-                                        <p className='log-med-modal__medication-name'>{med.name}</p>
-                                        <p className='log-med-modal__medication-dose'>{`${med.dose} mg`}</p>
-                                    </div>
-                                ))}
+                                <div key={med.index} className='log-med-modal__medication'>
+                                    {/* <Box sx={{ display: 'flex' }}> */}
+                                    <p className='log-med-modal__medication-name'>{med.name}</p>
+                                    <p className='log-med-modal__medication-dose'>{`${med.dose} mg`}</p>
+                                    {/* </Box> */}
+                                </div>
+
                             </div>
+
                         </div>
+
                     ))}
+
                     <Box sx={{ display: 'flex', justifyContent: 'space-around', mt: 3 }}>
                         <Button variant='contained' >Taken</Button>
                         <Button variant='contained' color='secondary'>Skipped</Button>
@@ -55,6 +61,5 @@ export default function LogMedModal({ customTheme, sortedMeds, open, handleClose
                 </Box>
             </Modal>
         </ThemeProvider>
-
     )
 }
