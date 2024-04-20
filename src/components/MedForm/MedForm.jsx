@@ -19,6 +19,7 @@ import {
     Box,
     Typography,
 } from '@mui/material';
+import dayjs from 'dayjs';
 
 
 /// MUI styles
@@ -75,17 +76,22 @@ export default function MedForm({
         setSaveButtonVisible(medData.active === 1 || isAddNewMedPage)
     }, [medData.active, isAddNewMedPage]);
 
+    // For existing meds, assigns data from array for existing times to use in TimePicker
+    const dateObj = medData.times;
+    const time1 = dayjs(dateObj[0], 'h:mm A');
+    const time2 = dayjs(dateObj[1], 'h:mm A');
+
     // When 'Once Daily' is selected
     const handleTimeChange1 = (time) => {
         setSelectedTime1(time);
-
     };
 
     // When 'Twice Daily' is selected
     const handleTimeChange2 = (time) => {
-        setSelectedTime2(time);
-    };
+        setSelectedTime2((time) => {
 
+        });
+    };
 
     const handleInputChange = (event) => {
         const { name, value } = event.target;
@@ -166,7 +172,7 @@ export default function MedForm({
                                     margin="normal"
                                     label="Schedule"
                                     name="startTime"
-                                    value={selectedTime1}
+                                    value={isAddNewMedPage ? null : time1}
                                     onChange={handleTimeChange1}
                                     error={error.times}
                                     disabled={!isAddNewMedPage && !deleteButtonVisible}
@@ -180,7 +186,7 @@ export default function MedForm({
                                     margin="normal"
                                     label="Schedule"
                                     name="startTime"
-                                    value={selectedTime1}
+                                    value={isAddNewMedPage ? null : time1}
                                     onChange={handleTimeChange1}
                                     error={error.times}
                                     disabled={!isAddNewMedPage && !deleteButtonVisible}
@@ -190,7 +196,7 @@ export default function MedForm({
                                     margin="normal"
                                     label="Schedule"
                                     name="startTime"
-                                    value={selectedTime2}
+                                    value={isAddNewMedPage ? null : time2}
                                     onChange={handleTimeChange2}
                                     error={error.times}
                                     disabled={!isAddNewMedPage && !deleteButtonVisible}

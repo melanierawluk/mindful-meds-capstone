@@ -30,7 +30,6 @@ export default function Dashboard({ customTheme }) {
                         }
                     )
                     const meds = response.data;
-                    // console.log("response.data", response.data)
 
                     // Filter active and inactive medications
                     const activeMeds = meds.filter(med => med.active === 1);

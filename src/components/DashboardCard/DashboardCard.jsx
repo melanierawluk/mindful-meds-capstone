@@ -85,7 +85,6 @@ export default function DashboardCard({ activeMedArr, customTheme }) {
         handleClose(true);
     }
 
-
     return (
 
         <div className='dashboard-card__container'>

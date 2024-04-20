@@ -45,11 +45,8 @@ export default function LogMedModal({ customTheme,
                                     <p className='log-med-modal__medication-name'>{med.name}</p>
                                     <p className='log-med-modal__medication-dose'>{`${med.dose} mg`}</p>
                                 </div>
-
                             </div>
-
                         </div>
-
                     ))}
 
                     <Box sx={{ display: 'flex', justifyContent: 'space-around', mt: 3 }}>
