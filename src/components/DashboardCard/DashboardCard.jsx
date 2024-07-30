@@ -1,4 +1,3 @@
-import { Link } from 'react-router-dom';
 import './DashboardCard.scss';
 import LogMedModal from '../LogMedModal/LogMedModal';
 import VerifiedIcon from '@mui/icons-material/Verified';
@@ -9,7 +8,6 @@ export default function DashboardCard({ activeMedArr, customTheme }) {
 
     const [selectedTime, setSelectedTime] = useState();
     const [verified, setVerified] = useState(false);
-
 
     const handleCardClick = (time) => {
         setSelectedTime(time)
@@ -38,7 +36,6 @@ export default function DashboardCard({ activeMedArr, customTheme }) {
     // invoke the grouping function 
     const groupedMeds = groupMedicationsByTime(activeMedArr)
 
-
     // SORT BY TIME (AM -> PM)
     function sortMedicationsByTime() {
         const timeKeys = Object.keys(groupedMeds);
@@ -52,7 +49,6 @@ export default function DashboardCard({ activeMedArr, customTheme }) {
             if (a24Hour !== b24Hour) {
                 return a24Hour - b24Hour;
             }
-
             return parseInt(aMinute, 10) - parseInt(bMinute, 10);
         });
 
@@ -87,9 +83,9 @@ export default function DashboardCard({ activeMedArr, customTheme }) {
 
     return (
 
-        <div className='dashboard-card__container'>
+        <section className='dashboard-card__container'>
             {Object.entries(sortedMeds).map(([time, meds]) => (
-                <div onClick={() => handleCardClick(time)} key={time} className='dashboard-card__card'>
+                <article onClick={() => handleCardClick(time)} key={time} className='dashboard-card__card'>
                     <h3 className='dashboard-card__time'>{time}</h3>
                     <div className='dashboard-card__medications'>
                         {meds.map((med, index) => (
@@ -100,7 +96,7 @@ export default function DashboardCard({ activeMedArr, customTheme }) {
                             </div>
                         ))}
                     </div>
-                </div>
+                </article>
             ))}
 
             <LogMedModal customTheme={customTheme}
@@ -114,7 +110,7 @@ export default function DashboardCard({ activeMedArr, customTheme }) {
                 handleSkipMed={handleSkipMed}
                 medsBySelectedTime={medsBySelectedTime}
             />
-        </div>
+        </section>
 
     );
 }

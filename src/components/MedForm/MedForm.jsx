@@ -111,7 +111,7 @@ export default function MedForm({
 
 
     return (
-        <div className='med-form__container'>
+        <section className='med-form__container'>
             <ThemeProvider theme={customTheme}>
                 <form className='med-form' onSubmit={handleSubmit}>
                     <div className='med-form__inputs'>
@@ -270,6 +270,6 @@ export default function MedForm({
                     />
                 </form>
             </ThemeProvider>
-        </div>
+        </section>
     )
 }
