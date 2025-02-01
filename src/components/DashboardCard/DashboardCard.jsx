@@ -10,9 +10,9 @@ export default function DashboardCard({ activeMedArr, customTheme }) {
     const [verified, setVerified] = useState(false);
 
     const handleCardClick = (time) => {
-        setSelectedTime(time)
-        setOpen(true)
-    }
+        setSelectedTime(time);
+        setOpen(true);
+    };
 
     const [open, setOpen] = useState(false);
     // const handleOpen = () => setOpen(true);
@@ -26,15 +26,15 @@ export default function DashboardCard({ activeMedArr, customTheme }) {
             med.times.forEach(time => {
                 if (!groupedMeds[time]) {
                     groupedMeds[time] = [];
-                }
+                };
                 groupedMeds[time].push(med);
             });
         });
-        return groupedMeds
-    }
+        return groupedMeds;
+    };
 
     // invoke the grouping function 
-    const groupedMeds = groupMedicationsByTime(activeMedArr)
+    const groupedMeds = groupMedicationsByTime(activeMedArr);
 
     // SORT BY TIME (AM -> PM)
     function sortMedicationsByTime() {
@@ -48,7 +48,7 @@ export default function DashboardCard({ activeMedArr, customTheme }) {
 
             if (a24Hour !== b24Hour) {
                 return a24Hour - b24Hour;
-            }
+            };
             return parseInt(aMinute, 10) - parseInt(bMinute, 10);
         });
 
@@ -56,30 +56,30 @@ export default function DashboardCard({ activeMedArr, customTheme }) {
         timeKeys.forEach(time => {
             sortedMeds[time] = groupedMeds[time];
         });
-        return sortedMeds
-    }
+        return sortedMeds;
+    };
 
     // invoke the sorting function
-    const sortedMeds = sortMedicationsByTime(groupedMeds)
+    const sortedMeds = sortMedicationsByTime(groupedMeds);
 
     // Iterate over all meds on the dashboard and add meds that match with the selected time to an array
     const medsBySelectedTime = [];
     Object.entries(sortedMeds).forEach(([time, med]) => {
         if (time === selectedTime) {
             medsBySelectedTime.push(...med)
-        }
-    })
+        };
+    });
 
     // Click handlers for modal buttons
     const handleLogMed = () => {
         setVerified(true);
         handleClose(true);
-    }
+    };
 
     const handleSkipMed = () => {
         setVerified(false);
         handleClose(true);
-    }
+    };
 
     return (
 

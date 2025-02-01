@@ -21,18 +21,18 @@ export default function MedList() {
                     const response = await axios.get(`${base_url}/meds/${userProfile.id}`
                         , {
                             headers: {
-                                Authorization: `Bearer ${token}`
-                            }
-                        }
-                    )
-                    setMedicationList(response.data)
-                }
+                                Authorization: `Bearer ${token}`,
+                            },
+                        },
+                    );
+                    setMedicationList(response.data);
+                };
             } catch (error) {
-                console.log(error)
-            }
-        }
+                console.log(error);
+            };
+        };
         getMedicationList();
-    }, [userProfile])
+    }, [userProfile]);
 
     const activeMedArr = [];
     const inactiveMedArr = [];
@@ -43,8 +43,8 @@ export default function MedList() {
             medicationList.forEach(element => {
                 element.active === 1 ? activeMedArr.push(element) : inactiveMedArr.push(element)
             });
-        }
-    }
+        };
+    };
     isActiveMed();
 
     // Remove duplicate meds in inactive med array, if they are already in the active med array
@@ -53,9 +53,9 @@ export default function MedList() {
         const filteredArr = secondArr.filter(med => !checkNameArr.includes(med.name));
 
         return filteredArr;
-    }
+    };
 
-    const filteredInactiveMedArr = removeDuplicateInactiveMeds(activeMedArr, inactiveMedArr)
+    const filteredInactiveMedArr = removeDuplicateInactiveMeds(activeMedArr, inactiveMedArr);
 
     // Remove duplicated in inactive array
     const uniqueInactiveMeds = filteredInactiveMedArr.filter((obj, index) =>

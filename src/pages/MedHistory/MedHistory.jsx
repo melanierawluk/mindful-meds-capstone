@@ -12,9 +12,9 @@ export default function MedHistory() {
 
     const { medName } = useParams();
     const base_url = process.env.REACT_APP_BASE_URL;
-    const [medArr, setMedArr] = useState([])
-    const navigate = useNavigate()
-    const userProfile = useUserProfile()
+    const [medArr, setMedArr] = useState([]);
+    const navigate = useNavigate();
+    const userProfile = useUserProfile();
 
     const handleGoBack = () => {
         navigate(-1); // Navigating back one page
@@ -26,31 +26,31 @@ export default function MedHistory() {
                 const token = sessionStorage.getItem("token");
                 const response = await axios.get(`${base_url}/meds/${userProfile.id}`, {
                     headers: {
-                        Authorization: `Bearer ${token}`
-                    }
+                        Authorization: `Bearer ${token}`,
+                    },
                 });
-                setMedArr(response.data)
+                setMedArr(response.data);
 
             } catch (error) {
-                console.log(error)
-            }
-        }
+                console.log(error);
+            };
+        };
         getMedDetails();
-    }, [userProfile])
+    }, [userProfile]);
 
     const matchedMeds = [];
-    const unMatchedMeds = []
+    const unMatchedMeds = [];
 
     medArr.map((med) => {
         med.name === medName ? matchedMeds.unshift(med) : unMatchedMeds.unshift(med);
         return matchedMeds;
-    })
+    });
 
     if (medArr.length === 0) {
         return (
             <></>
-        )
-    }
+        );
+    };
 
     return (
         <>

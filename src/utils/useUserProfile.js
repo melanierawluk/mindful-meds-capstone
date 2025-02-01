@@ -11,12 +11,12 @@ const useUserProfile = () => {
 
             try {
                 const response = await axios.get(`${base_url}/user/auth`, {
-                    headers: { Authorization: `Bearer ${token}` }
+                    headers: { Authorization: `Bearer ${token}` },
                 });
                 setUserProfile(response.data);
             } catch (error) {
                 console.log(error);
-            }
+            };
         };
 
         getUserProfile();

@@ -33,7 +33,7 @@ export default function Notes({ customTheme }) {
     const handleCloseSnackbar = (event, reason) => {
         if (reason === 'clickaway') {
             return;
-        }
+        };
 
         setOpenSnackbar(true);
 
@@ -71,16 +71,16 @@ export default function Notes({ customTheme }) {
                 // GET notes on selected date
                 const notesResponse = await axios.get(`${base_url}/notes/${userProfile.id}/${formattedDate}`, {
                     headers: {
-                        Authorization: `Bearer ${token}`
-                    }
+                        Authorization: `Bearer ${token}`,
+                    },
                 });
                 setNoteContent(notesResponse.data);
 
                 // GET active meds on selected date
                 const medsResponse = await axios.get(`${base_url}/meds/${userProfile.id}/date/${formattedDate}`, {
                     headers: {
-                        Authorization: `Bearer ${token}`
-                    }
+                        Authorization: `Bearer ${token}`,
+                    },
                 });
                 setMedContent(medsResponse.data);
             } catch (error) {
@@ -89,8 +89,8 @@ export default function Notes({ customTheme }) {
                 if (error.response && error.response.status === 404) {
                     setNoteContent("");
                     setMedContent([]);
-                }
-            }
+                };
+            };
         };
 
         getNotesAndMedsByDate();
@@ -100,15 +100,15 @@ export default function Notes({ customTheme }) {
     // Handle the changed date
     const handleDateChange = (date) => {
         setSelectedDate(date);
-        setNoteContent("")
+        setNoteContent("");
     };
 
     const handleNoteChange = (event) => {
         setNoteContent({
             ...noteContent,
-            note_content: event.target.value
-        })
-    }
+            note_content: event.target.value,
+        });
+    };
 
     const submitNoteEdit = async (event) => {
         event.preventDefault();
@@ -116,36 +116,35 @@ export default function Notes({ customTheme }) {
         const updatedNote = {
             note_content: noteContent.note_content,
             date: formattedDate,
-            id: noteContent.id
-        }
+            id: noteContent.id,
+        };
 
         const newNote = {
             note_content: noteContent.note_content,
-            date: formattedDate
-        }
+            date: formattedDate,
+        };
 
         try {
             const token = sessionStorage.getItem("token");
             if (noteContent.id) {
                 await axios.patch(`${base_url}/notes/${userProfile.id}`, updatedNote, {
                     headers: {
-                        Authorization: `Bearer ${token}`
-                    }
+                        Authorization: `Bearer ${token}`,
+                    },
                 });
             } else {
                 await axios.post(`${base_url}/notes/${userProfile.id}`, newNote, {
                     headers: {
-                        Authorization: `Bearer ${token}`
-                    }
+                        Authorization: `Bearer ${token}`,
+                    },
                 });
 
-            }
+            };
         } catch (error) {
-            console.log(error)
-        }
+            console.log(error);
+        };
         setOpenSnackbar(true);
-
-    }
+    };
 
 
     return (

@@ -34,8 +34,8 @@ export default function MedDetails({ customTheme }) {
         setTimeout(() => {
             setOpenSnackbar(false);
             navigate(`/medications`);
-        }, 1500)
-    }
+        }, 1500);
+    };
 
     useEffect(() => {
         const getMedDetails = async () => {
@@ -46,18 +46,18 @@ export default function MedDetails({ customTheme }) {
                     const response = await axios.get(`${base_url}/meds/${userProfile.id}/${medId}`, {
                         headers: {
                             Authorization: `Bearer ${token}`
-                        }
+                        },
                     })
                     if (response.data) {
                         setMedData(response.data)
-                    }
+                    };
                 }
             } catch (error) {
                 console.log(error)
-            }
+            };
         }
         getMedDetails();
-    }, [userProfile])
+    }, [userProfile]);
 
 
     const handleSubmit = async (event) => {
@@ -76,7 +76,7 @@ export default function MedDetails({ customTheme }) {
             const formattedTime2 = dayjs(selectedTime2).format('h:mm A');
             selectedDates.push(formattedTime2);
 
-        }
+        };
 
         const updatedMedObj = {
             active: 1,
@@ -84,7 +84,7 @@ export default function MedDetails({ customTheme }) {
             dose: medData.dose,
             frequency: medData.frequency,
             times: selectedDates,
-            user_id: userProfile.id
+            user_id: userProfile.id,
         };
 
 
@@ -93,11 +93,11 @@ export default function MedDetails({ customTheme }) {
             const response = await axios.post(`${base_url}/meds/${medId}/update`, updatedMedObj, {
                 headers: {
                     Authorization: `Bearer ${token}`
-                }
+                },
             })
             if (response.data.token) {
                 sessionStorage.setItem("token", response.data.token);
-            }
+            };
 
             setOpenUpdateSnackbar(true);
             setTimeout(() => {
@@ -105,32 +105,32 @@ export default function MedDetails({ customTheme }) {
                 navigate(`/dashboard`, { updatedMedObj });
             }, 1500);
         } catch (error) {
-            console.log(error)
-        }
-    }
+            console.log(error);
+        };
+    };
 
     const handleStopMed = async () => {
         try {
             const token = sessionStorage.getItem("token");
             const response = await axios.patch(`${base_url}/meds/${userProfile.id}/${medId}`, {}, {
                 headers: {
-                    Authorization: `Bearer ${token}`
-                }
+                    Authorization: `Bearer ${token}`,
+                },
             });
 
             if (response.data.token) {
                 sessionStorage.setItem("token", response.data.token);
-            }
+            };
             handleClose();
             setOpenSnackbar(true);
         } catch (error) {
-            console.log(error)
-        }
-    }
+            console.log(error);
+        };
+    };
 
     if (!medData || medData === null) {
         return <></>
-    }
+    };
 
     return (
         <>

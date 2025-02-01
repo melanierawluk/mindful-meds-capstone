@@ -17,7 +17,7 @@ const buttonStyle = {
 
 export default function Profile({ customTheme }) {
     const base_url = process.env.REACT_APP_BASE_URL;
-    const navigate = useNavigate()
+    const navigate = useNavigate();
 
     const [userProfile, setUserProfile] = useState(null);
 
@@ -27,21 +27,21 @@ export default function Profile({ customTheme }) {
 
             try {
                 const response = await axios.get(`${base_url}/user/auth`, {
-                    headers: { Authorization: `Bearer ${token}` }
+                    headers: { Authorization: `Bearer ${token}` },
                 });
-                setUserProfile(response.data)
+                setUserProfile(response.data);
             } catch (error) {
                 console.log(error);
-            }
+            };
         };
         getUserProfile();
 
-    }, [])
+    }, []);
 
     const logout = () => {
         sessionStorage.removeItem("token");
         setUserProfile(null);
-        navigate('/login')
+        navigate('/login');
     };
 
 
@@ -49,7 +49,7 @@ export default function Profile({ customTheme }) {
         const { name, value } = event.target;
         setUserProfile(prevState => ({
             ...prevState,
-            [name]: value
+            [name]: value,
         }));
     };
 
@@ -58,8 +58,8 @@ export default function Profile({ customTheme }) {
     if (userProfile) {
         userName = userProfile.name;
         userEmail = userProfile.email;
-    }
-    const firstName = userName.split(' ')
+    };
+    const firstName = userName.split(' ');
 
     return (
         <>

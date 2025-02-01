@@ -41,8 +41,8 @@ const buttonStyle = {
     fontSize: 13,
     height: '2.5rem',
     width: '100%',
-    fontWeight: 'regular'
-}
+    fontWeight: 'regular',
+};
 ///
 
 
@@ -65,15 +65,15 @@ export default function MedForm({
     handleClose,
     handleOpen,
     openUpdateSnackbar,
-    isAddNewMedPage
+    isAddNewMedPage,
 }) {
 
     const [deleteButtonVisible, setDeleteButtonVisible] = useState(false);
-    const [saveButtonVisible, setSaveButtonVisible] = useState(false)
+    const [saveButtonVisible, setSaveButtonVisible] = useState(false);
 
     useEffect(() => {
         setDeleteButtonVisible(medData.active === 1);
-        setSaveButtonVisible(medData.active === 1 || isAddNewMedPage)
+        setSaveButtonVisible(medData.active === 1 || isAddNewMedPage);
     }, [medData.active, isAddNewMedPage]);
 
     // For existing meds, assigns data from array for existing times to use in TimePicker
@@ -89,7 +89,6 @@ export default function MedForm({
     // When 'Twice Daily' is selected
     const handleTimeChange2 = (time) => {
         setSelectedTime2((time) => {
-
         });
     };
 
@@ -99,14 +98,14 @@ export default function MedForm({
         if (name === 'frequency') {
             setMedData(prevState => ({
                 ...prevState,
-                [name]: value
+                [name]: value,
             }));
         } else {
             setMedData(prevState => ({
                 ...prevState,
-                [name]: value
+                [name]: value,
             }));
-        }
+        };
     };
 
 

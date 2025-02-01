@@ -26,13 +26,13 @@ export default function Login({ customTheme }) {
         try {
             const response = await axios.post(`${base_url}/auth/login`, {
                 email: event.target.email.value,
-                password: event.target.password.value
+                password: event.target.password.value,
             });
             sessionStorage.setItem("token", response.data.token);
             navigate("/dashboard");
         } catch (error) {
             setError(error.response.data);
-        }
+        };
     };
 
 

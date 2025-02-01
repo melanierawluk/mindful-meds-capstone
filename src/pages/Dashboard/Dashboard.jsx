@@ -13,7 +13,7 @@ export default function Dashboard({ customTheme }) {
 
     const base_url = process.env.REACT_APP_BASE_URL;
     const [activeMedArr, setActiveMedArr] = useState([]);
-    const userProfile = useUserProfile
+    const userProfile = useUserProfile;
 
     useEffect(() => {
         const getMedicationSchedule = async () => {
@@ -22,13 +22,12 @@ export default function Dashboard({ customTheme }) {
 
                 // GET the medications
                 if (userProfile) {
-                    const response = await axios.get(`${base_url}/meds/${userProfile.id}`
-                        , {
-                            headers: {
-                                Authorization: `Bearer ${token}`
-                            }
-                        }
-                    )
+                    const response = await axios.get(`${base_url}/meds/${userProfile.id}`, {
+                        headers: {
+                            Authorization: `Bearer ${token}`
+                        },
+                    },
+                    );
                     const meds = response.data;
 
                     // Filter active and inactive medications
@@ -37,25 +36,25 @@ export default function Dashboard({ customTheme }) {
                     setActiveMedArr(activeMeds);
                 }
             } catch (error) {
-                console.log(error)
-            }
-        }
+                console.log(error);
+            };
+        };
         getMedicationSchedule();
-    }, [userProfile, base_url])
+    }, [userProfile, base_url]);
 
     function generateDay(dayOffset) {
         const currentDay = currentDate.day; // numbered day
         const currentDayIndex = currentDate.dayArr.indexOf(currentDate.currentDay);
         const dayIndex = (currentDayIndex + dayOffset + 7) % 7;
         return currentDate.dayArr[dayIndex];
-    }
+    };
 
     const calendarDays = [-3, -2, -1, 0, 1, 2, 3].map(offset => (
         <div className='dashboard__calendar-date'>
             <p className='dashboard__calendar-day'>{generateDay(offset)}</p>
             <p className='dashboard__calendar-number'>{currentDate.day + offset}</p>
         </div>
-    ))
+    ));
 
     return (
         <>

@@ -12,7 +12,7 @@ export default function AddNewMed({ customTheme }) {
 
     const base_url = process.env.REACT_APP_BASE_URL;
     const navigate = useNavigate();
-    const userProfile = useUserProfile()
+    const userProfile = useUserProfile();
     const [openSaveSnackbar, setOpenSaveSnackbar] = useState(false);
 
     const [medData, setMedData] = useState({
@@ -21,7 +21,7 @@ export default function AddNewMed({ customTheme }) {
         dose: '',
         frequency: '',
         times: '',
-        user_id: ''
+        user_id: '',
     });
 
     const [selectedTime1, setSelectedTime1] = useState(null);
@@ -30,7 +30,7 @@ export default function AddNewMed({ customTheme }) {
 
     if (!medData) {
         return <div>loading...</div>;
-    }
+    };
 
     // Handle the form submit
     const handleSubmit = async (event) => {
@@ -41,11 +41,11 @@ export default function AddNewMed({ customTheme }) {
                 name: !medData.name ? "This field is required" : null,
                 dose: !medData.dose ? "This field is required" : null,
                 frequency: !medData.frequency ? "This field is required" : null,
-                times: !medData.times ? "This field is required" : null
+                times: !medData.times ? "This field is required" : null,
             });
-            console.log(error)
+            console.log(error);
             return;
-        }
+        };
 
         // Accounts for the frequency when meds are taken. Times are stored in the
         // selectedTime1 and selectedTime2 states & converted to readable dates,
@@ -55,11 +55,11 @@ export default function AddNewMed({ customTheme }) {
         if (selectedTime1) {
             const formattedTime1 = dayjs(selectedTime1).format('h:mm A');
             selectedDates.push(formattedTime1);
-        }
+        };
         if (selectedTime2) {
             const formattedTime2 = dayjs(selectedTime2).format('h:mm A');
             selectedDates.push(formattedTime2);
-        }
+        };
 
         // Create new object to send data
         const newMedObj = {
@@ -76,7 +76,7 @@ export default function AddNewMed({ customTheme }) {
             const response = await axios.post(`${base_url}/meds/${userProfile.id}/add`, newMedObj, {
                 headers: {
                     Authorization: `Bearer ${token}`
-                }
+                },
             });
 
             if (response.data.token) {
@@ -90,8 +90,8 @@ export default function AddNewMed({ customTheme }) {
             }, 1500);
         } catch (error) {
             console.error("Error adding medication:", error);
-        }
-    }
+        };
+    };
 
     return (
         <>

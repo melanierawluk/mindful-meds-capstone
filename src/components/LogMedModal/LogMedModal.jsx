@@ -14,7 +14,8 @@ const style = {
 };
 
 
-export default function LogMedModal({ customTheme,
+export default function LogMedModal({
+    customTheme,
     sortedMeds,
     open,
     handleClose,

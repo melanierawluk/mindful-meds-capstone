@@ -20,7 +20,7 @@ export default function Register({ customTheme }) {
     const [error, setError] = useState(null);
     const [success, setSuccess] = useState(false);
     const base_url = process.env.REACT_APP_BASE_URL;
-    const navigate = useNavigate()
+    const navigate = useNavigate();
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -29,18 +29,18 @@ export default function Register({ customTheme }) {
             await axios.post(`${base_url}/auth/register`, {
                 name: event.target.name.value,
                 email: event.target.email.value,
-                password: event.target.password.value
-            })
+                password: event.target.password.value,
+            });
 
             setSuccess(true);
             setError(null);
-            event.target.reset()
-            navigate('/login')
+            event.target.reset();
+            navigate('/login');
         } catch (error) {
             setSuccess(false);
-            setError(error.response.data)
-        }
-    }
+            setError(error.response.data);
+        };
+    };
 
     return (
 
